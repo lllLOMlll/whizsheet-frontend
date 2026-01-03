@@ -1,0 +1,10 @@
+<h2>Whizsheet Characters</h2>
+
+<ul>
+    @for (c of characters(); track c.id)
+    {
+        <li>
+            {{ c.name }} ({{ c.class }}) - HP: {{ c.hp }}
+        </li>
+    }
+</ul>
