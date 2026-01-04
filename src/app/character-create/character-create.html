@@ -1,0 +1,52 @@
+<h2>Create character</h2>
+
+<form (submit)="onSubmit($event)">
+  <div>
+    <label>
+      Name
+      <input type="text" [field]="characterForm.name" />
+    </label>
+    @if (characterForm.name().invalid() && characterForm.name().touched()) {
+    <div class="error">
+      @for (e of characterForm.class().errors(); track e.kind) {
+      <span>{{ e.message }}</span>
+      }
+    </div>
+    }
+  </div>
+
+  <div>
+    <label>
+        Class
+        <input type="text" [field]="characterForm.class" />
+    </label>
+
+    @if (characterForm.class().invalid() && characterForm.class().touched()) {
+      <div class="error">
+        @for (e of characterForm.class().errors(); track e.kind) {
+          <span>{{ e.message }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <label>
+      HP
+      <input type="number" [field]="characterForm.hp" />
+    </label>
+
+    @if (characterForm.hp().invalid() && characterForm.hp().touched()) {
+    <div class="error">
+      @for (e of characterForm.hp().errors(); track e.kind) {
+      <span>{{ e.message }}</span>
+      }
+    </div>
+    }
+  </div>
+
+  <button type="submit" [disabled]="characterForm().invalid()">
+    Create
+  </button>
+
+</form>

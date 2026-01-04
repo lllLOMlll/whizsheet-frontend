@@ -8,6 +8,12 @@ export interface Character {
   hp: number;
 }
 
+export interface CreateCharacterData {
+  name: string;
+  class: string;
+  hp: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -18,5 +24,12 @@ export class CharacterService {
 
   getAll() {
     return this.http.get<Character[]>(this.baseUrl);
+  }
+
+  create(character: Omit<Character, 'id'>) {
+    return this.http.post<Character>(
+      this.baseUrl,
+      character
+    )
   }
 }
