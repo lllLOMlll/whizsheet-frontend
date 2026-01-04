@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 export interface Character {
   id: number;
@@ -20,7 +21,7 @@ export interface CreateCharacterData {
 export class CharacterService {
   private http = inject(HttpClient)
 
-  private readonly baseUrl = 'http://localhost:5024/api/characters';
+  private readonly baseUrl = `${environment.apiBaseUrl}/characters`;
 
   getAll() {
     return this.http.get<Character[]>(this.baseUrl);
