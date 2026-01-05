@@ -33,4 +33,10 @@ export class CharacterService {
       character
     )
   }
+
+  delete(id: number) {
+    return this.http.delete<void>(
+      `${this.baseUrl}/${id}`
+    );
+  }
 }

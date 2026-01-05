@@ -5,6 +5,12 @@
     {
         <li>
             {{ c.name }} ({{ c.class }}) - HP: {{ c.hp }}
+
+            <button
+            type="button"
+            (click)="deleteCharacter(c.id)">
+                Delete
+            </button>
         </li>
     }
 </ul>
