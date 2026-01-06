@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CharacterService, Character  } from '../core/services/character';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -10,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class CharacterListComponent {
   private service = inject(CharacterService);
+  private router = inject(Router);
 
   characters = signal<Character[]>([]);
 
@@ -33,6 +35,10 @@ export class CharacterListComponent {
     this.characters.update(list =>
       list.filter(c => c.id !== id)
     );
+  }
+
+  edit(id: number) {
+    this.router.navigate(['/characters', id, 'edit']);
   }
 
 }

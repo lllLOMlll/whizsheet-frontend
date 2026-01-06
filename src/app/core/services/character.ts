@@ -15,6 +15,12 @@ export interface CreateCharacterData {
   hp: number;
 }
 
+export interface UpdateCharacter {
+  name: string;
+  class: string;
+  hp: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -25,6 +31,10 @@ export class CharacterService {
 
   getAll() {
     return this.http.get<Character[]>(this.baseUrl);
+  }
+
+  getById(id: number) {
+     return this.http.get<Character>(`${this.baseUrl}/${id}`);
   }
 
   create(character: Omit<Character, 'id'>) {
@@ -38,5 +48,12 @@ export class CharacterService {
     return this.http.delete<void>(
       `${this.baseUrl}/${id}`
     );
+  }
+
+  update(id: number, character: UpdateCharacter) {
+    return this.http.put<void>(
+      `${this.baseUrl}/${id}`, 
+      character
+    )
   }
 }

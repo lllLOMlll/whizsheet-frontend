@@ -1,0 +1,20 @@
+<h2>Edit Character</h2>
+
+<form (submit)="onSubmit($event)">
+  <label>
+    Name
+    <input type="text" [field]="characterForm.name" />
+  </label>
+
+  <label>
+    Class
+    <input type="text" [field]="characterForm.class" />
+  </label>
+
+  <label>
+    HP
+    <input type="number" [field]="characterForm.hp" />
+  </label>
+
+  <button type="submit" [disabled]="characterForm().invalid()">Save</button>
+</form>
