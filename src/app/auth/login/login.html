@@ -1,0 +1,26 @@
+<form (submit)="onSubmit($event)" class="login-form">
+  <h1>Whizsheet</h1>
+
+  <label>
+    Email
+    <input type="email" [field]="loginForm.email" />
+  </label>
+
+  @if (loginForm.email().invalid() && loginForm.email().touched()) {
+    <div class="error">
+      @for (err of loginForm.email().errors(); track err.kind) {
+        <span>{{ err.message }}</span>
+      }
+    </div>
+  }
+
+  <button type="submit" [disabled]="loginForm().invalid()">
+    Login
+  </button>
+
+  <div class="divider">or</div>
+
+  <button type="button" (click)="loginWithGoogle()">
+    Sign in with Google
+  </button>
+</form>

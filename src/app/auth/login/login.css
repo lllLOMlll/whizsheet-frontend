@@ -1,0 +1,17 @@
+.login-form {
+    max-width: 360px;
+    margin: 4rem auto;
+    display: flex;
+    flex-direction: colum;
+    gap: 1rem;
+}
+
+.error {
+    color: #dc2626;
+    font-size: 0.9rem;
+}
+
+.divider {
+    text-align: center;
+    opacity: 0.6;
+}
