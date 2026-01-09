@@ -1,17 +1,51 @@
 .login-form {
-    max-width: 360px;
-    margin: 4rem auto;
-    display: flex;
-    flex-direction: colum;
-    gap: 1rem;
+  max-width: 360px;
+  margin: 4rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .error {
-    color: #dc2626;
-    font-size: 0.9rem;
+  color: #dc2626;
+  font-size: 0.9rem;
 }
 
 .divider {
-    text-align: center;
-    opacity: 0.6;
+  text-align: center;
+  opacity: 0.6;
+}
+
+.branding-image {
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 40px rgba(225, 6, 0, 0.25));
+}
+
+.card {
+  border-radius: var(--radius);
+}
+
+/* =========================
+   DARK MODE — LOGIN CARD
+   ========================= */
+
+[data-theme="dark"] .card {
+  background-color: var(--surface);
+}
+
+/* Titre */
+[data-theme="dark"] .card h2 {
+  color: #ffffff;
+}
+
+/* Labels (Bootstrap écrase sinon) */
+[data-theme="dark"] .card .form-label {
+  color: #ffffff;
+}
+
+/* Texte d’erreur (reste lisible) */
+[data-theme="dark"] .card .text-danger {
+  color: #f87171;
 }

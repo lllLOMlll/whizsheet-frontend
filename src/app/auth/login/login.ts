@@ -2,6 +2,7 @@ import {
   Component,
   signal,
   ChangeDetectionStrategy,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import {
@@ -21,6 +22,7 @@ interface LoginData {
   imports: [Field],
   templateUrl: './login.html',
   styleUrl: './login.css',
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

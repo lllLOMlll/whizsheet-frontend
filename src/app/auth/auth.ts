@@ -11,7 +11,12 @@ export class AuthService {
 
   private readonly token = signal<string | null>(localStorage.getItem(this.TOKEY_KEY));
 
-  readonly isAuthenticated = computed(() => !!this.token());
+  readonly isAuthenticated = computed(() => {
+    if (environment.bypassAuth) {
+      return true;
+    }
+    return !!this.token();
+  });
 
   constructor() {
     effect(() => {
