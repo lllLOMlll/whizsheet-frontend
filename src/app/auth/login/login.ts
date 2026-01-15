@@ -3,6 +3,7 @@ import {
   signal,
   ChangeDetectionStrategy,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 
 import {
@@ -10,11 +11,16 @@ import {
   Field,
   required,
   email,
+  minLength,
   submit,
 } from '@angular/forms/signals';
 
+import { Router } from '@angular/router';
+import { AuthService } from '../auth'; 
+
 interface LoginData {
   email: string;
+  password: string;
 }
 
 @Component({
@@ -28,33 +34,45 @@ interface LoginData {
 
 
 export class LoginComponent {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
+  error = signal<string | null>(null);
+
   loginModel = signal<LoginData>({
-    email:'',
+    email: '',
+    password: '',
   });
 
-  loginForm = form(this.loginModel, (field) =>{
-    required(field.email, {
-      message: 'Email is required',
-    });
-    email(field.email, {
-      message: 'Enter a valid email address',
-    });
+  loginForm = form(this.loginModel, (field) => {
+    required(field.email, { message: 'Email is requird' });
+    email(field.email, { message: 'Invalid email address' });
+
+    required(field.password, { message: 'Password is required' });
+    minLength(field.password, 8, { message: 'Minimum 8 characters' });
   });
 
-  onSubmit(event: Event) {
+
+    async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
+    this.error.set(null);
 
     submit(this.loginForm, async () => {
-      const { email } = this.loginModel();
-
-      console.log('Login requeste for:', email);
-
-      // Étape 2 : appel au AuthService.login(email)
+      try {
+        const { email, password } = this.loginModel();
+        await this.auth.login(email, password);
+        await this.router.navigate(['/characters']);
+      } catch (err: any) {
+        this.error.set(
+          err?.error ?? 'Login failed'
+        );
+      }
     });
   }
 
-   loginWithGoogle() {
-      console.log('Rerdirect to Google login');
-    }
+  loginWithGoogle(): void {
+    this.auth.loginWithGoogle();
+  }
+
 
 }
