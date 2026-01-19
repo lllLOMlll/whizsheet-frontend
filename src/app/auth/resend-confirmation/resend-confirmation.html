@@ -1,0 +1,30 @@
+<div class="container py-5 text-center">
+  <h2>Resend confirmation email</h2>
+
+  @if (!success()) {
+    <form class="mt-4" (submit)="onSubmit($event)">
+      <div class="mb-3">
+        <input
+          type="email"
+          class="form-control"
+          placeholder="Email"
+          [field]="resendForm.email"
+        />
+      </div>
+
+      <button
+        class="btn btn-primary w-100"
+        type="submit"
+        [disabled]="resendForm().invalid()"
+      >
+        Send confirmation email
+      </button>
+    </form>
+  }
+
+  @if (success()) {
+    <p class="text-success mt-4">
+      If an account exists, a confirmation email has been sent.
+    </p>
+  }
+</div>

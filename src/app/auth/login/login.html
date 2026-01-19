@@ -1,18 +1,9 @@
 <div class="container-fluid min-vh-100">
   <div
-    class="row w-100 justify-content-center
-           align-items-start align-items-lg-center
-           pt-4 pt-lg-0 mt-5"
+    class="row w-100 justify-content-center align-items-start align-items-lg-center pt-4 pt-lg-0 mt-5"
   >
-
-    <div
-      class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center"
-    >
-      <img
-        src="/whizsheet-logo.png"
-        alt="Whizsheet"
-        class="branding-image"
-      />
+    <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center">
+      <img src="/whizsheet-logo.png" alt="Whizsheet" class="branding-image" />
     </div>
 
     <div class="col-12 col-sm-10 col-md-8 col-lg-4">
@@ -20,48 +11,42 @@
         <h2 class="text-center mb-4">Whizsheet</h2>
 
         @if (error()) {
-          <div class="alert alert-danger">
-            {{ error() }}
-          </div>
+        <div class="alert alert-danger">
+          {{ error() }}
+        </div>
         }
 
         <div class="mb-3">
           <label class="form-label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            [field]="loginForm.email"
-          />
+          <input type="email" class="form-control" [field]="loginForm.email" />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            [field]="loginForm.password"
-          />
+          <input type="password" class="form-control" [field]="loginForm.password" />
         </div>
 
-        <button
-          class="btn btn-primary w-100 mb-3"
-          type="submit"
-          [disabled]="loginForm().invalid()"
-        >
+        <button class="btn btn-primary w-100 mb-3" type="submit" [disabled]="loginForm().invalid()">
           Sign in
         </button>
 
         <hr />
 
-        <button
-          type="button"
-          class="btn btn-outline-light w-100"
-          (click)="loginWithGoogle()"
-        >
+        <button type="button" class="btn btn-primary w-100" (click)="loginWithGoogle()">
           Sign in with Google
         </button>
+
+        <p class="text-center mt-3">
+          Don't have an account?
+          <a routerLink="/register">Sign up</a>
+        </p>
+
+        <p class="text-center mt-2">
+          Didn’t receive the email?
+          <a routerLink="/resend-confirmation"> Resend confirmation </a>
+        </p>
+        
       </form>
     </div>
-
   </div>
 </div>

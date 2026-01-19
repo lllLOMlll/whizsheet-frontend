@@ -1,0 +1,17 @@
+<div class="container py-5 text-center">
+  @if (status() === 'loading') {
+    <p>Confirming your email…</p>
+  }
+
+  @if (status() === 'success') {
+    <p class="text-success">
+      Email confirmed successfully!
+    </p>
+  }
+
+  @if (status() === 'error') {
+    <p class="text-danger">
+      This confirmation link is invalid or expired.
+    </p>
+  }
+</div>

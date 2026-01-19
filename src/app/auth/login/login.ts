@@ -6,17 +6,10 @@ import {
   inject,
 } from '@angular/core';
 
-import {
-  form,
-  Field,
-  required,
-  email,
-  minLength,
-  submit,
-} from '@angular/forms/signals';
+import { form, Field, required, email, minLength, submit } from '@angular/forms/signals';
 
-import { Router } from '@angular/router';
-import { AuthService } from '../auth'; 
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { AuthService } from '../auth';
 
 interface LoginData {
   email: string;
@@ -25,17 +18,16 @@ interface LoginData {
 
 @Component({
   selector: 'app-login',
-  imports: [Field],
+  imports: [Field, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-
 export class LoginComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   error = signal<string | null>(null);
 
@@ -52,20 +44,34 @@ export class LoginComponent {
     minLength(field.password, 8, { message: 'Minimum 8 characters' });
   });
 
+  constructor() {
+    // 🔐 GOOGLE LOGIN RETURN
+    const token = this.route.snapshot.queryParamMap.get('token');
 
-    async onSubmit(event: Event): Promise<void> {
+    if (token) {
+      this.auth.storeToken(token);
+      this.router.navigate(['/characters']);
+    }
+  }
+
+  async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
     this.error.set(null);
 
     submit(this.loginForm, async () => {
       try {
         const { email, password } = this.loginModel();
+
         await this.auth.login(email, password);
+
         await this.router.navigate(['/characters']);
       } catch (err: any) {
-        this.error.set(
-          err?.error ?? 'Login failed'
-        );
+        if (err?.error === 'Email not confirmed') {
+          await this.router.navigate(['/check-email']);
+          return;
+        }
+
+        this.error.set('Invalid email or password');
       }
     });
   }
@@ -73,6 +79,4 @@ export class LoginComponent {
   loginWithGoogle(): void {
     this.auth.loginWithGoogle();
   }
-
-
 }
