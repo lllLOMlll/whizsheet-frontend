@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+/* =========================
+   THEME VARIABLES
+   ========================= */
+
+/* Light theme (default) */
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted-text: #64748b;
+
+  --primary: #3b82f6;
+  --primary-contrast: #ffffff;
+
+  --radius: 0.75rem;
+}
+
+/* Dark theme (Whizsheet) */
+[data-theme="dark"] {
+  --bg: #000000;
+  --surface: #111111;
+  --text: #ffffff;
+  --muted-text: #9ca3af;
+
+  --primary: #e10600;
+  --primary-contrast: #ffffff;
+}
+
+/* =========================
+   GLOBAL APPLICATION
+   ========================= */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.card {
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  border: none;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}

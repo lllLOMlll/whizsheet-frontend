@@ -2,57 +2,81 @@ import {
   Component,
   signal,
   ChangeDetectionStrategy,
+  ViewEncapsulation,
+  inject,
 } from '@angular/core';
 
-import {
-  form,
-  Field,
-  required,
-  email,
-  submit,
-} from '@angular/forms/signals';
+import { form, Field, required, email, minLength, submit } from '@angular/forms/signals';
+
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { AuthService } from '../auth';
 
 interface LoginData {
   email: string;
+  password: string;
 }
 
 @Component({
   selector: 'app-login',
-  imports: [Field],
+  imports: [Field, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-
 export class LoginComponent {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  error = signal<string | null>(null);
+
   loginModel = signal<LoginData>({
-    email:'',
+    email: '',
+    password: '',
   });
 
-  loginForm = form(this.loginModel, (field) =>{
-    required(field.email, {
-      message: 'Email is required',
-    });
-    email(field.email, {
-      message: 'Enter a valid email address',
-    });
+  loginForm = form(this.loginModel, (field) => {
+    required(field.email, { message: 'Email is requird' });
+    email(field.email, { message: 'Invalid email address' });
+
+    required(field.password, { message: 'Password is required' });
+    minLength(field.password, 8, { message: 'Minimum 8 characters' });
   });
 
-  onSubmit(event: Event) {
+  constructor() {
+    // 🔐 GOOGLE LOGIN RETURN
+    const token = this.route.snapshot.queryParamMap.get('token');
+
+    if (token) {
+      this.auth.storeToken(token);
+      this.router.navigate(['/characters']);
+    }
+  }
+
+  async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
+    this.error.set(null);
 
     submit(this.loginForm, async () => {
-      const { email } = this.loginModel();
+      try {
+        const { email, password } = this.loginModel();
 
-      console.log('Login requeste for:', email);
+        await this.auth.login(email, password);
 
-      // Étape 2 : appel au AuthService.login(email)
+        await this.router.navigate(['/characters']);
+      } catch (err: any) {
+        if (err?.error === 'Email not confirmed') {
+          await this.router.navigate(['/check-email']);
+          return;
+        }
+
+        this.error.set('Invalid email or password');
+      }
     });
   }
 
-   loginWithGoogle() {
-      console.log('Rerdirect to Google login');
-    }
-
+  loginWithGoogle(): void {
+    this.auth.loginWithGoogle();
+  }
 }

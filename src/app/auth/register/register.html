@@ -1,0 +1,61 @@
+<div class="container-fluid min-vh-100">
+  <div
+    class="row w-100 justify-content-center
+           align-items-start align-items-lg-center
+           pt-4 pt-lg-0 mt-5"
+  >
+
+    <div class="col-12 col-sm-10 col-md-8 col-lg-4">
+      <form class="card p-4 shadow-sm" (submit)="onSubmit($event)">
+        <h2 class="text-center mb-4">Create account</h2>
+
+        @if (error()) {
+          <div class="alert alert-danger">
+            {{ error() }}
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            [field]="registerForm.email"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            [field]="registerForm.password"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Confirm password</label>
+          <input
+            type="password"
+            class="form-control"
+            [field]="registerForm.confirmPassword"
+          />
+        </div>
+
+        <button
+          class="btn btn-primary w-100"
+          type="submit"
+          [disabled]="registerForm().invalid()"
+        >
+          Sign up
+        </button>
+
+        <p class="text-center mt-3">
+          Already have an account?
+          <a routerLink="/login">Sign in</a>
+        </p>
+      </form>
+    </div>
+
+  </div>
+</div>

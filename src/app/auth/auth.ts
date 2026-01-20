@@ -1,49 +1,54 @@
-import { Injectable, signal, computed, effect } from '@angular/core';
-
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { email } from '@angular/forms/signals';
+
+interface LoginResponse {
+  token: string;
+}
+
+const TOKEN_KEY = 'whizsheet-jwt';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly TOKEY_KEY = 'whizsheet_token';
+  private http = inject(HttpClient);
 
-  private readonly token = signal<string | null>(localStorage.getItem(this.TOKEY_KEY));
+  private readonly token = signal<string | null>(
+    localStorage.getItem(TOKEN_KEY)
+  );
 
   readonly isAuthenticated = computed(() => !!this.token());
 
-  constructor() {
-    effect(() => {
-      const value = this.token();
+  async login(email: string, password: string): Promise<void> {
+    const response = await firstValueFrom(
+      this.http.post<LoginResponse>(
+        `${environment.apiBaseUrl}/auth/login`,
+        { email, password }
+      )
+    );
 
-      if (value) {
-        localStorage.setItem(this.TOKEY_KEY, value);
-      } else {
-        localStorage.removeItem(this.TOKEY_KEY);
-      }
-    });
+   this.token.set(response.token);
+   localStorage.setItem(TOKEN_KEY, response.token); 
   }
 
-  loginWithEmail(email: string) {
-      console.log('[Auth] loginWithEmail:', email);
+  loginWithGoogle(): void {
+    window.location.href = `${environment.apiBaseUrl}/auth/google`
+  }
 
-      // Temporaire - sera remplacé par appel HTTP API
-      const fakeJwt = 'FAKE_JWT_FROM_API';
-      this.token.set(fakeJwt);
-    }
+  logout(): void {
+    this.token.set(null);
+    localStorage.removeItem(TOKEN_KEY);
+  }
 
-    loginWithGoogle() {
-      const url = `${environment.apiBaseUrl}/auth/google/login`;
-      window.location.href = url;
-    }
+  getToken(): string | null {
+    return this.token();
+  }
 
-    logout() {
-      this.token.set(null);
-    }
-
-    getToken() {
-      return this.token();
-    }
+  storeToken(token: string): void  {
+    this.token.set(token);
+    localStorage.setItem(TOKEN_KEY, token);
+  }
 
 }

@@ -1,8 +1,5 @@
-<h1>Whizsheet</h1>
-
-<nav>
-  <a routerLink="/characters">Characters</a> |
-  <a routerLink="/characters/new">New character</a>
-</nav>
-
-<router-outlet />
+@if (auth.isAuthenticated()) {
+  <app-layout />
+} @else {
+  <router-outlet />
+}

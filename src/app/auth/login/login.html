@@ -1,26 +1,52 @@
-<form (submit)="onSubmit($event)" class="login-form">
-  <h1>Whizsheet</h1>
-
-  <label>
-    Email
-    <input type="email" [field]="loginForm.email" />
-  </label>
-
-  @if (loginForm.email().invalid() && loginForm.email().touched()) {
-    <div class="error">
-      @for (err of loginForm.email().errors(); track err.kind) {
-        <span>{{ err.message }}</span>
-      }
+<div class="container-fluid min-vh-100">
+  <div
+    class="row w-100 justify-content-center align-items-start align-items-lg-center pt-4 pt-lg-0 mt-5"
+  >
+    <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center">
+      <img src="/whizsheet-logo.png" alt="Whizsheet" class="branding-image" />
     </div>
-  }
 
-  <button type="submit" [disabled]="loginForm().invalid()">
-    Login
-  </button>
+    <div class="col-12 col-sm-10 col-md-8 col-lg-4">
+      <form class="card p-4 shadow-sm" (submit)="onSubmit($event)">
+        <h2 class="text-center mb-4">Whizsheet</h2>
 
-  <div class="divider">or</div>
+        @if (error()) {
+        <div class="alert alert-danger">
+          {{ error() }}
+        </div>
+        }
 
-  <button type="button" (click)="loginWithGoogle()">
-    Sign in with Google
-  </button>
-</form>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" [field]="loginForm.email" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" [field]="loginForm.password" />
+        </div>
+
+        <button class="btn btn-primary w-100 mb-3" type="submit" [disabled]="loginForm().invalid()">
+          Sign in
+        </button>
+
+        <hr />
+
+        <button type="button" class="btn btn-primary w-100" (click)="loginWithGoogle()">
+          Sign in with Google
+        </button>
+
+        <p class="text-center mt-3">
+          Don't have an account?
+          <a routerLink="/register">Sign up</a>
+        </p>
+
+        <p class="text-center mt-2">
+          Didn’t receive the email?
+          <a routerLink="/resend-confirmation"> Resend confirmation </a>
+        </p>
+        
+      </form>
+    </div>
+  </div>
+</div>
