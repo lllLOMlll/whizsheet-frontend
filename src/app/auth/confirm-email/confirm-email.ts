@@ -29,18 +29,26 @@ export class ConfirmEmailComponent {
     }
 
     try {
-      await firstValueFrom(
-        this.http.get(`${environment.apiBaseUrl}/auth/confirm-email`, {
+      const result = await firstValueFrom(
+        this.http.get<{ confirmed: boolean }>(`${environment.apiBaseUrl}/auth/confirm-email`, {
           params: { userId, token },
-        })
+        }),
       );
 
-      this.status.set('success');
+      if (result.confirmed) {
+        this.status.set('success');
 
-      setTimeout(() => {
-        this.router.navigate(['/email-confirmed']);
-      }, 1500);
+        // 🔒 Nettoyer l’URL → plus de token
+        history.replaceState(null, '', '/email-confirmed');
+
+        setTimeout(() => {
+          this.router.navigate(['/email-confirmed']);
+        }, 800);
+      } else {
+        this.status.set('error');
+      }
     } catch {
+      // ❌ ne plus afficher "token expired"
       this.status.set('error');
     }
   }
