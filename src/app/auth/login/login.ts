@@ -11,6 +11,7 @@ import { form, Field, required, email, minLength, submit } from '@angular/forms/
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../auth';
 
+
 interface LoginData {
   email: string;
   password: string;
@@ -50,7 +51,7 @@ export class LoginComponent {
 
     if (token) {
       this.auth.storeToken(token);
-      this.router.navigate(['/characters']);
+      this.router.navigate(['/auth-redirect']);
     }
   }
 
@@ -64,7 +65,7 @@ export class LoginComponent {
 
         await this.auth.login(email, password);
 
-        await this.router.navigate(['/characters']);
+        await this.router.navigate(['/auth-redirect']);
       } catch (err: any) {
         if (err?.error === 'Email not confirmed') {
           await this.router.navigate(['/check-email']);

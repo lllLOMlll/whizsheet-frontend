@@ -11,6 +11,7 @@ import { CharacterCreateComponent } from './character-create/character-create';
 import { CharacterEditComponent } from './character-edit/character-edit';
 import { RegisterComponent } from './auth/register/register';
 import { ResendConfirmationComponent } from './auth/resend-confirmation/resend-confirmation';
+import { AuthRedirectComponent } from './auth/auth-redirect/auth-redirect';
 
 export const routes: Routes = [
   // ─────────────────────────────────────────────
@@ -32,6 +33,11 @@ export const routes: Routes = [
   // ─────────────────────────────────────────────
   // Protected (auth required)
   // ─────────────────────────────────────────────
+  {
+    path: 'auth-redirect',
+    component: AuthRedirectComponent,
+    canActivate: [authGuard],
+  },
   {
     path: 'characters',
     component: CharacterListComponent,
