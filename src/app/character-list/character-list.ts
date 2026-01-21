@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CharacterService, Character  } from '../core/services/character';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -14,6 +14,7 @@ export class CharacterListComponent {
   private router = inject(Router);
 
   characters = signal<Character[]>([]);
+  isCharactersListEmpty = computed(() => this.characters().length === 0);
 
   ngOnInit() {
     this.service.getAll().subscribe(data => this.characters.set(data));
@@ -35,6 +36,11 @@ export class CharacterListComponent {
     this.characters.update(list =>
       list.filter(c => c.id !== id)
     );
+
+    if (this.isCharactersListEmpty()) {
+      this.router.navigate(['/auth-redirect']);
+    }
+
   }
 
   edit(id: number) {
