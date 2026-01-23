@@ -9,11 +9,7 @@
             <!-- Name -->
             <div class="mb-3">
               <label class="form-label">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                [field]="characterForm.name"
-              />
+              <input type="text" class="form-control" [field]="characterForm.name" />
 
               @if (characterForm.name().invalid() && characterForm.name().touched()) {
                 <div class="invalid-feedback d-block">
@@ -24,14 +20,11 @@
               }
             </div>
 
-         <!-- Class -->
+            <!-- Class -->
             <div class="mb-3">
               <label class="form-label">Class</label>
 
-              <select
-                class="form-select"
-                [field]="characterForm.class"
-              >
+              <select class="form-select" [field]="characterForm.class">
                 <option value="">-- Choose a class --</option>
 
                 @for (c of dndClasses; track c) {
@@ -64,11 +57,7 @@
             <!-- HP -->
             <div class="mb-4">
               <label class="form-label">HP</label>
-              <input
-                type="number"
-                class="form-control"
-                [field]="characterForm.hp"
-              />
+              <input type="number" class="form-control" [field]="characterForm.hp" />
 
               @if (characterForm.hp().invalid() && characterForm.hp().touched()) {
                 <div class="invalid-feedback d-block">
@@ -79,18 +68,48 @@
               }
             </div>
 
+            <!-- STATISTICS -->
+
+            <h4>Statblock</h4>
+            <div class="row g-3">
+              <div class="col-6 col-md-4">
+                <label class="form-label">Strength</label>
+                <input type="number" class="form-control" />
+              </div>
+
+              <div class="col-6 col-md-4">
+                <label class="form-label">Dexterity</label>
+                <input type="number" class="form-control" />
+              </div>
+
+              <div class="col-6 col-md-4">
+                <label class="form-label">Constitution</label>
+                <input type="number" class="form-control" />
+              </div>
+
+              <div class="col-6 col-md-4">
+                <label class="form-label">Intelligence</label>
+                <input type="number" class="form-control" />
+              </div>
+
+              <div class="col-6 col-md-4">
+                <label class="form-label">Wisdom</label>
+                <input type="number" class="form-control" />
+              </div>
+
+              <div class="col-6 col-md-4">
+                <label class="form-label">Charisma</label>
+                <input type="number" class="form-control" />
+              </div>
+            </div>
+
             <!-- Submit -->
-            <div class="d-grid">
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="characterForm().invalid()"
-              >
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary" [disabled]="characterForm().invalid()">
                 Create character
               </button>
             </div>
           </form>
-
         </div>
       </div>
     </div>

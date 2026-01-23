@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-auth-redirect',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './auth-redirect.html',
   styleUrl: './auth-redirect.css',
 })
