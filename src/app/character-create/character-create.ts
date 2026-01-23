@@ -10,10 +10,11 @@ import { Router } from '@angular/router';
 import { CharacterService, CreateCharacterData } from '../core/services/character';
 import { AbilityScoresService, AbilityScores } from '../core/services/ability-scores';
 import { firstValueFrom } from 'rxjs';
+import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
 
 @Component({
   selector: 'app-character-create',
-  imports: [Field],
+  imports: [Field, AbilityScoresFormComponent],
   templateUrl: './character-create.html',
   styleUrl: './character-create.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
