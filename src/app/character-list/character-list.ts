@@ -15,6 +15,7 @@ export class CharacterListComponent {
 
   characters = signal<Character[]>([]);
   isCharactersListEmpty = computed(() => this.characters().length === 0);
+  maxCharactersReached = computed(()=> this.characters().length >= 2);
 
   ngOnInit() {
     this.service.getAll().subscribe((data) => this.characters.set(data));

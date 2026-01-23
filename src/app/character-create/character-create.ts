@@ -1,11 +1,5 @@
 import { Component, signal, ChangeDetectionStrategy, inject } from '@angular/core';
-import {
-  form,
-  Field,
-  required,
-  min,
-  submit,
-} from '@angular/forms/signals';
+import { form, Field, required, min, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { CharacterService, CreateCharacterData } from '../core/services/character';
 import { AbilityScoresService, AbilityScores } from '../core/services/ability-scores';
@@ -37,11 +31,10 @@ export class CharacterCreateComponent {
     'Sorcerer',
     'Warlock',
     'Wizard',
-    'Other'
-
+    'Other',
   ] as const;
-  
-  characterModel = signal<CreateCharacterData & {customClass: string}>({
+
+  characterModel = signal<CreateCharacterData & { customClass: string }>({
     // Character
     name: '',
     class: '',
@@ -56,8 +49,7 @@ export class CharacterCreateComponent {
     intelligence: 10,
     wisdom: 10,
     charisma: 10,
-  })
-
+  });
 
   characterForm = form(this.characterModel, (fieldPath) => {
     required(fieldPath.name, { message: 'Name is required' });
@@ -73,6 +65,14 @@ export class CharacterCreateComponent {
     min(fieldPath.wisdom, 1);
     min(fieldPath.charisma, 1);
   });
+
+  async ngOnInit() {
+    const characters = await firstValueFrom(this.characterService.getAll());
+
+    if (characters.length >= 2) {
+      this.router.navigate(['/characters']);
+    }
+  }
 
   onSubmit(event: Event) {
     event.preventDefault();
@@ -90,25 +90,27 @@ export class CharacterCreateComponent {
         name: data.name,
         class: finalClass,
         hp: data.hp,
+      };
+
+      try {
+        // Create character
+        const character = await firstValueFrom(this.characterService.create(characterPayload));
+
+        // Create ability scores
+        await firstValueFrom(
+          this.abilityScoresService.create(character.id, this.abilityScoresModel()),
+        );
+
+        this.router.navigate(['/characters']);
+      } catch (err: any) {
+        if (err?.error?.error === 'CHARACTER_LIMIT_REACHED') {
+          alert('You cannot create more than 2 characters.');
+          this.router.navigate(['/characters']);
+          return;
+        }
+
+        throw err;
       }
-
-      // Create character
-      const character = await firstValueFrom(
-        this.characterService.create(characterPayload)
-      );
-
-      // Create ability scores
-      await firstValueFrom(
-        this.abilityScoresService.create(
-          character.id,
-          this.abilityScoresModel()
-        )
-      )
-
-      this.router.navigate(['/characters']);
     });
   }
-
-
-
 }
