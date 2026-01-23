@@ -57,3 +57,131 @@ body {
 .btn-primary:hover {
   opacity: 0.9;
 }
+
+/* =========================
+   PAGE LAYOUT
+   ========================= */
+
+.page-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+}
+
+.page-title {
+  margin-bottom: 1.5rem;
+}
+
+/* =========================
+   CHARACTER LIST
+   ========================= */
+
+.character-table {
+  width: 50%;
+  min-width: 360px;
+  border-collapse: collapse;
+}
+
+.character-table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.character-info {
+  font-size: 1rem;
+}
+
+.character-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+/* =========================
+   ICON BUTTONS
+   ========================= */
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.icon-btn:hover {
+  opacity: 0.85;
+}
+
+.btn-select {
+  background-color: #198754; /* green-600 */
+  color: #ffffff;
+}
+
+.btn-select:hover {
+  background-color: #3b82f6; /* green-700 */
+}
+
+
+/* Edit */
+.btn-edit {
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--muted-text);
+}
+
+.btn-edit:hover {
+  background-color: #3b82f6;
+}
+
+/* Delete */
+.btn-danger {
+  background-color: #dc2626;
+}
+
+.btn-danger:hover {
+  background-color: #3b82f6;
+}
+
+/* Create button */
+.create-btn {
+  margin-top: 2rem;
+}
+
+
+
+/* =========================
+   TABLE HEADERS
+   ========================= */
+
+.character-table thead th {
+  font-size: 0.75rem;
+  color: var(--muted-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.character-header {
+  text-align: left;
+}
+
+.action-header {
+  width: 60px;
+}
+
+/* =========================
+   ACTION CELLS
+   ========================= */
+
+.action-cell {
+  text-align: center;
+}
+
+
