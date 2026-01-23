@@ -15,7 +15,7 @@ export interface CreateCharacterData {
   hp: number;
 }
 
-export interface UpdateCharacter {
+export interface UpdateCharacterData {
   name: string;
   class: string;
   hp: number;
@@ -50,7 +50,7 @@ export class CharacterService {
     );
   }
 
-  update(id: number, character: UpdateCharacter) {
+  update(id: number, character: UpdateCharacterData) {
     return this.http.put<void>(
       `${this.baseUrl}/${id}`, 
       character
