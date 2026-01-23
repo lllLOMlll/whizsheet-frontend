@@ -4,14 +4,14 @@ import {
   ChangeDetectionStrategy
  } from '@angular/core';
 
-import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 
 import { LayoutComponent } from './layout/layout';
 import { AuthService } from './auth/auth';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLinkWithHref, LayoutComponent],
+  imports: [RouterOutlet, LayoutComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,52 +1,85 @@
-<h2>Create character</h2>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="mb-4 text-center">Create character</h2>
 
-<form (submit)="onSubmit($event)">
-  <div>
-    <label>
-      Name
-      <input type="text" [field]="characterForm.name" />
-    </label>
-    @if (characterForm.name().invalid() && characterForm.name().touched()) {
-    <div class="error">
-      @for (e of characterForm.class().errors(); track e.kind) {
-      <span>{{ e.message }}</span>
-      }
-    </div>
-    }
-  </div>
+          <form (submit)="onSubmit($event)">
+            <!-- Name -->
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" [field]="characterForm.name" />
 
-  <div>
-    <label>
-        Class
-        <input type="text" [field]="characterForm.class" />
-    </label>
+              @if (characterForm.name().invalid() && characterForm.name().touched()) {
+                <div class="invalid-feedback d-block">
+                  @for (e of characterForm.name().errors(); track e.kind) {
+                    <div>{{ e.message }}</div>
+                  }
+                </div>
+              }
+            </div>
 
-    @if (characterForm.class().invalid() && characterForm.class().touched()) {
-      <div class="error">
-        @for (e of characterForm.class().errors(); track e.kind) {
-          <span>{{ e.message }}</span>
-        }
+            <!-- Class -->
+            <div class="mb-3">
+              <label class="form-label">Class</label>
+
+              <select class="form-select" [field]="characterForm.class">
+                <option value="">-- Choose a class --</option>
+
+                @for (c of dndClasses; track c) {
+                  <option [value]="c">{{ c }}</option>
+                }
+              </select>
+
+              @if (characterForm.class().invalid() && characterForm.class().touched()) {
+                <div class="invalid-feedback d-block">
+                  @for (e of characterForm.class().errors(); track e.kind) {
+                    <div>{{ e.message }}</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Custom class -->
+            @if (characterForm.class().value() === 'Other') {
+              <div class="mb-3">
+                <label class="form-label">Custom class</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [field]="characterForm.customClass"
+                  placeholder="Enter your class"
+                />
+              </div>
+            }
+
+            <!-- HP -->
+            <div class="mb-4">
+              <label class="form-label">HP</label>
+              <input type="number" class="form-control" [field]="characterForm.hp" />
+
+              @if (characterForm.hp().invalid() && characterForm.hp().touched()) {
+                <div class="invalid-feedback d-block">
+                  @for (e of characterForm.hp().errors(); track e.kind) {
+                    <div>{{ e.message }}</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- AbilityScores -->
+            <app-ability-scores-form [form]="abilityScoresForm" />
+
+            <!-- Submit -->
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary" [disabled]="characterForm().invalid()">
+                Create character
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    }
-  </div>
-
-  <div>
-    <label>
-      HP
-      <input type="number" [field]="characterForm.hp" />
-    </label>
-
-    @if (characterForm.hp().invalid() && characterForm.hp().touched()) {
-    <div class="error">
-      @for (e of characterForm.hp().errors(); track e.kind) {
-      <span>{{ e.message }}</span>
-      }
     </div>
-    }
   </div>
-
-  <button type="submit" [disabled]="characterForm().invalid()">
-    Create
-  </button>
-
-</form>
+</div>
