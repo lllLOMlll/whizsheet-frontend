@@ -21,9 +21,27 @@ export class CharacterCreateComponent {
   private service = inject(CharacterService);
   private router = inject(Router);
 
-  model = signal<CreateCharacterData>({
+  readonly dndClasses = [
+    'Barbarian',
+    'Bard',
+    'Cleric',
+    'Druid',
+    'Fighter',
+    'Monk',
+    'Paladin',
+    'Ranger',
+    'Roguer',
+    'Sorcerer',
+    'Warlock',
+    'Wizard',
+    'Other'
+
+  ] as const;
+  
+  model = signal<CreateCharacterData & {customClass: string}>({
     name: '',
     class: '',
+    customClass: '',
     hp: 1,
   });
 
@@ -39,7 +57,19 @@ export class CharacterCreateComponent {
     submit(this.characterForm, async () => {
       const data = this.model();
 
-      await firstValueFrom(this.service.create(data));
+      const finalClass = data.class === 'Other' ? data.customClass.trim() : data.class;
+
+      if (!finalClass) {
+        return;
+      }
+
+      const payload: CreateCharacterData = {
+        name: data.name,
+        class: finalClass,
+        hp: data.hp,
+      }
+
+      await firstValueFrom(this.service.create(payload));
 
       this.router.navigate(['/characters']);
     });

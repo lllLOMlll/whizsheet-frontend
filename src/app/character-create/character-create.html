@@ -24,14 +24,20 @@
               }
             </div>
 
-            <!-- Class -->
+         <!-- Class -->
             <div class="mb-3">
               <label class="form-label">Class</label>
-              <input
-                type="text"
-                class="form-control"
+
+              <select
+                class="form-select"
                 [field]="characterForm.class"
-              />
+              >
+                <option value="">-- Choose a class --</option>
+
+                @for (c of dndClasses; track c) {
+                  <option [value]="c">{{ c }}</option>
+                }
+              </select>
 
               @if (characterForm.class().invalid() && characterForm.class().touched()) {
                 <div class="invalid-feedback d-block">
@@ -41,6 +47,19 @@
                 </div>
               }
             </div>
+
+            <!-- Custom class -->
+            @if (characterForm.class().value() === 'Other') {
+              <div class="mb-3">
+                <label class="form-label">Custom class</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [field]="characterForm.customClass"
+                  placeholder="Enter your class"
+                />
+              </div>
+            }
 
             <!-- HP -->
             <div class="mb-4">
