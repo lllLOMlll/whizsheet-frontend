@@ -12,6 +12,7 @@ import { CharacterEditComponent } from './character-edit/character-edit';
 import { RegisterComponent } from './auth/register/register';
 import { ResendConfirmationComponent } from './auth/resend-confirmation/resend-confirmation';
 import { AuthRedirectComponent } from './auth/auth-redirect/auth-redirect';
+import { CharacterDetailComponent } from './character-detail/character-detail';
 
 export const routes: Routes = [
   // ─────────────────────────────────────────────
@@ -20,16 +21,14 @@ export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
 
-  
-  
-  // 
+  //
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent},
+  { path: 'register', component: RegisterComponent },
   { path: 'check-email', component: CheckEmailComponent },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'email-confirmed', component: EmailConfirmedComponent },
-  { path:  'resend-cofirmation', component: ResendConfirmationComponent },
-  
+  { path: 'resend-cofirmation', component: ResendConfirmationComponent },
+
   // ─────────────────────────────────────────────
   // Protected (auth required)
   // ─────────────────────────────────────────────
@@ -51,6 +50,11 @@ export const routes: Routes = [
   {
     path: 'characters/:id/edit',
     component: CharacterEditComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'characters/:id',
+    component: CharacterDetailComponent,
     canActivate: [authGuard],
   },
 

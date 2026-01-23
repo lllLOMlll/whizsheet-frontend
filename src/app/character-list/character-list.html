@@ -5,11 +5,15 @@
   <li>
     {{ c.name }} ({{ c.class }}) - HP: {{ c.hp }}
 
-    <button type="button" (click)="edit(c.id)">Edit</button>
+    <button type="button" (click)="editCharacter(c.id)">Edit</button>
 
     <button type="button" (click)="deleteCharacter(c.id)">Delete</button>
+
+    <button type="button" (click)="viewCharacter(c.id)">View character</button>
 
     
   </li>
   }
 </ul>
+
+<button type="button" (click)="goToCreateCharacterPage()">Create a new character</button>
