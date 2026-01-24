@@ -29,6 +29,7 @@
   --primary-contrast: #ffffff;
 }
 
+
 /* =========================
    GLOBAL APPLICATION
    ========================= */
@@ -51,6 +52,19 @@ body {
   border-radius: var(--radius);
   border: none;
 }
+
+/* Pour les boutons Dark et Light */
+.theme-toggle {
+  padding-left: 0.9rem;
+  padding-right: 1.1rem;
+}
+
+.theme-toggle i {
+  margin-right: 0.5rem;
+}
+
+
+
 
 /* =========================
    BUTTONS

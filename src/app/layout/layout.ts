@@ -1,9 +1,10 @@
 import { 
   Component,
   ChangeDetectionStrategy,  
+  inject,
  } from '@angular/core';
 
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, Router } from '@angular/router';
 
 import { AuthService } from '../auth/auth';
 import { ThemeService } from '../core/services/theme';
@@ -16,6 +17,8 @@ import { ThemeService } from '../core/services/theme';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {
+  private readonly router = inject(Router);
+  
   constructor(
     public auth: AuthService ,
     public theme: ThemeService
@@ -23,6 +26,7 @@ export class LayoutComponent {
 
   logout() {
     this.auth.logout();
+    this.router.navigate(['/']);
   }
 
   toggleTheme() {

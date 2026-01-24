@@ -1,27 +1,19 @@
 <nav class="navbar navbar-expand-lg px-3">
-  <a class="navbar-brand fw-bold" routerLink="/characters">
-    Whizsheet
-  </a>
+  <a class="navbar-brand fw-bold" routerLink="/characters"> Whizsheet </a>
 
   <div class="ms-auto d-flex align-items-center gap-2">
-    <button
-      class="btn btn-outline-secondary"
-      (click)="toggleTheme()"
-    >
+    <button class="btn btn-outline-secondary theme-toggle" (click)="toggleTheme()">
       @if (theme.current() === 'dark') {
-        🌙 Dark
+        <i class="bi bi-moon-fill moon-icon"></i>
+        <span>Dark</span>
       } @else {
-        ☀️ Light
+        <i class="bi bi-sun-fill sun-icon"></i>
+        <span>Light</span>
       }
     </button>
+    <a class="btn btn-outline-primary" routerLink="/characters"> Characters </a>
 
-    <a class="btn btn-outline-primary" routerLink="/characters">
-      Characters
-    </a>
-
-    <button class="btn btn-outline-danger" (click)="logout()">
-      Logout
-    </button>
+    <button class="btn btn-outline-danger" (click)="logout()">Logout</button>
   </div>
 </nav>
 
