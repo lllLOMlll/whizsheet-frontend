@@ -30,7 +30,14 @@
             type="password"
             class="form-control"
             [field]="registerForm.password"
+            (blur)="onConfirmPassowrdBlur()"
           />
+
+            @if (showPasswordHint()) {
+            <span class="text-danger small">
+              Password must be at least 8 characters
+            </span>
+          }
         </div>
 
         <div class="mb-3">
@@ -39,7 +46,7 @@
             type="password"
             class="form-control"
             [field]="registerForm.confirmPassword"
-          />
+          />     
         </div>
 
         <button

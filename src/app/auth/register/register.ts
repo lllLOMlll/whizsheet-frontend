@@ -6,14 +6,7 @@ import {
   signal,
 } from '@angular/core';
 
-import {
-  form,
-  Field,
-  required,
-  email,
-  minLength,
-  submit,
-} from '@angular/forms/signals';
+import { form, Field, required, email, minLength, submit } from '@angular/forms/signals';
 
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -37,6 +30,8 @@ interface RegisterData {
 export class RegisterComponent {
   private http = inject(HttpClient);
   private router = inject(Router);
+
+  showPasswordHint = signal(false);
 
   error = signal<string | null>(null);
 
@@ -65,8 +60,7 @@ export class RegisterComponent {
     this.error.set(null);
 
     submit(this.registerForm, async () => {
-      const { email, password, confirmPassword } =
-        this.registerModel();
+      const { email, password, confirmPassword } = this.registerModel();
 
       if (password !== confirmPassword) {
         this.error.set('Passwords do not match');
@@ -75,19 +69,28 @@ export class RegisterComponent {
 
       try {
         await firstValueFrom(
-          this.http.post(
-            `${environment.apiBaseUrl}/auth/register`,
-            { email, password }
-          )
+          this.http.post(`${environment.apiBaseUrl}/auth/register`, { email, password }),
         );
 
         await this.router.navigate(['/check-email']);
       } catch (err: any) {
-        this.error.set(
-          err?.error?.[0]?.description ??
-          'Registration failed'
-        );
+        if (Array.isArray(err?.error)) {
+          this.error.set(err.error.map((e: any) => e.description).join(' '));
+          return;
+        }
+        this.error.set('Registration failed');
       }
     });
   }
+
+  onConfirmPassowrdBlur(): void {
+    const { password } = this.registerModel();
+
+    if (password.length < 8) {
+      this.showPasswordHint.set(true);
+    } else {
+      this.showPasswordHint.set(false);
+    }
+  }
+
 }
