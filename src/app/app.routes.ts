@@ -20,9 +20,6 @@ export const routes: Routes = [
   // ─────────────────────────────────────────────
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-
-  //
-  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'check-email', component: CheckEmailComponent },
   { path: 'confirm-email', component: ConfirmEmailComponent },
@@ -35,7 +32,6 @@ export const routes: Routes = [
   {
     path: 'auth-redirect',
     component: AuthRedirectComponent,
-    canActivate: [authGuard],
   },
   {
     path: 'characters',

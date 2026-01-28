@@ -28,7 +28,6 @@ interface LoginData {
 export class LoginComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
 
   error = signal<string | null>(null);
 
@@ -45,15 +44,6 @@ export class LoginComponent {
     minLength(field.password, 8, { message: 'Minimum 8 characters' });
   });
 
-  constructor() {
-    // 🔐 GOOGLE LOGIN RETURN
-    const token = this.route.snapshot.queryParamMap.get('token');
-
-    if (token) {
-      this.auth.storeToken(token);
-      this.router.navigate(['/auth-redirect']);
-    }
-  }
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
