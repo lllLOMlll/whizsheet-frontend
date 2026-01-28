@@ -1,5 +1,10 @@
 @if (auth.isAuthenticated()) {
   <app-layout />
 } @else {
+  <main class="page">
+
   <router-outlet />
+  </main>
 }
+
+  <app-footer />

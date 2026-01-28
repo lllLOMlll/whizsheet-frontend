@@ -8,10 +8,11 @@ import { RouterOutlet } from '@angular/router';
 
 import { LayoutComponent } from './layout/layout';
 import { AuthService } from './auth/auth';
+import { FooterComponent } from './shared/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LayoutComponent],
+  imports: [RouterOutlet, LayoutComponent, FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
