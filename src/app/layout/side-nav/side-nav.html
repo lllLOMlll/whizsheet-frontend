@@ -1,28 +1,29 @@
 <nav class="side-nav" [class.open]="isOpen()">
-
   <div class="side-nav-header">
     @if (theme.current() === 'dark') {
-    <img
-      src="/whizsheet-transparent-red-logo.png"
-      alt="Whizsheet"
-      class="side-nav-logo"
-    />
-  } @else {
-    <img
-      src="/whizsheet-transparent-black-logo.png"
-      alt="Whizsheet"
-      class="side-nav-logo"
-    />
-  }
+      <img src="/whizsheet-transparent-red-logo.png" alt="Whizsheet" class="side-nav-logo" />
+    } @else {
+      <img src="/whizsheet-transparent-black-logo.png" alt="Whizsheet" class="side-nav-logo" />
+    }
 
-    <button
-      class="side-nav-close"
-      (click)="close()"
-      aria-label="Close menu"
-    >
-      ✕
-    </button>
+    <button class="side-nav-close" (click)="close()" aria-label="Close menu">✕</button>
   </div>
+
+  <div class="mb-3">
+    <button class="btn btn-outline-secondary theme-toggle" (click)="toggleTheme()">
+      @if (theme.current() === 'dark') {
+        <i class="bi bi-moon-fill moon-icon"></i>
+        <span>Dark</span>
+      } @else {
+        <i class="bi bi-sun-fill sun-icon"></i>
+        <span>Light</span>
+      }
+    </button>
+
+    <button class="btn btn-outline-danger" (click)="logout()">Logout</button>
+  </div>
+
+  <hr />
 
   <ul>
     <li>
@@ -36,14 +37,7 @@
     </li>
 
     <li>
-      <a
-        routerLink="/characters/create"
-        routerLinkActive="active"
-      >
-        Create character
-      </a>
+      <a routerLink="/characters/create" routerLinkActive="active"> Create character </a>
     </li>
-    
   </ul>
-
 </nav>

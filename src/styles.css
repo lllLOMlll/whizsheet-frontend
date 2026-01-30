@@ -23,13 +23,16 @@
 
    /* Side bar */   
   --side-bar-btn-color: #ffffff;
-  --side-bar-btn-color-selected: #ffffff;
+  --side-bar-btn-color-selected: #000000;
   --side-bar-btn-background-color-selected: #198754;
-  ---side-bar-btn-color-hoover: #198754;
+  --side-bar-btn-color-hoover: #198754;
   --side-bar-btn-color-border: #000000;
+
+  /* Logo */
+  --logo-hoover: #3b82f6;;
 }
 
-/* DARK THEM */
+/* DARK THEME */
 [data-theme="dark"] {
   --bg: #000000;
   --surface: #101010;
@@ -51,8 +54,12 @@
   --side-bar-btn-color: #ffffff;
   --side-bar-btn-color-selected: #ffffff;;
   --side-bar-btn-background-color-selected: #000000;
-  ---side-bar-btn-color-hoover: #000000;
-  --side-bar-btn-color-border: #198754;;
+  --side-bar-btn-color-hoover: #000000;
+  --side-bar-btn-color-border: #198754;
+
+  /* Logo */
+  --logo-hoover: #000000;
+
 }
 
 [data-theme="dark"] .form-control:focus,

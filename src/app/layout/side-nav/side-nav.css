@@ -65,7 +65,7 @@
 
 .side-nav a:hover {
   color: var(--side-bar-btn-color);
-  background-color: var(---side-bar-btn-color-hoover);
+  background-color: var(--side-bar-btn-color-hoover);
 }
 
 .side-nav a.active {

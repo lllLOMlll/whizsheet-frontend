@@ -52,10 +52,12 @@
   height: 50px;      
   max-width: 120px;  
   width: auto;
+  cursor: pointer;
+  border-radius: 6px; 
 }
 
-.whizsheet-logo a:hover {
-  background-color: gray;
+.whizsheet-logo:hover {
+  background-color: var(--logo-hoover);
 }
 
 /* Desktop : pas d’overlay */
