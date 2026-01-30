@@ -1,7 +1,12 @@
+:host {
+  display: block;
+  background-color: var(--surface);
+  color: var(--text);
+  border-top: 1px solid var(--muted-text);
+}
+
 .footer {
-  border-top: 1px solid #ddd;
   padding: 1rem 2rem;
-  background-color: #f8f9fa;
 }
 
 .footer-content {
@@ -14,9 +19,10 @@
 .footer-links a {
   margin-left: 1rem;
   text-decoration: none;
-  color: #555;
+  color: var(--muted-text);
 }
 
 .footer-links a:hover {
   text-decoration: underline;
+  color: var(--text);
 }
