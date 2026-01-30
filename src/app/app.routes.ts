@@ -39,7 +39,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'characters/new',
+    path: 'characters/create',
     component: CharacterCreateComponent,
     canActivate: [authGuard],
   },

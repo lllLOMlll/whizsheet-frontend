@@ -30,7 +30,7 @@ export class CharacterListComponent {
   }
 
   goToCreateCharacterPage() {
-    this.router.navigate(["/characters/new"])
+    this.router.navigate(["/characters/create"])
   }
 
 
