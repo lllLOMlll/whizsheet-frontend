@@ -40,3 +40,27 @@
   padding: 1rem;
   overflow-y: auto;
 }
+
+.side-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+}
+
+.whizsheet-logo{
+  height: 50px;      
+  max-width: 120px;  
+  width: auto;
+}
+
+.whizsheet-logo a:hover {
+  background-color: gray;
+}
+
+/* Desktop : pas d’overlay */
+@media (min-width: 992px) {
+  .side-nav-overlay {
+    display: none;
+  }
+}

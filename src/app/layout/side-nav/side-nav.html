@@ -1,10 +1,49 @@
 <nav class="side-nav" [class.open]="isOpen()">
+
+  <div class="side-nav-header">
+    @if (theme.current() === 'dark') {
+    <img
+      src="/whizsheet-transparent-red-logo.png"
+      alt="Whizsheet"
+      class="side-nav-logo"
+    />
+  } @else {
+    <img
+      src="/whizsheet-transparent-black-logo.png"
+      alt="Whizsheet"
+      class="side-nav-logo"
+    />
+  }
+
+    <button
+      class="side-nav-close"
+      (click)="close()"
+      aria-label="Close menu"
+    >
+      ✕
+    </button>
+  </div>
+
   <ul>
     <li>
-      <a routerLink="/characters">Characters</a>
+      <a
+        routerLink="/characters"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Characters
+      </a>
     </li>
+
     <li>
-      <a routerLink="/characters/create">Create character</a>
+      <a
+        routerLink="/characters/create"
+        routerLinkActive="active"
+      >
+        Create character
+      </a>
     </li>
+    
   </ul>
+
 </nav>

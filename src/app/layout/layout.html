@@ -1,24 +1,18 @@
 <div class="layout-root">
-
   <!-- TOP BAR -->
   <nav class="navbar navbar-expand-lg px-3">
-    <button
-      class="btn btn-link me-2"
-      (click)="toggleSideNav()"
-      aria-label="Toggle menu"
-    >
-      <i class="bi bi-list fs-3"></i>
-    </button>
+    <div>
+      @if (theme.current() === 'dark') {
+        <img src="/whizsheet-transparent-red-logo.png" alt="Whizsheet" class="whizsheet-logo" (click)="toggleSideNav()" aria-label="Toggle menu" />
+      } @else {
+        <img src="/whizsheet-transparent-black-logo.png" alt="Whizsheet" class="whizsheet-logo" (click)="toggleSideNav()" aria-label="Toggle menu" />
+      }
+    </div>
 
-    <a class="navbar-brand fw-bold" routerLink="/characters">
-      Whizsheet
-    </a>
+    <a class="navbar-brand fw-bold" routerLink="/characters"> Whizsheet </a>
 
     <div class="ms-auto d-flex align-items-center gap-2">
-      <button
-        class="btn btn-outline-secondary theme-toggle"
-        (click)="toggleTheme()"
-      >
+      <button class="btn btn-outline-secondary theme-toggle" (click)="toggleTheme()">
         @if (theme.current() === 'dark') {
           <i class="bi bi-moon-fill moon-icon"></i>
           <span>Dark</span>
@@ -28,15 +22,15 @@
         }
       </button>
 
-      <a class="btn btn-outline-primary" routerLink="/characters">
-        Characters
-      </a>
+      <a class="btn btn-outline-primary" routerLink="/characters"> Characters </a>
 
-      <button class="btn btn-outline-danger" (click)="logout()">
-        Logout
-      </button>
+      <button class="btn btn-outline-danger" (click)="logout()">Logout</button>
     </div>
   </nav>
+
+  @if (isSideNavOpen()) {
+    <div class="side-nav-overlay" (click)="toggleSideNav()"></div>
+  }
 
   <!-- BODY -->
   <div class="layout-body">

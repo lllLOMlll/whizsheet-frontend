@@ -69,7 +69,7 @@ export class CharacterCreateComponent {
   async ngOnInit() {
     const characters = await firstValueFrom(this.characterService.getAll());
 
-    if (characters.length >= 2) {
+    if (characters.length >= 5) {
       this.router.navigate(['/characters']);
     }
   }
