@@ -20,9 +20,19 @@
   --card-glow:
     6px 4px 4px 1px rgba(0, 0, 0, 0.08),
     6px 6px 20px rgba(0, 0, 0, 0.12);
+
+   /* Side bar */   
+  --side-bar-btn-color: #ffffff;
+  --side-bar-btn-color-selected: #000000;
+  --side-bar-btn-background-color-selected: #198754;
+  --side-bar-btn-color-hoover: #198754;
+  --side-bar-btn-color-border: #000000;
+
+  /* Logo */
+  --logo-hoover: #3b82f6;;
 }
 
-/* Dark theme */
+/* DARK THEME */
 [data-theme="dark"] {
   --bg: #000000;
   --surface: #101010;
@@ -39,6 +49,17 @@
     0 0 0 1px rgba(223, 37, 36, 0.35),
     0 4px 18px rgba(223, 37, 36, 0.25),
     0 8px 32px rgba(223, 37, 36, 0.15);
+
+   /* Side bar */   
+  --side-bar-btn-color: #ffffff;
+  --side-bar-btn-color-selected: #ffffff;;
+  --side-bar-btn-background-color-selected: #000000;
+  --side-bar-btn-color-hoover: #000000;
+  --side-bar-btn-color-border: #198754;
+
+  /* Logo */
+  --logo-hoover: #000000;
+
 }
 
 [data-theme="dark"] .form-control:focus,
@@ -285,3 +306,5 @@ app-root {
     justify-content: flex-end;
   }
 }
+
+
