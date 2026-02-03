@@ -59,60 +59,28 @@ export class RegisterComponent {
     event.preventDefault();
     this.error.set(null);
 
-submit(this.registerForm, async () => {
-  console.log('--- DÉBUT DE LA SOUMISSION ---');
-  const { email, password, confirmPassword } = this.registerModel();
-  
-  console.log('Données du modèle récupérées :', { email, password, confirmPassword });
+    submit(this.registerForm, async () => {
+      const { email, password, confirmPassword } = this.registerModel();
 
-  if (password !== confirmPassword) {
-    console.warn('ÉCHEC : Les mots de passe ne correspondent pas.');
-    this.error.set('Passwords do not match');
-    return;
-  }
+      if (password !== confirmPassword) {
+        this.error.set('Passwords do not match');
+        return;
+      }
 
-  try {
-    const url = `${environment.apiBaseUrl}/auth/register`;
-    console.log(`Tentative de POST sur : ${url}`);
+      try {
+        await firstValueFrom(
+          this.http.post(`${environment.apiBaseUrl}/auth/register`, { email, password }),
+        );
 
-    const response = await firstValueFrom(
-      this.http.post(url, { email, password })
-    );
-
-    console.log('SUCCÈS API : Réponse reçue du serveur :', response);
-
-    console.log('Tentative de navigation vers /check-email...');
-    const navigationResult = await this.router.navigate(['/check-email']);
-    
-    console.log('Navigation terminée. Succès ?', navigationResult);
-    
-    if (!navigationResult) {
-      console.error('La navigation a échoué. Vérifiez vos routes Angular (App Routes).');
-    }
-
-  } catch (err: any) {
-    console.error('ERREUR CAPTURÉE lors de l\'appel API :', err);
-
-    // Analyse détaillée de l'erreur
-    if (err.status === 0) {
-      console.error('Erreur de réseau (CORS ou serveur non lancé).');
-    } else {
-      console.log(`Status code : ${err.status}`);
-      console.log('Corps de l\'erreur (err.error) :', err.error);
-    }
-
-    if (Array.isArray(err?.error)) {
-      const messages = err.error.map((e: any) => e.description).join(' ');
-      console.log('Erreurs de validation Identity détectées :', messages);
-      this.error.set(messages);
-    } else {
-      const fallbackMsg = err?.error?.title || 'Registration failed';
-      this.error.set(fallbackMsg);
-    }
-  } finally {
-    console.log('--- FIN DU PROCESSUS ---');
-  }
-});
+        await this.router.navigate(['/check-email']);
+      } catch (err: any) {
+        if (Array.isArray(err?.error)) {
+          this.error.set(err.error.map((e: any) => e.description).join(' '));
+          return;
+        }
+        this.error.set('Registration failed');
+      }
+    });
   }
 
   onConfirmPassowrdBlur(): void {
