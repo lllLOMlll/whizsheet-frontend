@@ -4,13 +4,21 @@ export type Theme = 'light' | 'dark';
 
 const STORAGE_KEY = 'whizsheet-theme';
 
+function getInitialTheme(): Theme {
+  const stored = localStorage.getItem(STORAGE_KEY);
+
+  if (stored === 'light' || stored === 'dark') {
+    return stored;
+  }
+
+  return 'dark';
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  private readonly theme = signal<Theme>(
-    (localStorage.getItem(STORAGE_KEY) as Theme) ?? 'dark'
-  );
+  private readonly theme = signal<Theme>(getInitialTheme());
 
   constructor() {
     effect(() => {
