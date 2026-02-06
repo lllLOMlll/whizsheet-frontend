@@ -31,7 +31,7 @@ export class AuthRedirectComponent implements OnInit {
 
     if (characters.length === 0) {
       this.router.navigate(
-        ['/characters/new'],
+        ['/characters/create'],
         { replaceUrl: true }
       );
     } else {
