@@ -20,39 +20,82 @@
               }
             </div>
 
-            <!-- Class -->
-            <!-- <div class="mb-3">
-              <label class="form-label">Class</label>
+            <!-- CLASSES AND LEVELS -->
+            <h4 class="mt-4 mb-3">Classes</h4>
 
-              <select class="form-select" [field]="characterForm.class">
-                <option value="">-- Choose a class --</option>
+            @for (form of classForms(); track $index) {
+              <h5 class="mb-3">Class {{ $index + 1 }}</h5>
 
-                @for (c of dndClasses; track c) {
-                  <option [value]="c">{{ c }}</option>
+              <!-- Class -->
+              <div class="mb-3">
+                <label class="form-label">Class</label>
+
+                <select class="form-select" [field]="form.className">
+                  <option value="">-- Choose a class --</option>
+                  @for (c of dndClasses; track c) {
+                    <option [value]="c">{{ c }}</option>
+                  }
+                </select>
+
+                @if (form.className().invalid() && form.className().touched()) {
+                  <div class="invalid-feedback d-block">
+                    @for (e of form.className().errors(); track e.kind) {
+                      <div>{{ e.message }}</div>
+                    }
+                  </div>
                 }
-              </select>
+              </div>
 
-              @if (characterForm.class().invalid() && characterForm.class().touched()) {
-                <div class="invalid-feedback d-block">
-                  @for (e of characterForm.class().errors(); track e.kind) {
-                    <div>{{ e.message }}</div>
+              <!-- Custom class -->
+              @if (form.className().value() === 'Other') {
+                <div class="mb-3">
+                  <label class="form-label">Custom class</label>
+
+                  <input type="text" class="form-control" [field]="form.customClassName" />
+
+                  @if (form.customClassName().invalid() && form.customClassName().touched()) {
+                    <div class="invalid-feedback d-block">
+                      @for (e of form.customClassName().errors(); track e.kind) {
+                        <div>{{ e.message }}</div>
+                      }
+                    </div>
                   }
                 </div>
               }
-            </div> -->
 
-            <!-- Custom class -->
-            <!-- @if (characterForm.class().value() === 'Other') {
-              <div class="mb-3">
-                <label class="form-label">Custom class</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  [field]="characterForm.customClass"
-                  placeholder="Enter your class"
-                />
+              <!-- Level -->
+              <div class="mb-4">
+                <label class="form-label">Level</label>
+
+                <input type="number" class="form-control" [field]="form.level" />
+
+                @if (form.level().invalid() && form.level().touched()) {
+                  <div class="invalid-feedback d-block">
+                    @for (e of form.level().errors(); track e.kind) {
+                      <div>{{ e.message }}</div>
+                    }
+                  </div>
+                }
               </div>
-            } -->
+            }
+
+            <!-- Multiclass toggle -->
+            <div class="form-check mb-3">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="multiclass"
+                [checked]="isMulticlass()"
+                (change)="toggleMulticlass($event)"
+              />
+              <label class="form-check-label" for="multiclass"> Multiclass </label>
+            </div>
+
+            @if (isMulticlass() && classForms().length < 3) {
+              <button type="button" class="btn btn-outline-secondary mb-4" (click)="addClass()">
+                Add another class
+              </button>
+            }
 
             <!-- HP -->
             <div class="mb-4">
@@ -68,7 +111,7 @@
               }
             </div>
 
-            <!-- AbilityScores -->
+            <!-- ABILITY SCORES -->
             <app-ability-scores-form [form]="abilityScoresForm" />
 
             <!-- Submit -->

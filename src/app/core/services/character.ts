@@ -22,7 +22,7 @@ export interface UpdateCharacterData {
   providedIn: 'root',
 })
 export class CharacterService {
-  private http = inject(HttpClient)
+  private http = inject(HttpClient);
 
   private readonly baseUrl = `${environment.apiBaseUrl}/characters`;
 
