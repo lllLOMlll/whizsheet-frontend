@@ -37,7 +37,6 @@ export class CharacterCreateComponent {
   characterModel = signal<CreateCharacterData & { customClass: string }>({
     // Character
     name: '',
-    class: '',
     customClass: '',
     hp: 1,
   });
@@ -53,7 +52,7 @@ export class CharacterCreateComponent {
 
   characterForm = form(this.characterModel, (fieldPath) => {
     required(fieldPath.name, { message: 'Name is required' });
-    required(fieldPath.class, { message: 'Class is required' });
+    //required(fieldPath.class, { message: 'Class is required' });
     min(fieldPath.hp, 1, { message: 'HP must be at least 1' });
   });
 
@@ -80,15 +79,15 @@ export class CharacterCreateComponent {
     submit(this.characterForm, async () => {
       const data = this.characterModel();
 
-      const finalClass = data.class === 'Other' ? data.customClass.trim() : data.class;
+      //const finalClass = data.class === 'Other' ? data.customClass.trim() : data.class;
 
-      if (!finalClass) {
-        return;
-      }
+      // if (!finalClass) {
+      //   return;
+      // }
 
       const characterPayload: CreateCharacterData = {
         name: data.name,
-        class: finalClass,
+        //class: finalClass,
         hp: data.hp,
       };
 

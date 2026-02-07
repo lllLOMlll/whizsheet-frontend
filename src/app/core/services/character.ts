@@ -5,19 +5,16 @@ import { environment } from '../../../environments/environment';
 export interface Character {
   id: number;
   name: string;
-  class: string;
   hp: number;
 }
 
 export interface CreateCharacterData {
   name: string;
-  class: string;
   hp: number;
 }
 
 export interface UpdateCharacterData {
   name: string;
-  class: string;
   hp: number;
 }
 
