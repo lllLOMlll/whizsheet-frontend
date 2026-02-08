@@ -23,23 +23,23 @@
             <!-- CLASSES AND LEVELS -->
             <h4 class="mt-4 mb-3">Classes</h4>
 
-            @for (form of classForms(); track $index) {
+            @for (form of characterClassForms(); track $index) {
               <h5 class="mb-3">Class {{ $index + 1 }}</h5>
 
               <!-- Class -->
               <div class="mb-3">
                 <label class="form-label">Class</label>
 
-                <select class="form-select" [field]="form.className">
+                <select class="form-select" [field]="form.classType">
                   <option value="">-- Choose a class --</option>
                   @for (c of dndClasses; track c) {
                     <option [value]="c">{{ c }}</option>
                   }
                 </select>
 
-                @if (form.className().invalid() && form.className().touched()) {
+                @if (form.classType().invalid() && form.classType().touched()) {
                   <div class="invalid-feedback d-block">
-                    @for (e of form.className().errors(); track e.kind) {
+                    @for (e of form.classType().errors(); track e.kind) {
                       <div>{{ e.message }}</div>
                     }
                   </div>
@@ -47,7 +47,7 @@
               </div>
 
               <!-- Custom class -->
-              @if (form.className().value() === 'Other') {
+              @if (form.classType().value() === 'Other') {
                 <div class="mb-3">
                   <label class="form-label">Custom class</label>
 
@@ -79,23 +79,23 @@
               </div>
             }
 
-            <!-- Multiclass toggle -->
-            <div class="form-check mb-3">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="multiclass"
-                [checked]="isMulticlass()"
-                (change)="toggleMulticlass($event)"
-              />
-              <label class="form-check-label" for="multiclass"> Multiclass </label>
-            </div>
+            <button
+              type="button"
+              class="btn btn-success mb-4 me-2"
+              (click)="addClass()"
+              [disabled]="characterClassForms().length >= 3"
+            >
+              Add Class
+            </button>
 
-            @if (isMulticlass() && classForms().length < 3) {
-              <button type="button" class="btn btn-outline-secondary mb-4" (click)="addClass()">
-                Add another class
-              </button>
-            }
+            <button
+              type="button"
+              class="btn btn-danger mb-4"
+              (click)="removeClass()"
+              [disabled]="characterClassForms().length <= 1"
+            >
+              Remove Class
+            </button>
 
             <!-- HP -->
             <div class="mb-4">

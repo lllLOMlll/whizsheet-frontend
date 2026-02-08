@@ -1,17 +1,31 @@
-import { Component, signal, ChangeDetectionStrategy, inject } from '@angular/core';
+import {
+  Component,
+  signal,
+  ChangeDetectionStrategy,
+  inject,
+  EnvironmentInjector,
+  runInInjectionContext,
+} from '@angular/core';
 import { form, Field, required, min, max, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+
 import { CharacterService, CreateCharacterData } from '../core/services/character';
 import { AbilityScoresService, AbilityScores } from '../core/services/ability-scores';
 import {
   CharacterClassService,
   CreateCharacterClassData,
+  CharacterClassType,
   DND_CLASSES,
 } from '../core/services/character-class';
-import { firstValueFrom } from 'rxjs';
-import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
-import { EnvironmentInjector, runInInjectionContext } from '@angular/core';
 
+import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
+
+type CharacterClassFormModel = {
+  classType: CharacterClassType;
+  customClassName: string;
+  level: number;
+};
 
 @Component({
   selector: 'app-character-create',
@@ -23,20 +37,26 @@ import { EnvironmentInjector, runInInjectionContext } from '@angular/core';
 export class CharacterCreateComponent {
   private characterService = inject(CharacterService);
   private abilityScoresService = inject(AbilityScoresService);
+  private characterClassService = inject(CharacterClassService);
   private router = inject(Router);
   private injector = inject(EnvironmentInjector);
 
-
   readonly dndClasses = DND_CLASSES;
+  readonly CharacterClassType = CharacterClassType;
 
-  isMulticlass = signal(false);
+  /* ------------------ CHARACTER ------------------ */
 
-  characterModel = signal<CreateCharacterData & { customClass: string }>({
-    // Character
+  characterModel = signal<CreateCharacterData>({
     name: '',
-    customClass: '',
     hp: 1,
   });
+
+  characterForm = form(this.characterModel, (f) => {
+    required(f.name);
+    min(f.hp, 1);
+  });
+
+  /* ------------------ ABILITIES ------------------ */
 
   abilityScoresModel = signal<AbilityScores>({
     strength: 10,
@@ -47,128 +67,92 @@ export class CharacterCreateComponent {
     charisma: 10,
   });
 
-  characterClassModel = signal<CreateCharacterClassData[]>([
-    {
-      className: '',
+  abilityScoresForm = form(this.abilityScoresModel, (f) => {
+    min(f.strength, 1);
+    min(f.dexterity, 1);
+    min(f.constitution, 1);
+    min(f.intelligence, 1);
+    min(f.wisdom, 1);
+    min(f.charisma, 1);
+  });
+
+  /* ------------------ CLASSES ------------------ */
+
+  private createDefaultClass(): CharacterClassFormModel {
+    return {
+      classType: CharacterClassType.Fighter,
       customClassName: '',
       level: 1,
-    },
-  ]);
-
-  characterForm = form(this.characterModel, (fieldPath) => {
-    required(fieldPath.name, { message: 'Name is required' });
-    //required(fieldPath.class, { message: 'Class is required' });
-    min(fieldPath.hp, 1, { message: 'HP must be at least 1' });
-  });
-
-  abilityScoresForm = form(this.abilityScoresModel, (fieldPath) => {
-    min(fieldPath.strength, 1);
-    min(fieldPath.dexterity, 1);
-    min(fieldPath.constitution, 1);
-    min(fieldPath.intelligence, 1);
-    min(fieldPath.wisdom, 1);
-    min(fieldPath.charisma, 1);
-  });
-
-  classForms = signal<ReturnType<typeof this.createCharacterClassForm>[]>([]);
-
-createCharacterClassForm(model: CreateCharacterClassData) {
-  return runInInjectionContext(this.injector, () => {
-    const modelSignal = signal(model);
-
-    return form(modelSignal, (input) => {
-      required(input.className, { message: 'Class name is required' });
-
-      if (modelSignal().className === 'Other') {
-        required(input.customClassName, {
-          message: 'Custom class name is required',
-        });
-      }
-
-      min(input.level, 1);
-      max(input.level, 100);
-    });
-  });
-}
-
-
-async ngOnInit() {
-  const characters = await firstValueFrom(this.characterService.getAll());
-
-  if (characters.length >= 5) {
-    this.router.navigate(['/characters']);
-    return;
+    };
   }
 
-  // Initialiser les forms de classes UNE FOIS
-  this.classForms.set(
-    this.characterClassModel().map(cc =>
-      this.createCharacterClassForm(cc)
-    )
-  );
-}
+  characterClassForms = signal<
+    ReturnType<typeof this.createCharacterClassForm>[]
+  >([this.createCharacterClassForm(this.createDefaultClass())]);
 
+  createCharacterClassForm(model: CharacterClassFormModel) {
+    return runInInjectionContext(this.injector, () => {
+      const modelSignal = signal(model);
+
+      return form(modelSignal, (input) => {
+        required(input.classType);
+
+        required(input.customClassName, {
+          when: () => modelSignal().classType === CharacterClassType.Other,
+        });
+
+        min(input.level, 1);
+        max(input.level, 20);
+      });
+    });
+  }
+
+  addClass() {
+    if (this.characterClassForms().length >= 3) return;
+
+    this.characterClassForms.update((list) => [
+      ...list,
+      this.createCharacterClassForm(this.createDefaultClass()),
+    ]);
+  }
+
+  removeClass() {
+    if (this.characterClassForms().length <= 1) return;
+    this.characterClassForms.update((list) => list.slice(0, -1));
+  }
+
+  /* ------------------ SUBMIT ------------------ */
 
   onSubmit(event: Event) {
     event.preventDefault();
 
     submit(this.characterForm, async () => {
-      const data = this.characterModel();
+      const character = await firstValueFrom(
+        this.characterService.create(this.characterModel()),
+      );
 
-      //const finalClass = data.class === 'Other' ? data.customClass.trim() : data.class;
+      await firstValueFrom(
+        this.abilityScoresService.create(character.id, this.abilityScoresModel()),
+      );
 
-      // if (!finalClass) {
-      //   return;
-      // }
+      const classesPayload: CreateCharacterClassData[] =
+        this.characterClassForms().map((f) => {
+          const value = f().value();
+          return {
+            classType: value.classType,
+            level: value.level,
+            customClassName:
+              value.classType === CharacterClassType.Other
+                ? value.customClassName.trim()
+                : undefined,
+          };
+        });
 
-      const characterPayload: CreateCharacterData = {
-        name: data.name,
-        //class: finalClass,
-        hp: data.hp,
-      };
+      await firstValueFrom(
+        this.characterClassService.create(character.id, classesPayload),
+      );
 
-      try {
-        // Create character
-        const character = await firstValueFrom(this.characterService.create(characterPayload));
-
-        // Create ability scores
-        await firstValueFrom(
-          this.abilityScoresService.create(character.id, this.abilityScoresModel()),
-        );
-
-        this.router.navigate(['/characters']);
-      } catch (err: any) {
-        if (err?.error?.error === 'CHARACTER_LIMIT_REACHED') {
-          alert('You cannot create more than 2 characters.');
-          this.router.navigate(['/characters']);
-          return;
-        }
-
-        throw err;
-      }
+      this.router.navigate(['/characters']);
     });
-  }
-
-  toggleMulticlass(event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    this.isMulticlass.set(checked);
-
-    if (!checked) {
-      this.characterClassModel.set([this.characterClassModel()[0]]);
-      this.classForms.set([this.classForms()[0]]);
-    }
-  }
-
-  addClass() {
-    if (this.classForms().length >= 3) return;
-
-    const newClass: CreateCharacterClassData = {
-      className: '',
-      customClassName: '',
-      level: 1,
-    };
-
-    this.characterClassModel.update((list) => [...list, newClass]);
-    this.classForms.update((list) => [...list, this.createCharacterClassForm(newClass)]);
   }
 }
