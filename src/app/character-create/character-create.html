@@ -88,13 +88,6 @@
               Add Class
             </button>
 
-            @if (!isTotalLevelValid()) {
-              <div class="alert alert-danger mt-3">
-                Total clas levels cannot exceed 100.
-                Current total: {{ totalClassLevel( )}}
-              </div>
-            }
-
             <button
               type="button"
               class="btn btn-danger mb-4"
@@ -104,6 +97,20 @@
               Remove Class
             </button>
 
+            @if (!isTotalLevelValid()) {
+              <div class="alert alert-danger mt-3">
+                Total clas levels cannot exceed 100. Current total: {{ totalClassLevel() }}
+              </div>
+            }
+
+            @if (isDuplicateClass()) {
+              <div class="alert alert-danger mt-3">Duplicated class are note accepted!</div>
+            }
+
+            @if (isDuplicatedCustomClass()) {
+              <div class="alert alert-danger mt-3">Custom duplicated class are note accepted!</div>
+            }
+            
             <!-- HP -->
             <div class="mb-4">
               <label class="form-label">HP</label>
@@ -126,7 +133,12 @@
               <button
                 type="submit"
                 class="btn btn-primary"
-                [disabled]="characterForm().invalid() || !isTotalLevelValid()"
+                [disabled]="
+                  characterForm().invalid() ||
+                  !isTotalLevelValid() ||
+                  isDuplicateClass() ||
+                  isDuplicatedCustomClass()
+                "
               >
                 Create character
               </button>

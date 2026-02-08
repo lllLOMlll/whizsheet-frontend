@@ -129,6 +129,29 @@ export class CharacterCreateComponent {
   );
 
   isTotalLevelValid = computed(() => this.totalClassLevel() <= 100);
+
+  isDuplicateClass = computed(() => {
+    let classesArray: CharacterClassType[] = [];
+
+    this.characterClassForms().forEach((form) => {
+      if (form().value().classType != CharacterClassType.Other) {
+        classesArray.push(form().value().classType);
+      }
+    });
+
+    return new Set(classesArray).size !== classesArray.length;
+  });
+
+  isDuplicatedCustomClass = computed(() => {
+    let customClassArray: string[] = [];
+
+    this.characterClassForms().forEach((form) => {
+      customClassArray.push(form().value().customClassName);
+    });
+
+    return new Set(customClassArray).size !== customClassArray.length;
+  });
+
   /* ------------------ SUBMIT ------------------ */
 
   onSubmit(event: Event) {
