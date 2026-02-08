@@ -1,0 +1,42 @@
+<h4 class="mt-4 mb-3">Classes</h4>
+
+@for (form of forms; track $index) {
+  <h5 class="mb-3">Class {{ $index + 1 }}</h5>
+
+  <div class="mb-3">
+    <label class="form-label">Class</label>
+    <select class="form-select" [field]="form.classType">
+      @for (c of dndClasses; track c) {
+        <option [value]="c">{{ c }}</option>
+      }
+    </select>
+  </div>
+
+  @if (form.classType().value() === CharacterClassType.Other) {
+    <div class="mb-3">
+      <label class="form-label">Custom class</label>
+      <input class="form-control" [field]="form.customClassName" />
+    </div>
+  }
+
+  <div class="mb-4">
+    <label class="form-label">Level</label>
+    <input type="number" class="form-control" [field]="form.level" />
+  </div>
+}
+
+<button class="btn btn-success me-2" type="button" (click)="addClass.emit()">Add Class</button>
+
+<button class="btn btn-danger" type="button" (click)="removeClass.emit()">Remove Class</button>
+
+@if (!isTotalLevelValid) {
+  <div class="alert alert-danger mt-3">Total class levels cannot exceed 100.</div>
+}
+
+@if (isDuplicateClass) {
+  <div class="alert alert-danger mt-3">Duplicated classes are not allowed.</div>
+}
+
+@if (isDuplicatedCustomClass) {
+  <div class="alert alert-danger mt-3">Duplicated custom classes are not allowed.</div>
+}

@@ -20,97 +20,6 @@
               }
             </div>
 
-            <!-- CLASSES AND LEVELS -->
-            <h4 class="mt-4 mb-3">Classes</h4>
-
-            @for (form of characterClassForms(); track $index) {
-              <h5 class="mb-3">Class {{ $index + 1 }}</h5>
-
-              <!-- Class -->
-              <div class="mb-3">
-                <label class="form-label">Class</label>
-
-                <select class="form-select" [field]="form.classType">
-                  <option value="">-- Choose a class --</option>
-                  @for (c of dndClasses; track c) {
-                    <option [value]="c">{{ c }}</option>
-                  }
-                </select>
-
-                @if (form.classType().invalid() && form.classType().touched()) {
-                  <div class="invalid-feedback d-block">
-                    @for (e of form.classType().errors(); track e.kind) {
-                      <div>{{ e.message }}</div>
-                    }
-                  </div>
-                }
-              </div>
-
-              <!-- Custom class -->
-              @if (form.classType().value() === 'Other') {
-                <div class="mb-3">
-                  <label class="form-label">Custom class</label>
-
-                  <input type="text" class="form-control" [field]="form.customClassName" />
-
-                  @if (form.customClassName().invalid() && form.customClassName().touched()) {
-                    <div class="invalid-feedback d-block">
-                      @for (e of form.customClassName().errors(); track e.kind) {
-                        <div>{{ e.message }}</div>
-                      }
-                    </div>
-                  }
-                </div>
-              }
-
-              <!-- Level -->
-              <div class="mb-4">
-                <label class="form-label">Level</label>
-
-                <input type="number" class="form-control" [field]="form.level" />
-
-                @if (form.level().invalid() && form.level().touched()) {
-                  <div class="invalid-feedback d-block">
-                    @for (e of form.level().errors(); track e.kind) {
-                      <div>{{ e.message }}</div>
-                    }
-                  </div>
-                }
-              </div>
-            }
-
-            <button
-              type="button"
-              class="btn btn-success mb-4 me-2"
-              (click)="addClass()"
-              [disabled]="characterClassForms().length >= 3"
-            >
-              Add Class
-            </button>
-
-            <button
-              type="button"
-              class="btn btn-danger mb-4"
-              (click)="removeClass()"
-              [disabled]="characterClassForms().length <= 1"
-            >
-              Remove Class
-            </button>
-
-            @if (!isTotalLevelValid()) {
-              <div class="alert alert-danger mt-3">
-                Total clas levels cannot exceed 100. Current total: {{ totalClassLevel() }}
-              </div>
-            }
-
-            @if (isDuplicateClass()) {
-              <div class="alert alert-danger mt-3">Duplicated class are note accepted!</div>
-            }
-
-            @if (isDuplicatedCustomClass()) {
-              <div class="alert alert-danger mt-3">Custom duplicated class are note accepted!</div>
-            }
-            
             <!-- HP -->
             <div class="mb-4">
               <label class="form-label">HP</label>
@@ -125,11 +34,25 @@
               }
             </div>
 
+            <!-- CHARACTER CLASSES -->
+            <div class="mb-4">
+              <app-character-class-form
+                [forms]="characterClassForms()"
+                [isTotalLevelValid]="isTotalLevelValid()"
+                [isDuplicateClass]="isDuplicateClass()"
+                [isDuplicatedCustomClass]="isDuplicatedCustomClass()"
+                (addClass)="addClass()"
+                (removeClass)="removeClass()"
+              />
+            </div>
+
             <!-- ABILITY SCORES -->
-            <app-ability-scores-form [form]="abilityScoresForm" />
+            <div class="mb-3">
+              <app-ability-scores-form [form]="abilityScoresForm" />
+            </div>
 
             <!-- Submit -->
-            <div class="d-grid mt-4">
+            <div class="d-grid mt-5">
               <button
                 type="submit"
                 class="btn btn-primary"

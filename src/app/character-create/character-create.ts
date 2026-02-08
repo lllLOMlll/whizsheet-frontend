@@ -6,6 +6,7 @@ import {
   EnvironmentInjector,
   runInInjectionContext,
   computed,
+  effect,
 } from '@angular/core';
 import { form, Field, required, min, max, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
@@ -20,7 +21,9 @@ import {
   DND_CLASSES,
 } from '../core/services/character-class';
 
+// SHARED FORMS
 import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
+import { CharacterClassFormComponent } from '../shared/character-class-form/character-class-form';
 
 type CharacterClassFormModel = {
   classType: CharacterClassType;
@@ -30,7 +33,7 @@ type CharacterClassFormModel = {
 
 @Component({
   selector: 'app-character-create',
-  imports: [Field, AbilityScoresFormComponent],
+  imports: [Field, AbilityScoresFormComponent, CharacterClassFormComponent],
   templateUrl: './character-create.html',
   styleUrl: './character-create.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +48,16 @@ export class CharacterCreateComponent {
   readonly dndClasses = DND_CLASSES;
   readonly CharacterClassType = CharacterClassType;
 
+  // IF I WANT TO SEE console.log IN A computed()
+    constructor() {
+    effect(() => {
+      console.log(
+        'EFFECT:',
+        this.characterClassForms().map(f => f().value().customClassName),
+        this.characterClassForms().map(f => f().value().classType)
+      );
+    });
+  }
   /* ------------------ CHARACTER ------------------ */
 
   characterModel = signal<CreateCharacterData>({
@@ -146,11 +159,15 @@ export class CharacterCreateComponent {
     let customClassArray: string[] = [];
 
     this.characterClassForms().forEach((form) => {
-      customClassArray.push(form().value().customClassName);
+      if (form().value().classType === CharacterClassType.Other) {
+        customClassArray.push(form().value().customClassName);
+      }
     });
 
     return new Set(customClassArray).size !== customClassArray.length;
   });
+
+  
 
   /* ------------------ SUBMIT ------------------ */
 
