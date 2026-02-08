@@ -1,20 +1,74 @@
-<h2>Edit Character</h2>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="mb-4 text-center">Edit character</h2>
 
-<form (submit)="onSubmit($event)">
-  <label>
-    Name
-    <input type="text" [field]="characterForm.name" />
-  </label>
+          <form (submit)="onSubmit($event)">
+            <!-- Name -->
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" [field]="characterForm.name" />
 
-  <!-- <label>
-    Class
-    <input type="text" [field]="characterForm.class" />
-  </label> -->
+              @if (characterForm.name().invalid() && characterForm.name().touched()) {
+                <div class="invalid-feedback d-block">
+                  @for (e of characterForm.name().errors(); track e.kind) {
+                    <div>{{ e.message }}</div>
+                  }
+                </div>
+              }
+            </div>
 
-  <label>
-    HP
-    <input type="number" [field]="characterForm.hp" />
-  </label>
+            <!-- HP -->
+            <div class="mb-4">
+              <label class="form-label">HP</label>
+              <input type="number" class="form-control" [field]="characterForm.hp" />
 
-  <button type="submit" [disabled]="characterForm().invalid()">Save</button>
-</form>
+              @if (characterForm.hp().invalid() && characterForm.hp().touched()) {
+                <div class="invalid-feedback d-block">
+                  @for (e of characterForm.hp().errors(); track e.kind) {
+                    <div>{{ e.message }}</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- CHARACTER CLASSES -->
+            <!-- <div class="mb-4">
+              <app-character-class-form
+                [forms]="characterClassForms()"
+                [isTotalLevelValid]="isTotalLevelValid()"
+                [isDuplicateClass]="isDuplicateClass()"
+                [isDuplicatedCustomClass]="isDuplicatedCustomClass()"
+                (addClass)="addClass()"
+                (removeClass)="removeClass()"
+              />
+            </div> -->
+
+            <!-- ABILITY SCORES -->
+            <!-- <div class="mb-3">
+              <app-ability-scores-form [form]="abilityScoresForm" />
+            </div> -->
+
+            <!-- Submit -->
+              <!-- <div class="d-grid mt-5">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="
+                    characterForm().invalid() ||
+                    !isTotalLevelValid() ||
+                    isDuplicateClass() ||
+                    isDuplicatedCustomClass()
+                  "
+                >
+                  Create character
+                </button>
+              </div> -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

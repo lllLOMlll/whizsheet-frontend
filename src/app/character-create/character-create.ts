@@ -49,15 +49,15 @@ export class CharacterCreateComponent {
   readonly CharacterClassType = CharacterClassType;
 
   // IF I WANT TO SEE console.log IN A computed()
-    constructor() {
-    effect(() => {
-      console.log(
-        'EFFECT:',
-        this.characterClassForms().map(f => f().value().customClassName),
-        this.characterClassForms().map(f => f().value().classType)
-      );
-    });
-  }
+  //   constructor() {
+  //   effect(() => {
+  //     console.log(
+  //       'EFFECT:',
+  //       this.characterClassForms().map(f => f().value().customClassName),
+  //       this.characterClassForms().map(f => f().value().classType)
+  //     );
+  //   });
+  // }
   /* ------------------ CHARACTER ------------------ */
 
   characterModel = signal<CreateCharacterData>({

@@ -19,14 +19,12 @@ export class CharacterEditComponent {
 
   model = signal({
     name: '',
-    //class: '',
     hp: 1,
   });
 
   // Parentheses optionnal arond the f => or (f) =>
   characterForm = form(this.model, (f) => {
     required(f.name);
-    //required(f.class);
     required(f.hp);
   });
 
@@ -36,7 +34,6 @@ export class CharacterEditComponent {
 
     this.model.set({
       name: character.name,
-      //class: character.class,
       hp: character.hp,
     });
   }
