@@ -5,6 +5,7 @@ import {
   inject,
   EnvironmentInjector,
   runInInjectionContext,
+  computed,
 } from '@angular/core';
 import { form, Field, required, min, max, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
@@ -80,15 +81,15 @@ export class CharacterCreateComponent {
 
   private createDefaultClass(): CharacterClassFormModel {
     return {
-      classType: CharacterClassType.Fighter,
+      classType: CharacterClassType.Artificer,
       customClassName: '',
       level: 1,
     };
   }
 
-  characterClassForms = signal<
-    ReturnType<typeof this.createCharacterClassForm>[]
-  >([this.createCharacterClassForm(this.createDefaultClass())]);
+  characterClassForms = signal<ReturnType<typeof this.createCharacterClassForm>[]>([
+    this.createCharacterClassForm(this.createDefaultClass()),
+  ]);
 
   createCharacterClassForm(model: CharacterClassFormModel) {
     return runInInjectionContext(this.injector, () => {
@@ -121,36 +122,36 @@ export class CharacterCreateComponent {
     this.characterClassForms.update((list) => list.slice(0, -1));
   }
 
+  totalClassLevel = computed(() =>
+    this.characterClassForms().reduce((sum, f) => {
+      return sum + f().value().level;
+    }, 0),
+  );
+
+  isTotalLevelValid = computed(() => this.totalClassLevel() <= 100);
   /* ------------------ SUBMIT ------------------ */
 
   onSubmit(event: Event) {
     event.preventDefault();
 
     submit(this.characterForm, async () => {
-      const character = await firstValueFrom(
-        this.characterService.create(this.characterModel()),
-      );
+      const character = await firstValueFrom(this.characterService.create(this.characterModel()));
 
       await firstValueFrom(
         this.abilityScoresService.create(character.id, this.abilityScoresModel()),
       );
 
-      const classesPayload: CreateCharacterClassData[] =
-        this.characterClassForms().map((f) => {
-          const value = f().value();
-          return {
-            classType: value.classType,
-            level: value.level,
-            customClassName:
-              value.classType === CharacterClassType.Other
-                ? value.customClassName.trim()
-                : undefined,
-          };
-        });
+      const classesPayload: CreateCharacterClassData[] = this.characterClassForms().map((f) => {
+        const value = f().value();
+        return {
+          classType: value.classType,
+          level: value.level,
+          customClassName:
+            value.classType === CharacterClassType.Other ? value.customClassName.trim() : undefined,
+        };
+      });
 
-      await firstValueFrom(
-        this.characterClassService.create(character.id, classesPayload),
-      );
+      await firstValueFrom(this.characterClassService.create(character.id, classesPayload));
 
       this.router.navigate(['/characters']);
     });

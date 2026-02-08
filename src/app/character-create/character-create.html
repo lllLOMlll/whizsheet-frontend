@@ -88,6 +88,13 @@
               Add Class
             </button>
 
+            @if (!isTotalLevelValid()) {
+              <div class="alert alert-danger mt-3">
+                Total clas levels cannot exceed 100.
+                Current total: {{ totalClassLevel( )}}
+              </div>
+            }
+
             <button
               type="button"
               class="btn btn-danger mb-4"
@@ -116,7 +123,11 @@
 
             <!-- Submit -->
             <div class="d-grid mt-4">
-              <button type="submit" class="btn btn-primary" [disabled]="characterForm().invalid()">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="characterForm().invalid() || !isTotalLevelValid()"
+              >
                 Create character
               </button>
             </div>
