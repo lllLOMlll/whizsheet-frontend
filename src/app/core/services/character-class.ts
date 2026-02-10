@@ -71,4 +71,10 @@ export class CharacterClassService {
     return this.http.post<CharacterClassData[]>(
       `${this.baseUrl}/${characterId}/classes`, data);
   }
+
+  get(characterId: number) {
+    return this.http.get<CharacterClassData[]>(
+      `${this.baseUrl}/${characterId}/classes`
+    );
+  }
 }

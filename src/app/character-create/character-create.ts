@@ -8,7 +8,7 @@ import {
   computed,
   effect,
 } from '@angular/core';
-import { form, Field, required, min, max, submit } from '@angular/forms/signals';
+import { Field, form,  min, max, required, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
