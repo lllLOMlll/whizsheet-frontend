@@ -170,10 +170,8 @@ app-root {
    ========================= */
 
 .page-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 3rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .page-title {
@@ -247,7 +245,7 @@ app-root {
 }
 
 .btn-select:hover {
-  opacity: 0.85;
+  opacity: 0.5;
 }
 
 /* Edit (WHITE / NEUTRAL) */
@@ -259,7 +257,7 @@ app-root {
 
 .btn-edit:hover {
   background-color: var(--surface);
-  opacity: 0.85;
+  opacity: 0.5;
 }
 
 /* Delete (RED) */
@@ -269,7 +267,7 @@ app-root {
 }
 
 .btn-danger:hover {
-  opacity: 0.85;
+  opacity: 0.5;
 }
 
 /* =========================
