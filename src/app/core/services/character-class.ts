@@ -3,11 +3,30 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CreateCharacterData } from './character';
 
-export interface CharacterClassData {
-  id: number;
-  className: string;
+
+export type CharacterClassModel = {
+  id?: number;
+  classType: CharacterClassType;
   customClassName: string;
   level: number;
+};
+
+
+// export interface CharacterClassData {
+//   id: number;
+//   className: string;
+//   customClassName: string;
+//   level: number;
+// }
+
+// ... (gardez les imports et CharacterClassModel tel quel)
+
+export interface CharacterClassData {
+  id: number;
+  classType: CharacterClassType; // Correction : était className
+  customClassName: string | null; // Correction : accepter null depuis l'API
+  level: number;
+  displayName?: string; // Ajouté pour correspondre au JSON de l'API
 }
 
 export interface UpdateCharacterClassData {
@@ -41,23 +60,25 @@ export enum CharacterClassType {
   Other = 'Other',
 }
 
-export const DND_CLASSES = [
-  'Artificer',
-  'Barbarian',
-  'Bard',
-  'BloodHunter',
-  'Cleric',
-  'Druid',
-  'Fighter',
-  'Monk',
-  'Paladin',
-  'Ranger',
-  'Rogue',
-  'Sorcerer',
-  'Warlock',
-  'Wizard',
-  'Other',
-] as const;
+// export const DND_CLASSES = [
+//   'Artificer',
+//   'Barbarian',
+//   'Bard',
+//   'BloodHunter',
+//   'Cleric',
+//   'Druid',
+//   'Fighter',
+//   'Monk',
+//   'Paladin',
+//   'Ranger',
+//   'Rogue',
+//   'Sorcerer',
+//   'Warlock',
+//   'Wizard',
+//   'Other',
+// ] as const;
+
+export const DND_CLASSES = Object.values(CharacterClassType)
 
 @Injectable({
   providedIn: 'root',

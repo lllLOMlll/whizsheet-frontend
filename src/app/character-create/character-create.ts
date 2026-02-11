@@ -1,63 +1,44 @@
 import {
   Component,
-  signal,
   ChangeDetectionStrategy,
-  inject,
-  EnvironmentInjector,
-  runInInjectionContext,
   computed,
-  effect,
+  inject,
+  signal,
 } from '@angular/core';
-import { Field, form,  min, max, required, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
+import { Field, form, min, required, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 
 import { CharacterService, CreateCharacterData } from '../core/services/character';
 import { AbilityScoresService, AbilityScores } from '../core/services/ability-scores';
 import {
+  CharacterClassModel,
   CharacterClassService,
   CreateCharacterClassData,
   CharacterClassType,
-  DND_CLASSES,
 } from '../core/services/character-class';
 
-// SHARED FORMS
 import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
-import { CharacterClassFormComponent } from '../shared/character-class-form/character-class-form';
-
-type CharacterClassFormModel = {
-  classType: CharacterClassType;
-  customClassName: string;
-  level: number;
-};
+import { CharacterClassItemComponent } from '../shared/character-class-item/character-class-item';
 
 @Component({
   selector: 'app-character-create',
-  imports: [Field, AbilityScoresFormComponent, CharacterClassFormComponent],
+  standalone: true,
+  imports: [
+    Field,
+    AbilityScoresFormComponent,
+    CharacterClassItemComponent,
+  ],
   templateUrl: './character-create.html',
   styleUrl: './character-create.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterCreateComponent {
+  private router = inject(Router);
   private characterService = inject(CharacterService);
   private abilityScoresService = inject(AbilityScoresService);
   private characterClassService = inject(CharacterClassService);
-  private router = inject(Router);
-  private injector = inject(EnvironmentInjector);
 
-  readonly dndClasses = DND_CLASSES;
-  readonly CharacterClassType = CharacterClassType;
-
-  // IF I WANT TO SEE console.log IN A computed()
-  //   constructor() {
-  //   effect(() => {
-  //     console.log(
-  //       'EFFECT:',
-  //       this.characterClassForms().map(f => f().value().customClassName),
-  //       this.characterClassForms().map(f => f().value().classType)
-  //     );
-  //   });
-  // }
   /* ------------------ CHARACTER ------------------ */
 
   characterModel = signal<CreateCharacterData>({
@@ -65,12 +46,12 @@ export class CharacterCreateComponent {
     hp: 1,
   });
 
-  characterForm = form(this.characterModel, (f) => {
+  characterForm = form(this.characterModel, f => {
     required(f.name);
     min(f.hp, 1);
   });
 
-  /* ------------------ ABILITIES ------------------ */
+  /* ------------------ ABILITY SCORES ------------------ */
 
   abilityScoresModel = signal<AbilityScores>({
     strength: 10,
@@ -81,7 +62,7 @@ export class CharacterCreateComponent {
     charisma: 10,
   });
 
-  abilityScoresForm = form(this.abilityScoresModel, (f) => {
+  abilityScoresForm = form(this.abilityScoresModel, f => {
     min(f.strength, 1);
     min(f.dexterity, 1);
     min(f.constitution, 1);
@@ -90,84 +71,67 @@ export class CharacterCreateComponent {
     min(f.charisma, 1);
   });
 
-  /* ------------------ CLASSES ------------------ */
+  /* ------------------ CLASSES (DOMAIN STATE) ------------------ */
 
-  private createDefaultClass(): CharacterClassFormModel {
-    return {
+  characterClasses = signal<CharacterClassModel[]>([
+    {
       classType: CharacterClassType.Artificer,
       customClassName: '',
       level: 1,
-    };
-  }
-
-  characterClassForms = signal<ReturnType<typeof this.createCharacterClassForm>[]>([
-    this.createCharacterClassForm(this.createDefaultClass()),
+    },
   ]);
 
-  createCharacterClassForm(model: CharacterClassFormModel) {
-    return runInInjectionContext(this.injector, () => {
-      const modelSignal = signal(model);
-
-      return form(modelSignal, (input) => {
-        required(input.classType);
-
-        required(input.customClassName, {
-          when: () => modelSignal().classType === CharacterClassType.Other,
-        });
-
-        min(input.level, 1);
-        max(input.level, 20);
-      });
-    });
-  }
-
   addClass() {
-    if (this.characterClassForms().length >= 3) return;
+    if (this.characterClasses().length >= 3) return;
 
-    this.characterClassForms.update((list) => [
+    this.characterClasses.update(list => [
       ...list,
-      this.createCharacterClassForm(this.createDefaultClass()),
+      {
+        classType: CharacterClassType.Artificer,
+        customClassName: '',
+        level: 1,
+      },
     ]);
   }
 
-  removeClass() {
-    if (this.characterClassForms().length <= 1) return;
-    this.characterClassForms.update((list) => list.slice(0, -1));
+  updateClass(index: number, updated: CharacterClassModel) {
+    this.characterClasses.update(list => {
+      const copy = [...list];
+      copy[index] = updated;
+      return copy;
+    });
   }
 
+  removeClass(index: number) {
+    this.characterClasses.update(list =>
+      list.filter((_, i) => i !== index),
+    );
+  }
+
+  /* ------------------ VALIDATIONS ------------------ */
+
   totalClassLevel = computed(() =>
-    this.characterClassForms().reduce((sum, f) => {
-      return sum + f().value().level;
-    }, 0),
+    this.characterClasses().reduce((sum, c) => sum + c.level, 0),
   );
 
   isTotalLevelValid = computed(() => this.totalClassLevel() <= 100);
 
   isDuplicateClass = computed(() => {
-    let classesArray: CharacterClassType[] = [];
+    const classes = this.characterClasses()
+      .filter(c => c.classType !== CharacterClassType.Other)
+      .map(c => c.classType);
 
-    this.characterClassForms().forEach((form) => {
-      if (form().value().classType != CharacterClassType.Other) {
-        classesArray.push(form().value().classType);
-      }
-    });
-
-    return new Set(classesArray).size !== classesArray.length;
+    return new Set(classes).size !== classes.length;
   });
 
   isDuplicatedCustomClass = computed(() => {
-    let customClassArray: string[] = [];
+    const customs = this.characterClasses()
+      .filter(c => c.classType === CharacterClassType.Other)
+      .map(c => c.customClassName.trim())
+      .filter(Boolean);
 
-    this.characterClassForms().forEach((form) => {
-      if (form().value().classType === CharacterClassType.Other) {
-        customClassArray.push(form().value().customClassName);
-      }
-    });
-
-    return new Set(customClassArray).size !== customClassArray.length;
+    return new Set(customs).size !== customs.length;
   });
-
-  
 
   /* ------------------ SUBMIT ------------------ */
 
@@ -175,23 +139,33 @@ export class CharacterCreateComponent {
     event.preventDefault();
 
     submit(this.characterForm, async () => {
-      const character = await firstValueFrom(this.characterService.create(this.characterModel()));
-
-      await firstValueFrom(
-        this.abilityScoresService.create(character.id, this.abilityScoresModel()),
+      const character = await firstValueFrom(
+        this.characterService.create(this.characterModel()),
       );
 
-      const classesPayload: CreateCharacterClassData[] = this.characterClassForms().map((f) => {
-        const value = f().value();
-        return {
-          classType: value.classType,
-          level: value.level,
-          customClassName:
-            value.classType === CharacterClassType.Other ? value.customClassName.trim() : undefined,
-        };
-      });
+      await firstValueFrom(
+        this.abilityScoresService.create(
+          character.id,
+          this.abilityScoresModel(),
+        ),
+      );
 
-      await firstValueFrom(this.characterClassService.create(character.id, classesPayload));
+      const classesPayload: CreateCharacterClassData[] =
+        this.characterClasses().map(c => ({
+          classType: c.classType,
+          level: c.level,
+          customClassName:
+            c.classType === CharacterClassType.Other
+              ? c.customClassName.trim()
+              : undefined,
+        }));
+
+      await firstValueFrom(
+        this.characterClassService.create(
+          character.id,
+          classesPayload,
+        ),
+      );
 
       this.router.navigate(['/characters']);
     });

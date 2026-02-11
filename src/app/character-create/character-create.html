@@ -6,10 +6,14 @@
           <h2 class="mb-4 text-center">Create character</h2>
 
           <form (submit)="onSubmit($event)">
-            <!-- Name -->
+            <!-- NAME -->
             <div class="mb-3">
               <label class="form-label">Name</label>
-              <input type="text" class="form-control" [field]="characterForm.name" />
+              <input
+                type="text"
+                class="form-control"
+                [field]="characterForm.name"
+              />
 
               @if (characterForm.name().invalid() && characterForm.name().touched()) {
                 <div class="invalid-feedback d-block">
@@ -23,7 +27,11 @@
             <!-- HP -->
             <div class="mb-4">
               <label class="form-label">HP</label>
-              <input type="number" class="form-control" [field]="characterForm.hp" />
+              <input
+                type="number"
+                class="form-control"
+                [field]="characterForm.hp"
+              />
 
               @if (characterForm.hp().invalid() && characterForm.hp().touched()) {
                 <div class="invalid-feedback d-block">
@@ -34,24 +42,54 @@
               }
             </div>
 
-            <!-- CHARACTER CLASSES -->
+            <!-- CLASSES -->
             <div class="mb-4">
-              <app-character-class-form
-                [forms]="characterClassForms()"
-                [isTotalLevelValid]="isTotalLevelValid()"
-                [isDuplicateClass]="isDuplicateClass()"
-                [isDuplicatedCustomClass]="isDuplicatedCustomClass()"
-                (addClass)="addClass()"
-                (removeClass)="removeClass()"
-              />
+              <h4 class="mb-3">Classes</h4>
+
+              @for (cls of characterClasses(); track $index) {
+                <app-character-class-item
+                  [model]="cls"
+                  (updated)="updateClass($index, $event)"
+                  (removed)="removeClass($index)"
+                />
+                <hr class="my-3" />
+              }
+
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="addClass()"
+                [disabled]="characterClasses().length >= 3"
+              >
+                Add class
+              </button>
             </div>
 
+            <!-- CLASSES VALIDATION -->
+            @if (!isTotalLevelValid()) {
+              <div class="alert alert-danger">
+                Total class levels cannot exceed 100.
+              </div>
+            }
+
+            @if (isDuplicateClass()) {
+              <div class="alert alert-danger">
+                Duplicated classes are not allowed.
+              </div>
+            }
+
+            @if (isDuplicatedCustomClass()) {
+              <div class="alert alert-danger">
+                Duplicated custom classes are not allowed.
+              </div>
+            }
+
             <!-- ABILITY SCORES -->
-            <div class="mb-3">
+            <div class="mb-4">
               <app-ability-scores-form [form]="abilityScoresForm" />
             </div>
 
-            <!-- Submit -->
+            <!-- SUBMIT -->
             <div class="d-grid mt-5">
               <button
                 type="submit"
