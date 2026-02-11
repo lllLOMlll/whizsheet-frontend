@@ -35,4 +35,9 @@ export class AbilityScoresService {
   get(characterId: number) {
     return this.http.get<AbilityScores>(`${this.baseUrl}/${characterId}/ability-scores`);
   }
+
+  update(characterId: number, data: AbilityScores)
+  {
+    return this.http.put<AbilityScores>(`${this.baseUrl}/${characterId}/ability-scores`, data);
+  }
 }

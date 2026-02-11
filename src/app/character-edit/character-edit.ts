@@ -162,6 +162,8 @@ export class CharacterEditComponent {
 
       await firstValueFrom(this.characterService.update(id, this.characterModel()));
 
+      await firstValueFrom(this.abilityScoresService.update(id, this.abilityScoresModel()));
+      
       const payload: CreateCharacterClassData[] = this.characterClasses().map((c) => ({
         classType: c.classType,
         level: c.level,
@@ -169,7 +171,7 @@ export class CharacterEditComponent {
           c.classType === CharacterClassType.Other ? c.customClassName.trim() : undefined,
       }));
 
-      await firstValueFrom(this.characterClassService.create(id, payload));
+      await firstValueFrom(this.characterClassService.update(id, payload));
 
       this.router.navigate(['/characters']);
     });

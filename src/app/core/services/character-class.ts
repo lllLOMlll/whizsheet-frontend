@@ -90,12 +90,20 @@ export class CharacterClassService {
 
   create(characterId: number, data: CreateCharacterClassData[]) {
     return this.http.post<CharacterClassData[]>(
-      `${this.baseUrl}/${characterId}/classes`, data);
+      `${this.baseUrl}/${characterId}/classes`, data
+    );
   }
 
   get(characterId: number) {
     return this.http.get<CharacterClassData[]>(
       `${this.baseUrl}/${characterId}/classes`
+    );
+  }
+
+  update(characterId: number, data: CreateCharacterClassData[])
+  {
+    return this.http.put<CharacterClassData[]>(
+      `${this.baseUrl}/${characterId}/classes`, data
     );
   }
 }
