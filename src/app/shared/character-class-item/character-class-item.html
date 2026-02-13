@@ -19,7 +19,7 @@
       <input
         type="text"
         class="form-control"
-        [value]="model().customClassName ?? ''"
+        [value]="model().customClassName"
         (input)="update({ customClassName: $any($event.target).value })"
       />
     </div>

@@ -39,5 +39,17 @@
     <li>
       <a routerLink="/characters/create" routerLinkActive="active"> Create character </a>
     </li>
+
+    @if (activeCharacterId()) {
+      <hr />
+      <li>
+        <a 
+          [routerLink]="['/characters', activeCharacterId()]"
+          routerLinkActive="active"
+          >
+          {{ activeCharacter()?.name }}
+        </a>        
+      </li>
+    }
   </ul>
 </nav>

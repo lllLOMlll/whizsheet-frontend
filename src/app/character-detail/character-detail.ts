@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CharacterService, Character } from '../core/services/character';
 
-
 @Component({
   selector: 'app-character-detail',
   imports: [],
@@ -16,6 +15,12 @@ export class CharacterDetailComponent {
   character = signal<Character | null>(null);
   isLoading = signal(true);
 
+  constructor() {
+    // Dès que l'ID change dans l'URL de cette page, on met à jour le service
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.characterService.activeCharacterId.set(id);
+  }
+
   ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
     const id = Number(idParam);
@@ -25,9 +30,11 @@ export class CharacterDetailComponent {
       return;
     }
 
-  this.characterService.getById(id).subscribe({
-      next: character => {
+    this.characterService.getById(id).subscribe({
+      next: (character) => {
         this.character.set(character);
+        // Charger mon character pour le characterService
+        this.characterService.activeCharacter.set(character);
         this.isLoading.set(false);
       },
       error: () => {
@@ -35,6 +42,5 @@ export class CharacterDetailComponent {
         this.isLoading.set(false);
       },
     });
-
   }
 }

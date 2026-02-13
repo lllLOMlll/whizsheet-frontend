@@ -133,6 +133,12 @@ export class CharacterCreateComponent {
     return new Set(customs).size !== customs.length;
   });
 
+  /* ------------------ INIT --------------------- */
+  ngOnInit() {
+    this.characterService.activeCharacterId.set(null);
+    this.characterService.activeCharacter.set(null);
+  }
+
   /* ------------------ SUBMIT ------------------ */
 
   onSubmit(event: Event) {

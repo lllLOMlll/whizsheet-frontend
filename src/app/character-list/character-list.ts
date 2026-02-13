@@ -10,15 +10,21 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './character-list.css',
 })
 export class CharacterListComponent {
-  private service = inject(CharacterService);
+  private characterService = inject(CharacterService);
   private router = inject(Router);
 
+
+  
   characters = signal<Character[]>([]);
   isCharactersListEmpty = computed(() => this.characters().length === 0);
   maxCharactersReached = computed(()=> this.characters().length >= 5);
 
   ngOnInit() {
-    this.service.getAll().subscribe((data) => this.characters.set(data));
+    this.characterService.activeCharacterId.set(null);
+    this.characterService.activeCharacter.set(null);
+
+    this.characterService.getAll().subscribe((data) => this.characters.set(data));
+
   }
   
   viewCharacter(id: number){
@@ -44,7 +50,7 @@ export class CharacterListComponent {
     if (!confirm(`Are you sure you want to delete ${characterName}`)) {
       return;
     }
-    await firstValueFrom(this.service.delete(id));
+    await firstValueFrom(this.characterService.delete(id));
 
     // Local update (the page dont recharge)
     // On ne fait pas this.loadCharacters();
