@@ -1,7 +1,33 @@
-@if (character()) {
-    <h2>{{ character()!.name }}</h2>
+@if (store.isLoading()) {
+  <div class="page-center text-center">
+    <p>Loading character details...</p>
+  </div>
+} @else if (store.character()) {
+  <div class="page-center">
+    <h2 class="page-title text-center">
+      {{ store.character()?.name }}
+      
+      <ul class="class-list-subtitle">
+        @for (c of store.sortedClasses(); track c.id) {
+          <li>
+            {{ c.customClassName || c.classType }} - {{ c.level }}
+          </li>
+        }
+      </ul>
+    </h2>
 
-    <p>Class:</p>
-    <!-- <p>Class: {{ character()!.class }}</p> -->
-    <p>HP: {{ character()!.hp }}</p>
+    <div class="list card card-body">
+      <div class="list-row single">
+        <div class="list-main">
+          <strong>Hit Points</strong>
+          <span>{{ store.character()?.hp }}</span>
+        </div>
+      </div>
+
+      </div>
+  </div>
+} @else if (store.error()) {
+  <div class="page-center text-center">
+    <p class="text-danger">{{ store.error() }}</p>
+  </div>
 }
