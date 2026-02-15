@@ -34,7 +34,7 @@ export class CharacterAbilityScores {
     this.selectedStat.set(statName as keyof AbilityScores);
     this.isModalOpen.set(true);
   }
-  
+
   updateStat(newValue: number) {
     const stat = this.selectedStat();
     const currentAbilities = this.characterStore.abilities();

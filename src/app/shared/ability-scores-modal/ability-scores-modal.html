@@ -1,4 +1,4 @@
-<dialog #dialogElement (close)="close.emit()">
+<dialog #dialogElement (close)="close.emit()" (click)="onClickOutside($event, dialogElement)">
   <div class="modal-content">
     <h3>Modifier {{ label() }}</h3>
     <input type="number" [(ngModel)]="tempValue" class="form-control" />

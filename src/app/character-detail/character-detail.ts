@@ -11,7 +11,7 @@ import { AbilityScores } from '../core/services/ability-scores';
 @Component({
   selector: 'app-character-detail',
   standalone: true,
-  imports: [CommonModule, CharacterLayout, AbilityScoreCard],
+  imports: [CommonModule, CharacterLayout],
   templateUrl: './character-detail.html',
   styleUrl: './character-detail.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

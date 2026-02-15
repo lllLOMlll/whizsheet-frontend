@@ -19,17 +19,11 @@ export interface AbilityScores {
 
 export interface UpdateAbilityScoresData {
   strength: number;
-  strengthModifier: number;
   dexterity: number;
-  dexterityModifier: number;
   constitution: number;
-  constitutionModifier: number;
   intelligence: number;
-  intelligenceModifier: number
   wisdom: number;
-  wisdomModifier: number;
   charisma: number;
-  charismaModifier: number;
 }
 
 @Injectable({
@@ -40,7 +34,7 @@ export class AbilityScoresService {
 
   private readonly baseUrl = `${environment.apiBaseUrl}/characters`;
 
-  create(characterId: number, data: AbilityScores) {
+  create(characterId: number, data: UpdateAbilityScoresData) {
     return this.http.post<AbilityScores>(`${this.baseUrl}/${characterId}/ability-scores`, data);
   }
 
@@ -48,7 +42,8 @@ export class AbilityScoresService {
     return this.http.get<AbilityScores>(`${this.baseUrl}/${characterId}/ability-scores`);
   }
 
-  update(characterId: number, data: AbilityScores)
+  update(characterId: number, data: UpdateAbilityScoresData)
+
   {
     return this.http.put<AbilityScores>(`${this.baseUrl}/${characterId}/ability-scores`, data);
   }

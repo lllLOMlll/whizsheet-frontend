@@ -18,7 +18,7 @@ export class AbilityScoresModal {
   dialog = viewChild<ElementRef<HTMLDialogElement>>('dialogElement');
   tempValue = 0;
 
-constructor() {
+  constructor() {
     effect(() => {
       if (this.isOpen()) {
         this.tempValue = this.value();
@@ -27,5 +27,18 @@ constructor() {
         this.dialog()?.nativeElement.close();
       }
     });
+  }
+
+  onClickOutside(event: MouseEvent, dialog: HTMLDialogElement) {
+    const rect = dialog.getBoundingClientRect();
+    const isInDialog =
+      event.clientX >= rect.left &&
+      event.clientX <= rect.right &&
+      event.clientY >= rect.top &&
+      event.clientY <= rect.bottom;
+
+    if (!isInDialog) {
+      dialog.close();
+    }
   }
 }

@@ -10,7 +10,7 @@ import { Field, form, min, required, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 
 import { CharacterService, CreateCharacterData } from '../core/services/character';
-import { AbilityScoresService, AbilityScores } from '../core/services/ability-scores';
+import { AbilityScoresService, AbilityScores, UpdateAbilityScoresData } from '../core/services/ability-scores';
 import {
   CharacterClassModel,
   CharacterClassService,
@@ -55,7 +55,7 @@ export class CharacterCreateComponent {
 
   /* ------------------ ABILITY SCORES ------------------ */
 
-  abilityScoresModel = signal<AbilityScores>({
+  abilityScoresModel = signal<UpdateAbilityScoresData>({
     strength: 10,
     dexterity: 10,
     constitution: 10,
