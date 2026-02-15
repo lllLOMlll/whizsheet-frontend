@@ -1,0 +1,7 @@
+<div class="ability-card" (click)="edit.emit()">
+  <span class="ability-label">{{ label() }}</span>
+  <button class="ability-value-btn">
+    {{ value() }}
+  </button>
+  <small class="modifier">{{ calculateModifier(value()) }}</small>
+</div>

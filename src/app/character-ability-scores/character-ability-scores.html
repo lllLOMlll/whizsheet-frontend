@@ -1,1 +1,17 @@
-<p>character-ability-scores works!</p>
+<app-character-layout>
+  <div class="ability-grid">
+    <app-ability-score-card
+      label="Strength"
+      [value]="characterStore.abilities()?.strength || 0"
+      (edit)="openModal('strength')"
+    />
+  </div>
+
+  <app-ability-scores-modal
+    [isOpen]="isModalOpen()"
+    [label]="selectedStat() || ''"
+    [value]="characterStore.abilities()?.[selectedStat()!] || 0"
+    (save)="updateStat($event)"
+    (close)="isModalOpen.set(false)"
+  />
+</app-character-layout>

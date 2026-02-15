@@ -1,0 +1,12 @@
+<dialog #dialogElement (close)="close.emit()">
+  <div class="modal-content">
+    <h3>Modifier {{ label() }}</h3>
+    <input type="number" [(ngModel)]="tempValue" class="form-control" />
+    <div class="modal-actions">
+      <button (click)="dialogElement.close()">Annuler</button>
+      <button (click)="save.emit(tempValue); dialogElement.close()" class="btn-primary">
+        Enregistrer
+      </button>
+    </div>
+  </div>
+</dialog>

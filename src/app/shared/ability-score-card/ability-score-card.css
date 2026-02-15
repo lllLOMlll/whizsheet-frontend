@@ -1,0 +1,53 @@
+:host {
+  display: block;
+}
+
+.ability-card {
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.ability-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  border-color: var(--success);
+}
+
+.ability-label {
+  display: block;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.ability-value-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #222;
+  cursor: pointer;
+  padding: 0;
+  display: block;
+  margin: 0 auto;
+}
+
+.modifier {
+  display: inline-block;
+  margin-top: 5px;
+  background: #f4f4f4;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  color: #444;
+  border: 1px solid #ddd;
+}
