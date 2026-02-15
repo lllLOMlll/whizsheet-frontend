@@ -21,6 +21,7 @@ export const routes: Routes = [
   // Public
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'auth-redirect', component: AuthRedirectComponent},
   { path: 'check-email', component: CheckEmailComponent },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'email-confirmed', component: EmailConfirmedComponent },
