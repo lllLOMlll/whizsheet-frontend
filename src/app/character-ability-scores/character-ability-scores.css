@@ -1,0 +1,8 @@
+.ability-grid {
+  display: flex;
+  flex-wrap: wrap;       /* Permet de passer à la ligne si l'écran est trop petit */
+  gap: 15px;             /* Espace entre les cartes */
+  justify-content: center; /* Centre les cartes horizontalement */
+  padding: 20px;
+  width: 100%;
+}

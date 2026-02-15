@@ -22,7 +22,6 @@ export class CharacterAbilityScores {
 
 
   ngOnInit() {
-    // Dois-je vraiment charger cela à chaque clic
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     if (!isNaN(id)) {

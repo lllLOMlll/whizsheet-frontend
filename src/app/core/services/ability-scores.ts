@@ -14,7 +14,7 @@ export interface AbilityScores {
   wisdom: number;
   wisdomModifier: number;
   charisma: number;
-  charimaModifier: number;
+  charismaModifier: number;
 }
 
 export interface UpdateAbilityScoresData {

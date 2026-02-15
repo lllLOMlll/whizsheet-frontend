@@ -7,6 +7,40 @@
       (edit)="openModal('strength')"
     />
 
+    <app-ability-score-card
+    label="Dexterity"
+    [value]="characterStore.abilities()?.dexterity || 0"
+    [modifier]="characterStore.abilities()?.dexterityModifier || 0"
+    (edit)="openModal('dexterity')"
+    />
+
+    <app-ability-score-card
+    label="Constitution"
+    [value]="characterStore.abilities()?.constitution || 0"
+    [modifier]="characterStore.abilities()?.constitutionModifier || 0"
+    (edit)="openModal('constitution')"
+    />
+
+    <app-ability-score-card
+    label="Intelligence"
+    [value]="characterStore.abilities()?.intelligence || 0"
+    [modifier]="characterStore.abilities()?.intelligenceModifier || 0"    
+    (edit)="openModal('intelligence')"
+    />
+
+    <app-ability-score-card
+      label="Wisdom"
+      [value]="characterStore.abilities()?.wisdom || 0"
+      [modifier]="characterStore.abilities()?.wisdomModifier || 0"
+      (edit)="openModal('wisdom')"
+    />
+
+    <app-ability-score-card
+      label="Charisma"
+      [value]="characterStore.abilities()?.charisma || 0"
+      [modifier]="characterStore.abilities()?.charismaModifier  || 0"
+      (edit)="openModal('charisma')"
+    />
     
   </div>
 

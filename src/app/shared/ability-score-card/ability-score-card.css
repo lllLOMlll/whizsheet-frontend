@@ -1,5 +1,5 @@
 :host {
-  display: block;
+  display: inline-block; /* Très important pour que les cartes s'alignent */
 }
 
 .ability-card {
@@ -7,24 +7,29 @@
   border: 2px solid #333;
   border-radius: 8px;
   padding: 10px;
-  width: 100px;
+  width: 110px;          /* Ta largeur souhaitée */
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  
+  /* Flexbox interne pour aligner le contenu verticalement */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .ability-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-  border-color: var(--success);
+  border-color: #6366f1; /* Couleur d'accentuation */
 }
 
 .ability-label {
   display: block;
   font-weight: bold;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: #666;
   margin-bottom: 5px;
 }
@@ -37,7 +42,6 @@
   color: #222;
   cursor: pointer;
   padding: 0;
-  display: block;
   margin: 0 auto;
 }
 
@@ -45,9 +49,10 @@
   display: inline-block;
   margin-top: 5px;
   background: #f4f4f4;
-  padding: 2px 8px;
+  padding: 2px 10px;
   border-radius: 12px;
   font-weight: bold;
   color: #444;
   border: 1px solid #ddd;
+  min-width: 40px;
 }

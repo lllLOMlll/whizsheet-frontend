@@ -20,7 +20,7 @@ export class AbilityScoresModal {
 
   constructor() {
     effect(() => {
-      if (this.isOpen()) {
+      if (this.isOpen()) { // If the parent says that the modal should be open, open it!
         this.tempValue = this.value();
         this.dialog()?.nativeElement.showModal();
       } else {
