@@ -4,20 +4,32 @@ import { environment } from '../../../environments/environment';
 
 export interface AbilityScores {
   strength: number;
+  strengthModifier: number;
   dexterity: number;
+  dexterityModifier: number;
   constitution: number;
+  constitutionModifier: number;
   intelligence: number;
+  intelligenceModifier: number;
   wisdom: number;
+  wisdomModifier: number;
   charisma: number;
+  charimaModifier: number;
 }
 
 export interface UpdateAbilityScoresData {
   strength: number;
+  strengthModifier: number;
   dexterity: number;
+  dexterityModifier: number;
   constitution: number;
+  constitutionModifier: number;
   intelligence: number;
+  intelligenceModifier: number
   wisdom: number;
+  wisdomModifier: number;
   charisma: number;
+  charismaModifier: number;
 }
 
 @Injectable({

@@ -3,6 +3,7 @@
     <app-ability-score-card
       label="Strength"
       [value]="characterStore.abilities()?.strength || 0"
+      [modifier]="characterStore.abilities()?.strengthModifier || 0"
       (edit)="openModal('strength')"
     />
   </div>

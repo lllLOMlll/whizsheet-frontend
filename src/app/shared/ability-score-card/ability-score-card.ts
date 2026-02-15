@@ -9,6 +9,7 @@ import { Component, input, output } from '@angular/core';
 export class AbilityScoreCard {
   label = input.required<string>();
   value = input.required<number>();
+  modifier = input.required<number>();
   edit = output<void>();
 
   calculateModifier(score: number) : string {

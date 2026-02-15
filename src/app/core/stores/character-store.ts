@@ -94,27 +94,31 @@ export const CharacterStore = signalStore(
     /**
      * Met à jour les scores de caractéristiques sur le serveur et dans le store.
      */
-    updateAbilities: rxMethod<AbilityScores>(
-      pipe(
-        switchMap((newScores) => {
-          const charId = store.character()?.id;
-          if (!charId) return of(null);
+updateAbilities: rxMethod<AbilityScores>(
+  pipe(
+    switchMap((newScores) => {
+      const charId = store.character()?.id;
+      if (!charId) return of(null);
 
-          return abilityService.update(charId, newScores).pipe(
-            tap({
-              next: (updatedAbilities) => {
-                patchState(store, { abilities: updatedAbilities });
-              },
-              error: (err) => {
-                console.error('Update error:', err);
-                patchState(store, { error: 'Failed to update ability scores' });
-              }
-            }),
-            catchError(() => of(null))
-          );
-        })
-      )
-    ),
+      return abilityService.update(charId, newScores).pipe(
+        tap({
+          next: (updatedAbilities) => {
+            // FORCE LA MISE À JOUR DU SIGNAL
+            patchState(store, (state) => ({
+              ...state,
+              abilities: { ...updatedAbilities } 
+            }));
+          },
+          error: (err) => {
+            console.error('Update error:', err);
+            patchState(store, { error: 'Failed to update ability scores' });
+          }
+        }),
+        catchError(() => of(null))
+      );
+    })
+  )
+),
 
     /**
      * Réinitialise le store (ex: lors de la déconnexion)
