@@ -41,4 +41,11 @@ export class AbilityScoresModal {
       dialog.close();
     }
   }
+
+  handleSave() {
+    this.save.emit(this.tempValue);
+    this.dialog()?.nativeElement.close();
+  }
+
+
 }
