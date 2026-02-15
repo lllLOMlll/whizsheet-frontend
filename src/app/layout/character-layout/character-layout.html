@@ -1,0 +1,26 @@
+@if (characterStore.isLoading()) {
+  <div class="page-center text-center">
+    <p>Loading character details...</p>
+  </div>
+} @else if (characterStore.character()) {
+  <div class="page-center">
+    <h2 class="page-title text-center">
+      {{ characterStore.character()?.name }}
+      
+      <ul class="class-list-subtitle">
+        @for (c of characterStore.sortedClasses(); track c.id) {
+          <li>
+            {{ c.customClassName || c.classType }} - {{ c.level }}
+          </li>
+        }
+      </ul>
+    </h2>
+
+    <ng-content></ng-content>
+    
+  </div>
+} @else if (characterStore.error()) {
+  <div class="page-center text-center">
+    <p class="text-danger">{{ characterStore.error() }}</p>
+  </div>
+}

@@ -3,11 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CharacterStore } from '../core/stores/character-store';
 import { CommonModule } from '@angular/common';
 import { CharacterService } from '../core/services/character';
+import { CharacterLayout } from '../layout/character-layout/character-layout';
 
 @Component({
   selector: 'app-character-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CharacterLayout],
   templateUrl: './character-detail.html',
   styleUrl: './character-detail.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
