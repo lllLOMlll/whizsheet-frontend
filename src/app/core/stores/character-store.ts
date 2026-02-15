@@ -1,12 +1,11 @@
-import { inject } from '@angular/core';
+import { inject, computed } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, switchMap, tap, forkJoin, catchError, of } from 'rxjs';
+import { pipe, switchMap, tap, forkJoin, filter } from 'rxjs';
 import { CharacterService, Character } from '../services/character';
 import { CharacterClassService, CharacterClassData } from '../services/character-class';
-import { computed } from '@angular/core';
 
-// Définition de l'état
+// 1. Définition de l'interface
 export interface CharacterState {
   character: Character | null;
   classes: CharacterClassData[];
@@ -14,6 +13,7 @@ export interface CharacterState {
   error: string | null;
 }
 
+// 2. Définition de l'état initial (C'est cette partie qui manquait peut-être)
 const initialState: CharacterState = {
   character: null,
   classes: [],
@@ -23,9 +23,8 @@ const initialState: CharacterState = {
 
 export const CharacterStore = signalStore(
   { providedIn: 'root' },
-  withState(initialState),
+  withState(initialState), // <--- L'erreur disparaîtra ici
 
-  // Logique de tri et sélections calculées
   withComputed(({ classes }) => ({
     sortedClasses: computed(() => {
       return [...classes()].sort((a, b) => {
@@ -37,7 +36,6 @@ export const CharacterStore = signalStore(
     }),
   })),
 
-  // Méthodes pour modifier l'état (Chargement API)
   withMethods((store, 
     charService = inject(CharacterService), 
     classService = inject(CharacterClassService)
@@ -45,7 +43,14 @@ export const CharacterStore = signalStore(
     
     loadCharacterData: rxMethod<number>(
       pipe(
+        // Le "Guard" : On ne continue que si l'ID est différent ou s'il y a une erreur
+        filter((id) => {
+          const currentId = store.character()?.id;
+          return currentId !== id || !!store.error() || !store.character();
+        }),
+
         tap(() => patchState(store, { isLoading: true, error: null })),
+        
         switchMap((id) =>
           forkJoin({
             char: charService.getById(id),

@@ -1,14 +1,14 @@
-@if (store.isLoading()) {
+@if (characterStore.isLoading()) {
   <div class="page-center text-center">
     <p>Loading character details...</p>
   </div>
-} @else if (store.character()) {
+} @else if (characterStore.character()) {
   <div class="page-center">
     <h2 class="page-title text-center">
-      {{ store.character()?.name }}
+      {{ characterStore.character()?.name }}
       
       <ul class="class-list-subtitle">
-        @for (c of store.sortedClasses(); track c.id) {
+        @for (c of characterStore.sortedClasses(); track c.id) {
           <li>
             {{ c.customClassName || c.classType }} - {{ c.level }}
           </li>
@@ -20,14 +20,14 @@
       <div class="list-row single">
         <div class="list-main">
           <strong>Hit Points</strong>
-          <span>{{ store.character()?.hp }}</span>
+          <span>{{ characterStore.character()?.hp }}</span>
         </div>
       </div>
 
       </div>
   </div>
-} @else if (store.error()) {
+} @else if (characterStore.error()) {
   <div class="page-center text-center">
-    <p class="text-danger">{{ store.error() }}</p>
+    <p class="text-danger">{{ characterStore.error() }}</p>
   </div>
 }
