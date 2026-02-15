@@ -43,12 +43,18 @@
     @if (activeCharacterId()) {
       <hr />
       <li>
-        <a 
-          [routerLink]="['/characters', activeCharacterId()]"
-          routerLinkActive="active"
-          >
+        <a [routerLink]="['/characters', activeCharacterId()]" routerLinkActive="active">
           {{ activeCharacter()?.name }}
-        </a>        
+        </a>
+      </li>
+
+      <li>
+        <a
+          [routerLink]="['/characters', activeCharacterId(), 'ability-scores']"
+          routerLinkActive="active"
+        >
+          Ability scores
+        </a>
       </li>
     }
   </ul>

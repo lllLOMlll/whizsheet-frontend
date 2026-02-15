@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy,Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CharacterStore } from '../core/stores/character-store';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import { CharacterService } from '../core/services/character';
   imports: [CommonModule],
   templateUrl: './character-detail.html',
   styleUrl: './character-detail.css',
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterDetailComponent implements OnInit {
   // On injecte le store

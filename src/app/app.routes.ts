@@ -13,65 +13,51 @@ import { RegisterComponent } from './auth/register/register';
 import { ResendConfirmationComponent } from './auth/resend-confirmation/resend-confirmation';
 import { AuthRedirectComponent } from './auth/auth-redirect/auth-redirect';
 import { CharacterDetailComponent } from './character-detail/character-detail';
+import { CharacterAbilityScores } from './character-ability-scores/character-ability-scores';
 
 export const routes: Routes = [
-  // ─────────────────────────────────────────────
-  // Public
-  // ─────────────────────────────────────────────
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  // Public
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'check-email', component: CheckEmailComponent },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'email-confirmed', component: EmailConfirmedComponent },
-  { path: 'resend-cofirmation', component: ResendConfirmationComponent },
+  { path: 'resend-confirmation', component: ResendConfirmationComponent },
 
-  // ─────────────────────────────────────────────
-  // Protected (auth required)
-  // ─────────────────────────────────────────────
-  {
-    path: 'auth-redirect',
-    component: AuthRedirectComponent,
-  },
+  // Protected
   {
     path: 'characters',
-    component: CharacterListComponent,
     canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        component: CharacterListComponent,
+      },
+      {
+        path: 'create',
+        component: CharacterCreateComponent,
+      },
+      {
+        path: ':id',
+        children: [
+          {
+            path: '',
+            component: CharacterDetailComponent,
+          },
+          {
+            path: 'edit',
+            component: CharacterEditComponent,
+          },
+          {
+            path: 'ability-scores',
+            component: CharacterAbilityScores,
+          },
+        ],
+      },
+    ],
   },
-  {
-    path: 'characters/create',
-    component: CharacterCreateComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'characters/:id/edit',
-    component: CharacterEditComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'characters/:id',
-    component: CharacterDetailComponent,
-    canActivate: [authGuard],
-  },
 
-  // ─────────────────────────────────────────────
-  // Fallback
-  // ─────────────────────────────────────────────
-  /*
-  Angular lit les routes de haut en bas, dans l’ordre :
-
-  Il teste la première route
-
-  Si ça ne matche pas, il passe à la suivante
-
-  Dès qu’il trouve un match → il s’arrête
-
-  S’il arrive à la fin sans match → **
-
-  C’est pour ça que ** doit toujours être en dernier.
-  */
-  {
-    path: '**',
-    redirectTo: 'login',
-  },
+  { path: '**', redirectTo: 'login' },
 ];
