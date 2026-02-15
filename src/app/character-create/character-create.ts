@@ -20,6 +20,7 @@ import {
 
 import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
 import { CharacterClassItemComponent } from '../shared/character-class-item/character-class-item';
+import { CharacterStore } from '../core/stores/character-store';
 
 @Component({
   selector: 'app-character-create',
@@ -38,6 +39,7 @@ export class CharacterCreateComponent {
   private characterService = inject(CharacterService);
   private abilityScoresService = inject(AbilityScoresService);
   private characterClassService = inject(CharacterClassService);
+  readonly characterStore = inject(CharacterStore);
 
   /* ------------------ CHARACTER ------------------ */
 
@@ -135,8 +137,11 @@ export class CharacterCreateComponent {
 
   /* ------------------ INIT --------------------- */
   ngOnInit() {
-    this.characterService.activeCharacterId.set(null);
-    this.characterService.activeCharacter.set(null);
+    this.resetHero();
+  }
+
+  resetHero() {
+    this.characterStore.clear();
   }
 
   /* ------------------ SUBMIT ------------------ */

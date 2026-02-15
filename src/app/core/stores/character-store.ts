@@ -38,44 +38,42 @@ export const CharacterStore = signalStore(
   })),
 
   // Méthodes pour modifier l'état (Chargement API)
-  withMethods(
-    (
-      store,
-      charService = inject(CharacterService),
-      classService = inject(CharacterClassService),
-    ) => ({
-      loadCharacterData: rxMethod<number>(
-        pipe(
-          tap(() => patchState(store, { isLoading: true, error: null })),
-          switchMap((id) =>
-            forkJoin({
-              char: charService.getById(id),
-              classes: classService.get(id),
-            }).pipe(
-              tap({
-                next: ({ char, classes }) => {
-                  patchState(store, {
-                    character: char,
-                    classes: classes,
-                    isLoading: false,
-                  });
-                },
-                error: (err) => {
-                  console.error('Loading error:', err);
-                  patchState(store, {
-                    error: 'Problem loading the character',
-                    isLoading: false,
-                    character: null,
-                    classes: [],
-                  });
-                },
-              }),
-            ),
-          ),
-        ),
-      ),
+  withMethods((store, 
+    charService = inject(CharacterService), 
+    classService = inject(CharacterClassService)
+  ) => ({
+    
+    loadCharacterData: rxMethod<number>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null })),
+        switchMap((id) =>
+          forkJoin({
+            char: charService.getById(id),
+            classes: classService.get(id)
+          }).pipe(
+            tap({
+              next: ({ char, classes }) => {
+                patchState(store, { 
+                  character: char, 
+                  classes: classes, 
+                  isLoading: false 
+                });
+              },
+              error: (err) => {
+                console.error('Loading error:', err);
+                patchState(store, { 
+                  error: 'Problem loading the character', 
+                  isLoading: false,
+                  character: null,
+                  classes: []
+                });
+              }
+            })
+          )
+        )
+      )
+    ),
 
-      clear: () => patchState(store, initialState),
-    }),
-  ),
+    clear: () => patchState(store, initialState)
+  }))
 );

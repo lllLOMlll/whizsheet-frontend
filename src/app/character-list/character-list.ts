@@ -1,7 +1,9 @@
 import { Component, inject, signal, computed } from '@angular/core';
-import { CharacterService, Character } from '../core/services/character';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+
+import { CharacterService, Character } from '../core/services/character';
+import { CharacterStore } from '../core/stores/character-store';
 
 @Component({
   selector: 'app-character-list',
@@ -12,7 +14,7 @@ import { firstValueFrom } from 'rxjs';
 export class CharacterListComponent {
   private characterService = inject(CharacterService);
   private router = inject(Router);
-
+  readonly characterStore = inject(CharacterStore);
 
   
   characters = signal<Character[]>([]);
@@ -20,8 +22,7 @@ export class CharacterListComponent {
   maxCharactersReached = computed(()=> this.characters().length >= 5);
 
   ngOnInit() {
-    this.characterService.activeCharacterId.set(null);
-    this.characterService.activeCharacter.set(null);
+  this.resetHero();
 
     this.characterService.getAll().subscribe((data) => this.characters.set(data));
 
@@ -37,6 +38,10 @@ export class CharacterListComponent {
 
   goToCreateCharacterPage() {
     this.router.navigate(["/characters/create"])
+  }
+
+  resetHero() {
+    this.characterStore.clear();
   }
 
 
