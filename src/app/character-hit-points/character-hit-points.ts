@@ -22,8 +22,8 @@ import { ValueEditModal } from '../shared/value-edit-modal/value-edit-modal';
   styleUrl: './character-hit-points.css',
 })
 export class CharacterHitPointsComponent {
-  private readonly characterStore = inject(CharacterStore);
-  private readonly characterService = inject(CharacterService);
+  readonly characterStore = inject(CharacterStore);
+  readonly characterService = inject(CharacterService);
   private route = inject(ActivatedRoute);
 
   isModalOpen = signal(false);
