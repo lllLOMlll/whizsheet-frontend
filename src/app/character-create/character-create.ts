@@ -163,7 +163,6 @@ export class CharacterCreateComponent {
 
   submit(this.characterForm, async () => {
     try {
-      // 1. On crée d'abord le personnage (nécessaire pour obtenir l'ID)
       const character = await firstValueFrom(
         this.characterService.create(this.characterModel())
       );
