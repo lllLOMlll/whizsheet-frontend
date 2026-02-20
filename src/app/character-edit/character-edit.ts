@@ -52,11 +52,8 @@ export class CharacterEditComponent {
   
   hitPointsForm = form(this.hitPointsModelSignal, (f) => {
     required(f.totalHitPoints),
-    min(f.totalHitPoints, 1),
-    required(f.currentHitPoints),
-    min(f.currentHitPoints, 1),
     min(f.totalHitPoints, 1)
-  })
+  });
 
   /* ------------------ ABILITY SCORES ------------------ */
 
@@ -150,6 +147,14 @@ export class CharacterEditComponent {
       intelligence: abilityScores.intelligence,
       wisdom: abilityScores.wisdom,
       charisma: abilityScores.charisma,
+    });
+
+    const hitPoints = await firstValueFrom(this.hitPointsService.get(id));
+
+    this.hitPointsModelSignal.set({
+      totalHitPoints: hitPoints.totalHitPoints,
+      currentHitPoints: hitPoints.currentHitPoints,
+      temporaryHitPoints: hitPoints.temporaryHitPoints
     });
 
     // ... dans ngOnInit()
