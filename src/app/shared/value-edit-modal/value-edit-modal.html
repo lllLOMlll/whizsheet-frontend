@@ -1,0 +1,16 @@
+<dialog #dialogElement (close)="close.emit()" (click)="onClickOutside($event, dialogElement)">
+  <div class="modal-content">
+    <h3>Modify {{ label() }}</h3>
+    <input 
+     type="number" 
+     [(ngModel)]="tempValue" class="form-control" 
+     (keyup.enter)="handleSave()"
+     />
+    <div class="modal-actions">
+      <button (click)="dialogElement.close()">Cancel</button>
+      <button (click)="save.emit(tempValue); dialogElement.close()" class="btn-primary">
+        Save
+      </button>
+    </div>
+  </div>
+</dialog>
