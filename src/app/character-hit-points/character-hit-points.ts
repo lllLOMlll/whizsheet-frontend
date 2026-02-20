@@ -11,21 +11,19 @@ import { CharacterStore } from '../core/stores/character-store';
 import { CommonModule } from '@angular/common';
 import { CharacterService } from '../core/services/character';
 import { CharacterLayout } from '../layout/character-layout/character-layout';
+import { ValueDisplayCard } from '../shared/value-display-card/value-display-card';
 import { HitPointsData, HitPointsCategoryToString } from '../core/services/hit-points';
-import { CharacterHitPointsComponent } from "../character-hit-points/character-hit-points";
+import { ValueEditModal } from '../shared/value-edit-modal/value-edit-modal';
 
 @Component({
-  selector: 'app-character-detail',
-  standalone: true,
-  imports: [CommonModule, CharacterLayout, CharacterHitPointsComponent],
-  templateUrl: './character-detail.html',
-  styleUrl: './character-detail.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-character-hit-points',
+  imports: [CommonModule, ValueDisplayCard, ValueEditModal],
+  templateUrl: './character-hit-points.html',
+  styleUrl: './character-hit-points.css',
 })
-export class CharacterDetailComponent implements OnInit {
-
-  readonly characterStore = inject(CharacterStore);
-  readonly characterService = inject(CharacterService);
+export class CharacterHitPointsComponent {
+  private readonly characterStore = inject(CharacterStore);
+  private readonly characterService = inject(CharacterService);
   private route = inject(ActivatedRoute);
 
   isModalOpen = signal(false);

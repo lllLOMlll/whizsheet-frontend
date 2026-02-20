@@ -26,6 +26,7 @@
   <hr />
 
   <ul>
+    <!-- LIST OF CHARACTERS -->
     <li>
       <a
         routerLink="/characters"
@@ -36,12 +37,14 @@
       </a>
     </li>
 
+    <!-- CREATE CHARACTER -->
     <li>
       <a routerLink="/characters/create" routerLinkActive="active"> Create character </a>
     </li>
 
     @if (activeCharacterId()) {
       <hr />
+      <!-- CHARACTER DETAILS -->
       <li>
         <a
           [routerLink]="['/characters', activeCharacterId()]"
@@ -52,6 +55,7 @@
         </a>
       </li>
 
+      <!-- ABILITY SCORES-->
       <li>
         <a
           [routerLink]="['/characters', activeCharacterId(), 'ability-scores']"
@@ -60,6 +64,17 @@
         >
           Ability scores
         </a>
+      </li>
+
+      <!-- HIT POINTS -->
+      <li>
+        <a
+        [routerLink]="['/characters', activeCharacterId(), 'hit-points']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact : true }"
+        > 
+        Hit points 
+      </a>
       </li>
     }
   </ul>
