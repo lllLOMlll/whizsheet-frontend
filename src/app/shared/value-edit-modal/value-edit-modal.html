@@ -1,6 +1,6 @@
 <dialog #dialogElement (close)="close.emit()" (click)="onClickOutside($event, dialogElement)">
   <div class="modal-content">
-    <h3>Modify {{ label() }}</h3>
+    <h3> {{ title() }}</h3>
     <input 
      type="number" 
      [(ngModel)]="tempValue" class="form-control" 

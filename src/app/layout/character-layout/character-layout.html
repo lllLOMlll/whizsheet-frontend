@@ -10,7 +10,7 @@
       <ul class="class-list-subtitle">
         @for (c of characterStore.sortedClasses(); track c.id) {
           <li>
-            {{ c.customClassName || c.classType }} - {{ c.level }}
+            {{ c.customClassName || c.classType }} Lv {{ c.level }}
           </li>
         }
       </ul>

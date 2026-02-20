@@ -13,6 +13,12 @@ export interface CreateHitPointsData {
   totalHitPoints: number;
 }
 
+export enum HitPointsCategoryToString {
+  totalHitPoints = 'Total HP',
+  currentHitPoints = 'Current HP',
+  temporaryHitPoints = 'Temporary HP'
+}
+
 @Injectable({
   providedIn: 'root',
 })

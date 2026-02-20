@@ -289,6 +289,18 @@ app-root {
 }
 
 /* =========================
+   CARD MESSAGE
+   ========================= */
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;       
+  gap: 15px;            
+  justify-content: center; 
+  padding: 20px;
+  width: 100%;
+}
+/* =========================
    SPINNER
    ========================= */
 /* Bloque l'écran et centre le spinner */

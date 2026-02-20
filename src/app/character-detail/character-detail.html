@@ -1,8 +1,31 @@
 <app-character-layout>
-  <div class="list-row single">
+  <div class="card-grid">
+    <app-value-display-card
+    label="Total HP"
+    [value]="characterStore.hitPoints()?.totalHitPoints || 0"
+    (edit)="openModal('totalHitPoints')"
+    />
+  </div>
+
+
+  <app-value-edit-modal
+  [isOpen]="isModalOpen()"
+  [title]="selectedHPToString()"
+  [value]="characterStore.hitPoints()?.[selectedHp()!] || 0"
+  (save)="updateHp()"
+  (close)="isModalOpen.set(false)"
+  />
+
+
+
+
+</app-character-layout>
+
+
+
+
+<!-- <div class="list-row single">
     <div class="list-main">
       <strong>Hit Points</strong>
-      <!-- <span>{{ characterStore.character()?.hp }}</span> -->
     </div>
-  </div>
-</app-character-layout>
+  </div> -->

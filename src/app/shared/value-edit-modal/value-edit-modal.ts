@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './value-edit-modal.css',
 })
 export class ValueEditModal {
-  label = input.required<string>();
+  title = input.required<string>();
   value = input.required<number>();
   isOpen = input<boolean>(false);
 
@@ -47,5 +47,6 @@ export class ValueEditModal {
     this.dialog()?.nativeElement.close();
   }
 
+ 
 
 }
