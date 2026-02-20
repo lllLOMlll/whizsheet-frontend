@@ -1,10 +1,13 @@
+@if (loadingService.isLoading()) {
+  <div class="loading-overlay">
+    <div class="loader"></div>
+  </div>
+}
+
 @if (auth.isAuthenticated()) {
   <app-layout />
 } @else {
   <main class="page">
-
-  <router-outlet />
+    <router-outlet />
   </main>
 }
-
-

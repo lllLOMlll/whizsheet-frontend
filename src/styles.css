@@ -289,6 +289,49 @@ app-root {
 }
 
 /* =========================
+   SPINNER
+   ========================= */
+/* Bloque l'écran et centre le spinner */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(3px);
+}
+
+/* Le Spinner lui-même */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid #0000;
+  border-right-color: #3498db; /* Ta couleur primaire */
+  position: relative;
+  animation: l24 1s infinite linear;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: inherit;
+  animation: inherit;
+  animation-duration: 2s;
+}
+.loader:after {
+  animation-duration: 4s;
+}
+
+@keyframes l24 {
+  100% { transform: rotate(1turn); }
+}
+
+/* =========================
    RESPONSIVE (GLOBAL)
    ========================= */
 
