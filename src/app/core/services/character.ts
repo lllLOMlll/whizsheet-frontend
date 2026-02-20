@@ -6,17 +6,14 @@ import { signal } from '@angular/core';
 export interface Character {
   id: number;
   name: string;
-  hp: number;
 }
 
 export interface CreateCharacterData {
   name: string;
-  hp: number;
 }
 
 export interface UpdateCharacterData {
   name: string;
-  hp: number;
 }
 
 @Injectable({
@@ -39,7 +36,7 @@ export class CharacterService {
      return this.http.get<Character>(`${this.baseUrl}/${id}`);
   }
 
-  create(character: Omit<Character, 'id'>) {
+  create(character: CreateCharacterData) {
     return this.http.post<Character>(
       this.baseUrl,
       character

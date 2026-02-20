@@ -17,6 +17,7 @@ import {
   CreateCharacterClassData,
   CharacterClassType,
 } from '../core/services/character-class';
+import { HitPointsService, CreateHitPointsData, HitPointsData,  } from '../core/services/hit-points';
 
 import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
 import { CharacterClassItemComponent } from '../shared/character-class-item/character-class-item';
@@ -36,21 +37,32 @@ import { CharacterStore } from '../core/stores/character-store';
 })
 export class CharacterCreateComponent {
   private router = inject(Router);
+
+  readonly characterStore = inject(CharacterStore);
   private characterService = inject(CharacterService);
   private abilityScoresService = inject(AbilityScoresService);
   private characterClassService = inject(CharacterClassService);
-  readonly characterStore = inject(CharacterStore);
+  private hitPointsService = inject(HitPointsService);
+  
 
   /* ------------------ CHARACTER ------------------ */
 
   characterModel = signal<CreateCharacterData>({
     name: '',
-    hp: 1,
   });
 
   characterForm = form(this.characterModel, f => {
     required(f.name);
-    min(f.hp, 1);
+  });
+
+  /* ------------------      HP         ------------------ */
+  hitPointsModelSignal = signal<CreateHitPointsData>({
+    totalHitPoints: 1,
+  });
+
+  hitPointsForm = form(this.hitPointsModelSignal, f => {
+    required(f.totalHitPoints);
+    min(f.totalHitPoints, 1);
   });
 
   /* ------------------ ABILITY SCORES ------------------ */
@@ -146,39 +158,46 @@ export class CharacterCreateComponent {
 
   /* ------------------ SUBMIT ------------------ */
 
-  onSubmit(event: Event) {
-    event.preventDefault();
+ onSubmit(event: Event) {
+  event.preventDefault();
 
-    submit(this.characterForm, async () => {
+  submit(this.characterForm, async () => {
+    try {
+      // 1. On crée d'abord le personnage (nécessaire pour obtenir l'ID)
       const character = await firstValueFrom(
-        this.characterService.create(this.characterModel()),
+        this.characterService.create(this.characterModel())
       );
 
-      await firstValueFrom(
-        this.abilityScoresService.create(
-          character.id,
-          this.abilityScoresModel(),
-        ),
-      );
+      // 2. On prépare le payload des classes
+      const classesPayload: CreateCharacterClassData[] = this.characterClasses().map(c => ({
+        classType: c.classType,
+        level: c.level,
+        customClassName: c.classType === CharacterClassType.Other
+          ? c.customClassName.trim()
+          : undefined,
+      }));
 
-      const classesPayload: CreateCharacterClassData[] =
-        this.characterClasses().map(c => ({
-          classType: c.classType,
-          level: c.level,
-          customClassName:
-            c.classType === CharacterClassType.Other
-              ? c.customClassName.trim()
-              : undefined,
-        }));
+      // 3. On lance toutes les autres requêtes en parallèle
+      // On attend que TOUTES soient terminées avant de passer à la suite
+      await Promise.all([
+        firstValueFrom(this.abilityScoresService.create(
+          character.id, 
+          this.abilityScoresModel())),
+        firstValueFrom(this.hitPointsService.create(
+          character.id, 
+          this.hitPointsModelSignal())),
+        firstValueFrom(this.characterClassService.create(
+          character.id, 
+          classesPayload))
+      ]);
 
-      await firstValueFrom(
-        this.characterClassService.create(
-          character.id,
-          classesPayload,
-        ),
-      );
-
+      // 4. Une fois que tout est fini, on redirige
       this.router.navigate(['/characters']);
-    });
-  }
+      
+    } catch (error) {
+      // Il est important de gérer l'erreur si l'une des requêtes échoue
+      console.error('Erreur lors de la création du personnage :', error);
+    }
+  });
+}
 }

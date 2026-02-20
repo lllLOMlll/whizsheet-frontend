@@ -11,6 +11,7 @@ import {
   CharacterClassType,
   CreateCharacterClassData,
 } from '../core/services/character-class';
+import { HitPointsService, HitPointsData } from '../core/services/hit-points';
 
 import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
 import { CharacterClassItemComponent } from '../shared/character-class-item/character-class-item';
@@ -30,18 +31,32 @@ export class CharacterEditComponent {
   private characterService = inject(CharacterService);
   private abilityScoresService = inject(AbilityScoresService);
   private characterClassService = inject(CharacterClassService);
+  private hitPointsService = inject(HitPointsService);
 
   /* ------------------ CHARACTER ------------------ */
 
   characterModel = signal<UpdateCharacterData>({
     name: '',
-    hp: 1,
   });
 
   characterForm = form(this.characterModel, (f) => {
     required(f.name);
-    min(f.hp, 1);
   });
+
+  /* ------------------      HP         ------------------ */
+  hitPointsModelSignal = signal<HitPointsData>({
+    totalHitPoints: 1,
+    currentHitPoints: 1,
+    temporaryHitPoints: 1
+  });
+  
+  hitPointsForm = form(this.hitPointsModelSignal, (f) => {
+    required(f.totalHitPoints),
+    min(f.totalHitPoints, 1),
+    required(f.currentHitPoints),
+    min(f.currentHitPoints, 1),
+    min(f.totalHitPoints, 1)
+  })
 
   /* ------------------ ABILITY SCORES ------------------ */
 
@@ -124,7 +139,6 @@ export class CharacterEditComponent {
 
     this.characterModel.set({
       name: character.name,
-      hp: character.hp,
     });
 
     const abilityScores = await firstValueFrom(this.abilityScoresService.get(id));

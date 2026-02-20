@@ -30,12 +30,12 @@
               <input
                 type="number"
                 class="form-control"
-                [field]="characterForm.hp"
+                [field]="hitPointsForm.totalHitPoints"
               />
 
-              @if (characterForm.hp().invalid() && characterForm.hp().touched()) {
+              @if (hitPointsForm.totalHitPoints().invalid() && hitPointsForm.totalHitPoints().touched()) {
                 <div class="invalid-feedback d-block">
-                  @for (e of characterForm.hp().errors(); track e.kind) {
+                  @for (e of hitPointsForm.totalHitPoints().errors(); track e.kind) {
                     <div>{{ e.message }}</div>
                   }
                 </div>
