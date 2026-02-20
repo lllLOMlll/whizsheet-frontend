@@ -34,4 +34,8 @@ export class HitPointsService {
   get(characterId: number) {
     return this.http.get<HitPointsData>(`${this.baseUrl}/${characterId}/hit-points`);
   }
+
+  update(characterId:number, data: HitPointsData) {
+    return this.http.put<HitPointsData>(`${this.baseUrl}/${characterId}/hit-points`, data);
+  }
 }

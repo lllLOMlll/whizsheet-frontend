@@ -122,6 +122,31 @@ export const CharacterStore = signalStore(
       )
     ),
 
+        updateHp: rxMethod<HitPointsData>(
+      pipe(
+        switchMap((newHp) => {
+          const charId = store.character()?.id;
+          if (!charId) return of(null);
+
+          return hitPointsService.update(charId, newHp).pipe(
+            tap({
+              next: (hitPoints) => {
+                patchState(store, { 
+                  hitPoints: { ...hitPoints },
+                  error: null 
+                });
+              },
+              error: (err) => {
+                console.error('Update error:', err);
+                patchState(store, { error: 'Failed to update hit points' });
+              }
+            }),
+            catchError(() => of(null))
+          );
+        })
+      )
+    ),
+
     /**
      * Réinitialise le store
      */

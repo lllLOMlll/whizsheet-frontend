@@ -11,8 +11,6 @@ import { CharacterStore } from '../core/stores/character-store';
 import { CommonModule } from '@angular/common';
 import { CharacterService } from '../core/services/character';
 import { CharacterLayout } from '../layout/character-layout/character-layout';
-import { AbilityScoreCard } from '../shared/ability-score-card/ability-score-card';
-import { AbilityScores } from '../core/services/ability-scores';
 import { ValueDisplayCard } from '../shared/value-display-card/value-display-card';
 import { HitPointsData, HitPointsCategoryToString } from '../core/services/hit-points';
 import { ValueEditModal } from '../shared/value-edit-modal/value-edit-modal';
@@ -52,5 +50,19 @@ export class CharacterDetailComponent implements OnInit {
     this.isModalOpen.set(true);
   }
 
-  updateHp() {}
+  updateHp(newValue: number) {
+    const hpCatoryToModify = this.selectedHp();
+    const currentHpModel = this.characterStore.hitPoints();
+
+    if (hpCatoryToModify && currentHpModel) {
+      const updatedHp: HitPointsData = {
+        ...currentHpModel,
+        [hpCatoryToModify]: newValue
+      };
+
+      this.characterStore.updateHp(updatedHp);
+      this.isModalOpen.set(false);
+    }
+
+  }
 }

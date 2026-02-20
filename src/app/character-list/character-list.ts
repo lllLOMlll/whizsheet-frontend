@@ -45,8 +45,6 @@ export class CharacterListComponent {
     this.characterStore.clear();
   }
 
-
-
   async deleteCharacter(id: number) {
     const characterToDelete = this.charactersSignal().find((c) => c.id === id);
     const characterName = characterToDelete ? characterToDelete.name : 'this character';
