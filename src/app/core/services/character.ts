@@ -6,6 +6,7 @@ import { signal } from '@angular/core';
 export interface Character {
   id: number;
   name: string;
+  totalHitPoints?: number;
 }
 
 export interface CreateCharacterData {

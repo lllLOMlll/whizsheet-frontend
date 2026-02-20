@@ -12,9 +12,10 @@ import { CharacterStore } from '../core/stores/character-store';
   styleUrl: './character-list.css',
 })
 export class CharacterListComponent {
-  private characterService = inject(CharacterService);
   private router = inject(Router);
-  readonly characterStore = inject(CharacterStore);
+
+  private readonly characterService = inject(CharacterService);
+  private readonly characterStore = inject(CharacterStore);
 
   
   characters = signal<Character[]>([]);
