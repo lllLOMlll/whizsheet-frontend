@@ -2,18 +2,29 @@
   <h2 class="page-title text-center">Whizsheet Characters</h2>
 
   <div class="list">
-    @for (c of characters(); track c.id) {
+    @for (c of charactersSignal(); track c.id) {
       <div class="list-row">
-        <!-- Main content -->
         <div class="list-main">
           <strong>{{ c.name }}</strong>
-          <span>HP {{ c.totalHitPoints }}</span>
-          <!-- <span>{{ c.class }} – HP {{ c.hp }}</span> -->
+          
+          <div class="character-info">
+            <span>HP {{ c.totalHitPoints }}</span>
+            
+            <span class="separator"> | </span>
+
+            @if (c.characterClass && c.characterClass.length > 0) {
+              @for (cls of c.characterClass; track cls.id; let last = $last) {
+                <span>
+                  {{ cls.displayName }} (Lv {{ cls.level }}){{ last ? '' : ', ' }}
+                </span>
+              }
+            } @else {
+              <span class="no-class">No class assigned</span>
+            }
+          </div>
         </div>
 
-        <!-- Actions -->
         <div class="list-actions">
-          <!-- Select -->
           <button
             type="button"
             class="icon-btn btn-select"
@@ -30,7 +41,6 @@
             </svg>
           </button>
 
-          <!-- Edit -->
           <button
             type="button"
             class="icon-btn btn-edit"
@@ -40,7 +50,6 @@
             ✎
           </button>
 
-          <!-- Delete -->
           <button
             type="button"
             class="icon-btn btn-danger"

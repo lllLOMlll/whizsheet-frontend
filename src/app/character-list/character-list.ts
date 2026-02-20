@@ -18,14 +18,14 @@ export class CharacterListComponent {
   private readonly characterStore = inject(CharacterStore);
 
   
-  characters = signal<Character[]>([]);
-  isCharactersListEmpty = computed(() => this.characters().length === 0);
-  maxCharactersReached = computed(()=> this.characters().length >= 5);
+  charactersSignal = signal<Character[]>([]);
+  isCharactersListEmpty = computed(() => this.charactersSignal().length === 0);
+  maxCharactersReached = computed(()=> this.charactersSignal().length >= 5);
 
   ngOnInit() {
   this.resetHero();
 
-    this.characterService.getAll().subscribe((data) => this.characters.set(data));
+    this.characterService.getAll().subscribe((data) => this.charactersSignal.set(data));
 
   }
   
@@ -48,7 +48,7 @@ export class CharacterListComponent {
 
 
   async deleteCharacter(id: number) {
-    const characterToDelete = this.characters().find((c) => c.id === id);
+    const characterToDelete = this.charactersSignal().find((c) => c.id === id);
     const characterName = characterToDelete ? characterToDelete.name : 'this character';
 
     // Dont user the native web browser confirm
@@ -60,7 +60,7 @@ export class CharacterListComponent {
 
     // Local update (the page dont recharge)
     // On ne fait pas this.loadCharacters();
-    this.characters.update((list) => list.filter((c) => c.id !== id));
+    this.charactersSignal.update((list) => list.filter((c) => c.id !== id));
 
     if (this.isCharactersListEmpty()) {
       this.router.navigate(['/auth-redirect']);

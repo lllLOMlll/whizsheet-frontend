@@ -3,10 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { signal } from '@angular/core';
 
+import { CharacterClassData } from './character-class';
+
 export interface Character {
   id: number;
   name: string;
+  // totalHitPoins and characterClassesData are needed to display Hp and Classes in the character-list page
   totalHitPoints?: number;
+  characterClass? : CharacterClassData[];
 }
 
 export interface CreateCharacterData {
