@@ -15,6 +15,7 @@ import { AuthRedirectComponent } from './auth/auth-redirect/auth-redirect';
 import { CharacterDetailComponent } from './character-detail/character-detail';
 import { CharacterAbilityScores } from './character-ability-scores/character-ability-scores';
 import { CharacterHitPointsComponent } from './character-hit-points/character-hit-points';
+import { CharacterSkillsComponent } from './character-skills/character-skills';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -60,6 +61,10 @@ export const routes: Routes = [
             path: 'hit-points',
             component: CharacterHitPointsComponent,
           },
+          {
+            path: 'skills',
+            component: CharacterSkillsComponent,
+          }
         ],
       },
     ],

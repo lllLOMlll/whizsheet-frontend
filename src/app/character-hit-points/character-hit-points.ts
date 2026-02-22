@@ -17,7 +17,7 @@ import { ValueEditModal } from '../shared/value-edit-modal/value-edit-modal';
 
 @Component({
   selector: 'app-character-hit-points',
-  imports: [CommonModule, ValueDisplayCard, ValueEditModal],
+  imports: [CommonModule, ValueDisplayCard, ValueEditModal, CharacterLayout],
   templateUrl: './character-hit-points.html',
   styleUrl: './character-hit-points.css',
 })

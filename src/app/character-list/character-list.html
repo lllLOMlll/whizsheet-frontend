@@ -8,10 +8,6 @@
           <strong>{{ c.name }}</strong>
           
           <div class="character-info">
-            <span>HP {{ c.totalHitPoints }}</span>
-            
-            <span class="separator"> | </span>
-
             @if (c.characterClass && c.characterClass.length > 0) {
               @for (cls of c.characterClass; track cls.id; let last = $last) {
                 <span>

@@ -56,7 +56,7 @@
       </li>
 
       <!-- ABILITY SCORES-->
-      <li>
+      <li class="nav-child">
         <a
           [routerLink]="['/characters', activeCharacterId(), 'ability-scores']"
           routerLinkActive="active"
@@ -67,13 +67,23 @@
       </li>
 
       <!-- HIT POINTS -->
-      <li>
+      <li class="nav-child">
         <a
         [routerLink]="['/characters', activeCharacterId(), 'hit-points']"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact : true }"
         > 
         Hit points 
+      </a>
+      </li>
+
+      <li class="nav-child">
+        <a
+        [routerLink]="['/characters', activeCharacterId(), 'skills']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >
+        Skills
       </a>
       </li>
     }

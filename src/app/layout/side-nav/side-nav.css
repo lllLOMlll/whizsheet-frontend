@@ -83,3 +83,20 @@
   cursor: pointer;
 }
 
+
+/* L'indentation simple */
+.nav-child {
+  padding-left: 1.2rem; /* Décale vers la droite */
+  margin-top: 0.25rem;
+}
+
+/* Optionnel : rendre le texte des enfants un peu plus petit ou discret */
+.nav-child a {
+  font-size: 0.9rem;
+}
+
+/* Style quand l'enfant est actif */
+.nav-child a.active {
+  color: #fff;
+  padding-left: 8px;
+}
