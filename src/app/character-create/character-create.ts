@@ -1,23 +1,22 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Field, form, min, required, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 
 import { CharacterService, CreateCharacterData } from '../core/services/character';
-import { AbilityScoresService, AbilityScores, UpdateAbilityScoresData } from '../core/services/ability-scores';
+import {
+  AbilityScoresService,
+  AbilityScores,
+  UpdateAbilityScoresData,
+} from '../core/services/ability-scores';
 import {
   CharacterClassModel,
   CharacterClassService,
   CreateCharacterClassData,
   CharacterClassType,
 } from '../core/services/character-class';
-import { HitPointsService, CreateHitPointsData, HitPointsData,  } from '../core/services/hit-points';
+import { HitPointsService, CreateHitPointsData, HitPointsData } from '../core/services/hit-points';
+import { SkillsService, Skill } from '../core/services/skills';
 
 import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
 import { CharacterClassItemComponent } from '../shared/character-class-item/character-class-item';
@@ -26,11 +25,7 @@ import { CharacterStore } from '../core/stores/character-store';
 @Component({
   selector: 'app-character-create',
   standalone: true,
-  imports: [
-    Field,
-    AbilityScoresFormComponent,
-    CharacterClassItemComponent,
-  ],
+  imports: [Field, AbilityScoresFormComponent, CharacterClassItemComponent],
   templateUrl: './character-create.html',
   styleUrl: './character-create.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,7 +38,7 @@ export class CharacterCreateComponent {
   private abilityScoresService = inject(AbilityScoresService);
   private characterClassService = inject(CharacterClassService);
   private hitPointsService = inject(HitPointsService);
-  
+  private skillsService = inject(SkillsService);
 
   /* ------------------ CHARACTER ------------------ */
 
@@ -51,18 +46,8 @@ export class CharacterCreateComponent {
     name: '',
   });
 
-  characterForm = form(this.characterModel, f => {
+  characterForm = form(this.characterModel, (f) => {
     required(f.name);
-  });
-
-  /* ------------------      HP         ------------------ */
-  hitPointsModelSignal = signal<CreateHitPointsData>({
-    totalHitPoints: 1,
-  });
-
-  hitPointsForm = form(this.hitPointsModelSignal, f => {
-    required(f.totalHitPoints);
-    min(f.totalHitPoints, 1);
   });
 
   /* ------------------ ABILITY SCORES ------------------ */
@@ -76,7 +61,7 @@ export class CharacterCreateComponent {
     charisma: 10,
   });
 
-  abilityScoresForm = form(this.abilityScoresModel, f => {
+  abilityScoresForm = form(this.abilityScoresModel, (f) => {
     min(f.strength, 1);
     min(f.dexterity, 1);
     min(f.constitution, 1);
@@ -98,7 +83,7 @@ export class CharacterCreateComponent {
   addClass() {
     if (this.characterClasses().length >= 3) return;
 
-    this.characterClasses.update(list => [
+    this.characterClasses.update((list) => [
       ...list,
       {
         classType: CharacterClassType.Artificer,
@@ -109,7 +94,7 @@ export class CharacterCreateComponent {
   }
 
   updateClass(index: number, updated: CharacterClassModel) {
-    this.characterClasses.update(list => {
+    this.characterClasses.update((list) => {
       const copy = [...list];
       copy[index] = updated;
       return copy;
@@ -117,31 +102,61 @@ export class CharacterCreateComponent {
   }
 
   removeClass(index: number) {
-    this.characterClasses.update(list =>
-      list.filter((_, i) => i !== index),
-    );
+    this.characterClasses.update((list) => list.filter((_, i) => i !== index));
   }
+
+  /* ------------------      HP         ------------------ */
+  hitPointsModelSignal = signal<HitPointsData>({
+    totalHitPoints: 1,
+    currentHitPoints: 1,
+    temporaryHitPoints: 0,
+  });
+
+  hitPointsForm = form(this.hitPointsModelSignal, (f) => {
+    required(f.totalHitPoints);
+    min(f.totalHitPoints, 1);
+  });
+
+  /* ------------------      SKILLS         ------------------ */
+  // public skillsData: Skills = {
+  //   isAcrobaticsProficient: false,
+  //   isAnimalHandlingProficient: false,
+  //   isArcanaProficient: false,
+  //   isAthleticsProficient: false,
+  //   isDeceptionProficient: false,
+  //   isHistoryProficient: false,
+  //   isInsightProficient: false,
+  //   isIntimidationProficient: false,
+  //   isInvestigationProficient: false,
+  //   isMedecineProficient: false,
+  //   isNatureProficient: false,
+  //   isPerceptionProficient: false,
+  //   isPerformanceProficient: false,
+  //   isPersuasionProficient: false,
+  //   isReligionProficient: false,
+  //   isSleighOfHandProficient: false,
+  //   isStealthProficient: false,
+  //   isSurvivalProficient: false,
+  // };
 
   /* ------------------ VALIDATIONS ------------------ */
 
-  totalClassLevel = computed(() =>
-    this.characterClasses().reduce((sum, c) => sum + c.level, 0),
-  );
+  totalClassLevel = computed(() => this.characterClasses().reduce((sum, c) => sum + c.level, 0));
 
   isTotalLevelValid = computed(() => this.totalClassLevel() <= 100);
 
   isDuplicateClass = computed(() => {
     const classes = this.characterClasses()
-      .filter(c => c.classType !== CharacterClassType.Other)
-      .map(c => c.classType);
+      .filter((c) => c.classType !== CharacterClassType.Other)
+      .map((c) => c.classType);
 
     return new Set(classes).size !== classes.length;
   });
 
   isDuplicatedCustomClass = computed(() => {
     const customs = this.characterClasses()
-      .filter(c => c.classType === CharacterClassType.Other)
-      .map(c => c.customClassName.trim())
+      .filter((c) => c.classType === CharacterClassType.Other)
+      .map((c) => c.customClassName.trim())
       .filter(Boolean);
 
     return new Set(customs).size !== customs.length;
@@ -158,45 +173,39 @@ export class CharacterCreateComponent {
 
   /* ------------------ SUBMIT ------------------ */
 
- onSubmit(event: Event) {
-  event.preventDefault();
+  onSubmit(event: Event) {
+    event.preventDefault();
 
-  submit(this.characterForm, async () => {
-    try {
-      const character = await firstValueFrom(
-        this.characterService.create(this.characterModel())
-      );
+    submit(this.characterForm, async () => {
+      try {
+        const character = await firstValueFrom(this.characterService.create(this.characterModel()));
 
-      // 2. On prépare le payload des classes
-      const classesPayload: CreateCharacterClassData[] = this.characterClasses().map(c => ({
-        classType: c.classType,
-        level: c.level,
-        customClassName: c.classType === CharacterClassType.Other
-          ? c.customClassName.trim()
-          : undefined,
-      }));
+        // 2. On prépare le payload des classes
+        const classesPayload: CreateCharacterClassData[] = this.characterClasses().map((c) => ({
+          classType: c.classType,
+          level: c.level,
+          customClassName:
+            c.classType === CharacterClassType.Other ? c.customClassName.trim() : undefined,
+        }));
 
-      // 3. On lance toutes les autres requêtes en parallèle
-      // On attend que TOUTES soient terminées avant de passer à la suite
-      await Promise.all([
-        firstValueFrom(this.abilityScoresService.create(
-          character.id, 
-          this.abilityScoresModel())),
-        firstValueFrom(this.hitPointsService.create(
-          character.id, 
-          this.hitPointsModelSignal())),
-        firstValueFrom(this.characterClassService.create(
-          character.id, 
-          classesPayload))
-      ]);
+        this.hitPointsModelSignal().currentHitPoints = this.hitPointsModelSignal().totalHitPoints;
 
-      // 4. Une fois que tout est fini, on redirige
-      this.router.navigate(['/characters']);
-      
-    } catch (error) {
-      // Il est important de gérer l'erreur si l'une des requêtes échoue
-      console.error('Erreur lors de la création du personnage :', error);
-    }
-  });
-}
+        // 3. On lance toutes les autres requêtes en parallèle
+        // On attend que TOUTES soient terminées avant de passer à la suite
+        await Promise.all([
+          firstValueFrom(this.characterClassService.create(character.id, classesPayload)), // Cannot create an empty class. Therefore, create and not update
+
+          firstValueFrom(this.abilityScoresService.update(character.id, this.abilityScoresModel())),
+          firstValueFrom(this.hitPointsService.update(character.id, this.hitPointsModelSignal())),
+          //firstValueFrom(this.skillsService.update(character.id, this.skillsData)),
+        ]);
+
+        // 4. Une fois que tout est fini, on redirige
+        this.router.navigate(['/characters']);
+      } catch (error) {
+        // Il est important de gérer l'erreur si l'une des requêtes échoue
+        console.error('Erreur lors de la création du personnage :', error);
+      }
+    });
+  }
 }

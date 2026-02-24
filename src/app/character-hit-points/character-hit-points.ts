@@ -24,7 +24,6 @@ import { ValueEditModal } from '../shared/value-edit-modal/value-edit-modal';
 export class CharacterHitPointsComponent {
   readonly characterStore = inject(CharacterStore);
   readonly characterService = inject(CharacterService);
-  private route = inject(ActivatedRoute);
 
   isModalOpen = signal(false);
   title = signal(HitPointsCategoryToString);
@@ -33,14 +32,6 @@ export class CharacterHitPointsComponent {
     const key = this.selectedHp();
     return key ? HitPointsCategoryToString[key] : '';
   });
-
-  ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-
-    if (!isNaN(id)) {
-      this.characterStore.loadCharacterData(id);
-    }
-  }
 
   openModal(sortOfHp: string) {
     this.selectedHp.set(sortOfHp as keyof HitPointsData);

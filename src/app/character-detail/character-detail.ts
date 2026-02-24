@@ -17,7 +17,7 @@ import { CharacterHitPointsComponent } from "../character-hit-points/character-h
 @Component({
   selector: 'app-character-detail',
   standalone: true,
-  imports: [CommonModule, CharacterLayout, CharacterHitPointsComponent],
+  imports: [CommonModule, CharacterHitPointsComponent],
   templateUrl: './character-detail.html',
   styleUrl: './character-detail.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

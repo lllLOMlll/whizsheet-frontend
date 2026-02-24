@@ -15,19 +15,9 @@ import { AbilityScoresModal } from '../shared/ability-scores-modal/ability-score
 })
 export class CharacterAbilityScores {
   readonly characterStore = inject(CharacterStore);
-  private route = inject(ActivatedRoute);
 
   isModalOpen = signal(false);
   selectedStat = signal<keyof AbilityScores | null>(null);
-
-
-  ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-
-    if (!isNaN(id)) {
-      this.characterStore.loadCharacterData(id);
-    }
-  }
 
   openModal(statName: string) {
     this.selectedStat.set(statName as keyof AbilityScores);
