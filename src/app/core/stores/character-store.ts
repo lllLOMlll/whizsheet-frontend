@@ -36,7 +36,7 @@ export const CharacterStore = signalStore(
   withState(initialState),
 
   // 3. Logique calculée (Selectors)
-  withComputed(({ classes }) => ({
+  withComputed(({ classes, skills }) => ({
     sortedClasses: computed(() => {
       return [...classes()].sort((a, b) => {
         if (b.level !== a.level) return b.level - a.level;
@@ -44,6 +44,14 @@ export const CharacterStore = signalStore(
         const nameB = b.customClassName ?? b.classType ?? '';
         return nameA.localeCompare(nameB);
       });
+    }),
+
+    sortedSkills: computed(() => {
+      const data = skills();
+      if (!data || !Array.isArray(data)) return [];
+
+      // On trie par .type (propriété venant du C#)
+      return [...data].sort((a, b) => a.type.localeCompare(b.type));
     }),
   })),
 
@@ -57,14 +65,13 @@ export const CharacterStore = signalStore(
       hitPointsService = inject(HitPointsService),
       skillsService = inject(SkillsService),
     ) => {
-      
       /**
        * Fonction utilitaire privée pour gérer les mises à jour répétitives (DRY)
        */
       const _updateEntity = <T>(
         serviceCall: (id: number, data: T) => Observable<T>,
         stateKey: keyof CharacterState,
-        errorMessage: string
+        errorMessage: string,
       ) => {
         return pipe(
           switchMap((newData: T) => {
@@ -74,19 +81,19 @@ export const CharacterStore = signalStore(
             return serviceCall(charId, newData).pipe(
               tap({
                 next: (result) => {
-                  patchState(store, { 
-                    [stateKey]: result, 
-                    error: null 
+                  patchState(store, {
+                    [stateKey]: result,
+                    error: null,
                   });
                 },
                 error: (err) => {
                   console.error(`${errorMessage}:`, err);
                   patchState(store, { error: errorMessage });
-                }
+                },
               }),
-              catchError(() => of(null))
+              catchError(() => of(null)),
             );
-          })
+          }),
         );
       };
 
@@ -119,33 +126,33 @@ export const CharacterStore = signalStore(
                     });
                   },
                 }),
-                catchError(() => of(null))
-              )
-            )
-          )
+                catchError(() => of(null)),
+              ),
+            ),
+          ),
         ),
 
         // Mises à jour utilisant la méthode générique
         updateAbilities: rxMethod<AbilityScores>(
           _updateEntity(
-            (id, data) => abilityService.update(id, data), 
-            'abilities', 
-            'Failed to update ability scores'
-          )
+            (id, data) => abilityService.update(id, data),
+            'abilities',
+            'Failed to update ability scores',
+          ),
         ),
 
         updateHp: rxMethod<HitPointsData>(
           _updateEntity(
-            (id, data) => hitPointsService.update(id, data), 
-            'hitPoints', 
-            'Failed to update hit points'
-          )
+            (id, data) => hitPointsService.update(id, data),
+            'hitPoints',
+            'Failed to update hit points',
+          ),
         ),
 
         // updateSkills: rxMethod<SkillsWithModifiers>(
         //   _updateEntity(
-        //     (id, data) => skillsService.update(id, data), 
-        //     'skills', 
+        //     (id, data) => skillsService.update(id, data),
+        //     'skills',
         //     'Failed to update skills'
         //   )
         // ),
@@ -155,6 +162,6 @@ export const CharacterStore = signalStore(
          */
         clear: () => patchState(store, initialState),
       };
-    }
-  )
+    },
+  ),
 );

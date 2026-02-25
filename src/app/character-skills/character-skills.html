@@ -1,4 +1,11 @@
 <app-character-layout>
-
-    
+@for (skill of characterStore.sortedSkills(); track skill.type) {
+      <app-value-display-card
+        [label]="formatSkillName(skill.type)"
+        [value]="skill.modifier"
+        (edit)="openModal(skill.type)"
+      />
+    } @empty {
+      <p>Chargement des compétences...</p>
+    }
 </app-character-layout>

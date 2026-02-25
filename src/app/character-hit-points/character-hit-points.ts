@@ -6,7 +6,6 @@ import {
   signal,
   computed,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { CharacterStore } from '../core/stores/character-store';
 import { CommonModule } from '@angular/common';
 import { CharacterService } from '../core/services/character';
