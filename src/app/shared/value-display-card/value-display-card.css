@@ -6,32 +6,43 @@
   background: #fff;
   border: 2px solid #333;
   border-radius: 8px;
-  padding: 10px;
-  width: 110px;          /* Ta largeur souhaitée */
+  padding: 12px 8px;
+  min-height: 100px;
+  width: 110px; /* Ta largeur souhaitée */
   text-align: center;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  
-  /* Flexbox interne pour aligner le contenu verticalement */
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+ box-sizing: border-box; /* Crucial pour que le padding ne casse pas la largeur */
+
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* Aligne horizontalement */
+  align-items: center; 
+  /* Distribue l'espace pour que le chiffre reste en bas si le texte monte */
+  justify-content: space-between;
 }
 
 .value-display-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   border-color: #6366f1; /* Couleur d'accentuation */
 }
 
 .value-display-label {
-  display: block;
+display: flex;
+  align-items: center; /* Centre le texte verticalement dans sa zone */
+  justify-content: center;
+  height: 2.2rem; /* Hauteur fixe pour 2 lignes max */
   font-weight: bold;
   text-transform: uppercase;
   font-size: 0.7rem;
   color: #666;
   margin-bottom: 5px;
+  line-height: 1.1; /* Resserre un peu les lignes pour le texte long */
 }
 
 .value-display-btn {
@@ -44,4 +55,3 @@
   padding: 0;
   margin: 0 auto;
 }
-

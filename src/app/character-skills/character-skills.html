@@ -1,5 +1,6 @@
 <app-character-layout>
-@for (skill of characterStore.sortedSkills(); track skill.type) {
+  <div class="skills-grid">
+    @for (skill of characterStore.sortedSkills(); track skill.type) {
       <app-value-display-card
         [label]="formatSkillName(skill.type)"
         [value]="skill.modifier"
@@ -8,4 +9,5 @@
     } @empty {
       <p>Chargement des compétences...</p>
     }
+  </div>
 </app-character-layout>
