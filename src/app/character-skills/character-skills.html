@@ -3,6 +3,7 @@
     @for (skill of characterStore.sortedSkills(); track skill.type) {
       <app-value-display-card
         [label]="formatSkillName(skill.type)"
+        [isLabelUnderline]="skill.isProficient"
         [value]="skill.modifier"
         (edit)="openModal(skill.type)"
       />

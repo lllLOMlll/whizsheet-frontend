@@ -8,6 +8,7 @@ import { Component, input, output } from '@angular/core';
 })
 export class ValueDisplayCard {
   label = input.required<string>();
+  isLabelUnderline = input<boolean>(false);
   value = input.required<number>();
   edit = output<void>();
 }

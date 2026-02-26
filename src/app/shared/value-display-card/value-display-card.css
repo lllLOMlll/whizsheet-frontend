@@ -45,6 +45,12 @@ display: flex;
   line-height: 1.1; /* Resserre un peu les lignes pour le texte long */
 }
 
+.underline {
+  text-decoration: underline;
+  text-decoration-color: #555; /* Optionnel : rappelle la couleur de survol */
+  text-underline-offset: 1px;
+}
+
 .value-display-btn {
   background: none;
   border: none;
