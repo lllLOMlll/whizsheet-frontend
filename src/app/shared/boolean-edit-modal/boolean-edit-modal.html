@@ -1,0 +1,15 @@
+<dialog #dialogElement (close)="close.emit()" (click)="onClickOutside($event, dialogElement)">
+  <div class="modal-content">
+    <h3>{{ title() }}</h3>
+    <label class="form-check ">
+      <input type="checkbox" [(ngModel)]="tempValue" />
+      Proficient
+    </label>
+    <div class="modal-actions">
+      <button (click)="dialogElement.close()">Cancel</button>
+      <button (click)="save.emit(tempValue); dialogElement.close()" class="btn-primary">
+        Save
+      </button>
+    </div>
+  </div>
+</dialog>

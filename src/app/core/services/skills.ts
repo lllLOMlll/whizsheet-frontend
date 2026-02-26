@@ -54,8 +54,12 @@ export class SkillsService {
   }
 
   update(characterId: number, data: Skill[]) {
-    // Note: Si ton update attend aussi l'objet enveloppé { skills: [...] },
-    // il faudra adapter l'envoi ici.
-    return this.http.put<Skill[]>(`${this.baseURL}/${characterId}/skills`, data);
+    // On enveloppe les données dans un objet pour correspondre au DTO C#
+    const payload: SkillsResponse = {
+      skills: data,
+    };
+
+    return this.http.put<SkillsResponse>(`${this.baseURL}/${characterId}/skills`, payload)
+      .pipe(map((res) => res.skills)); // On extrait le tableau de la réponse pour que le Store reçoive Skill[]
   }
 }

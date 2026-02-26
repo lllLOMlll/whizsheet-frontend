@@ -149,13 +149,13 @@ export const CharacterStore = signalStore(
           ),
         ),
 
-        // updateSkills: rxMethod<SkillsWithModifiers>(
-        //   _updateEntity(
-        //     (id, data) => skillsService.update(id, data),
-        //     'skills',
-        //     'Failed to update skills'
-        //   )
-        // ),
+        updateSkills: rxMethod<Skill[]>(
+          _updateEntity(
+            (id, data) => skillsService.update(id, data),
+            'skills',
+            'Failed to update skills'
+          )
+        ),
 
         /**
          * Réinitialise complètement le store

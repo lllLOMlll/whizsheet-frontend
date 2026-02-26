@@ -43,6 +43,7 @@
     />
     
   </div>
+</app-character-layout>
 
   <app-ability-scores-modal
     [isOpen]="isModalOpen()"
@@ -51,4 +52,3 @@
     (save)="updateStat($event)"
     (close)="isModalOpen.set(false)"
   />
-</app-character-layout>

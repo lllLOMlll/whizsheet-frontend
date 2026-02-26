@@ -11,3 +11,11 @@
     }
   </div>
 </app-character-layout>
+
+<app-boolean-edit-modal
+  [title]="selectedSkill() ? formatSkillName(selectedSkill()!.type) : 'Skill'"
+  [value]="selectedSkill()?.isProficient ? 1 : 0"
+  [isOpen]="isModalOpen()"
+  (close)="isModalOpen.set(false)"
+  (save)="onSaveSkill($event)"
+/>

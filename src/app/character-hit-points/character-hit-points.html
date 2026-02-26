@@ -18,6 +18,7 @@
       (edit)="openModal('temporaryHitPoints')"
     />
   </div>
+</app-character-layout>
 
   <app-value-edit-modal
     [isOpen]="isModalOpen()"
@@ -26,4 +27,3 @@
     (save)="updateHp($event)"
     (close)="isModalOpen.set(false)"
   />
-</app-character-layout>
