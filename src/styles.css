@@ -30,6 +30,8 @@
 
   /* Logo */
   --logo-hoover: #3b82f6;;
+
+  --section-title: #3d0303;
 }
 
 /* DARK THEME */
@@ -59,6 +61,8 @@
 
   /* Logo */
   --logo-hoover: #000000;
+
+  --section-title: #d32f2f;
 
 }
 
@@ -174,8 +178,45 @@ app-root {
   margin: 0 auto;
 }
 
+
+
+/* =========================
+   TITLE 
+   ========================= */
+.section-title-whiz {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var( --section-title); /* Le rouge de ton logo */
+  margin-bottom: 0.5rem;
+  font-weight: 900;
+  font-size: 1.8rem;
+  /* Optionnel : un léger halo sur le texte aussi */
+  text-shadow: 0 0 10px rgba(211, 47, 47, 0.5);
+}
+
 .page-title {
-  margin-bottom: 1.5rem;
+  font-family: 'UnifrakturMaguntia', serif; /* Écriture gothique */
+  font-size: 4.5rem; /* Très grand pour dominer la page */
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  color: var( --section-title); /* Le rouge de ton logo */
+  text-shadow: 0 0 10px rgba(211, 47, 47, 0.5);
+
+  letter-spacing: 2px;
+  text-transform: capitalize;
+}
+
+/* Le sous-titre (Artificer Lv 1) pour équilibrer */
+.page-subtitle {
+  font-family: 'MedievalSharp', cursive;
+  color: #888;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
 }
 
 /* =========================
@@ -287,6 +328,7 @@ app-root {
   font-size: 0.85rem;
   color: var(--danger);
 }
+
 
 /* =========================
    CARD 
