@@ -1,8 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Skill } from './skills';
 import { Observable } from 'rxjs';
+import { Skill } from './skills';
+import { SavingThrows } from './saving-throws';
+
 
 export interface AbilityScores {
   strength: number;
@@ -31,6 +33,7 @@ export interface UpdateAbilityScoresData {
 export interface AbilityUpdateResponseDto {
   abilities: AbilityScores;
   skills: Skill[];
+  savingThrows: SavingThrows;
 }
 
 @Injectable({
@@ -46,7 +49,7 @@ export class AbilityScoresService {
   }
 
   get(characterId: number) {
-    return this.http.get<AbilityScores>(`${this.baseUrl}/${characterId}/ability-scores`);
+    return this.http.get<AbilityUpdateResponseDto>(`${this.baseUrl}/${characterId}/ability-scores`);
   }
 
   update(characterId: number, data: UpdateAbilityScoresData): Observable<AbilityUpdateResponseDto> {

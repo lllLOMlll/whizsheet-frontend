@@ -138,15 +138,15 @@ export class CharacterEditComponent {
       name: character.name,
     });
 
-    const abilityScores = await firstValueFrom(this.abilityScoresService.get(id));
+    const abilityScoresResponse = await firstValueFrom(this.abilityScoresService.get(id));
 
     this.abilityScoresModel.set({
-      strength: abilityScores.strength,
-      dexterity: abilityScores.dexterity,
-      constitution: abilityScores.constitution,
-      intelligence: abilityScores.intelligence,
-      wisdom: abilityScores.wisdom,
-      charisma: abilityScores.charisma,
+      strength: abilityScoresResponse.abilities.strength,
+      dexterity: abilityScoresResponse.abilities.dexterity,
+      constitution: abilityScoresResponse.abilities.constitution,
+      intelligence: abilityScoresResponse.abilities.intelligence,
+      wisdom: abilityScoresResponse.abilities.wisdom,
+      charisma: abilityScoresResponse.abilities.charisma,
     });
 
     const hitPoints = await firstValueFrom(this.hitPointsService.get(id));

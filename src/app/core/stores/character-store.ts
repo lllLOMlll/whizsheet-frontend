@@ -8,11 +8,13 @@ import { CharacterClassService, CharacterClassData } from '../services/character
 import { AbilityScoresService, AbilityScores } from '../services/ability-scores';
 import { HitPointsService, HitPointsData } from '../services/hit-points';
 import { SkillsService, SkillType, Skill } from '../services/skills';
+import { SavingThrows } from '../services/saving-throws';
 
 // 1. Définition de l'état
 export interface CharacterState {
   character: Character | null;
   abilities: AbilityScores | null;
+  savingThrows: SavingThrows | null;
   classes: CharacterClassData[];
   hitPoints: HitPointsData | null;
   skills: Skill[] | null;
@@ -24,6 +26,7 @@ export interface CharacterState {
 const initialState: CharacterState = {
   character: null,
   abilities: null,
+  savingThrows: null,
   classes: [],
   hitPoints: null,
   skills: [],
@@ -111,13 +114,23 @@ export const CharacterStore = signalStore(
             switchMap((id) =>
               forkJoin({
                 character: charService.getById(id),
-                abilities: abilityService.get(id),
+                abilityResponse: abilityService.get(id),
                 classes: classService.get(id),
                 hitPoints: hitPointsService.get(id),
                 skills: skillsService.get(id),
               }).pipe(
                 tap({
-                  next: (data) => patchState(store, { ...data, isLoading: false }),
+                  next: (data) =>
+                    patchState(store, {
+                      character: data.character,
+                      classes: data.classes,
+                      hitPoints: data.hitPoints,                      
+                      abilities: data.abilityResponse.abilities,                      
+                      skills: data.abilityResponse.skills,
+                      savingThrows: data.abilityResponse.savingThrows,
+                      isLoading: false,
+                      error: null,
+                    }),
                   error: (err) => {
                     console.error('Loading error:', err);
                     patchState(store, {
@@ -133,38 +146,39 @@ export const CharacterStore = signalStore(
         ),
 
         // Mises à jour utilisant la méthode générique
-    updateAbilities: rxMethod<AbilityScores>(
-    pipe(
-      switchMap((newData) => {
-        const charId = store.character()?.id;
-        if (!charId) return of(null);
+        updateAbilities: rxMethod<AbilityScores>(
+          pipe(
+            switchMap((newData) => {
+              const charId = store.character()?.id;
+              if (!charId) return of(null);
 
-        patchState(store, { isLoading: true });
+              patchState(store, { isLoading: true });
 
-        return abilityService.update(charId, newData).pipe(
-          tap({
-            next: (response) => {
-              // ON MET À JOUR DEUX CLÉS D'UN COUP !
-              patchState(store, { 
-                abilities: response.abilities as any, // On met à jour les scores
-                skills: response.skills,              // On met à jour les compétences recalculées
-                isLoading: false,
-                error: null 
-              });
-            },
-            error: (err) => {
-              console.error('Failed to update abilities:', err);
-              patchState(store, { 
-                error: 'Failed to update ability scores', 
-                isLoading: false 
-              });
-            }
-          }),
-          catchError(() => of(null))
-        );
-      })
-    )
-  ),
+              return abilityService.update(charId, newData).pipe(
+                tap({
+                  next: (response) => {
+                    // ON MET À JOUR DEUX CLÉS D'UN COUP !
+                    patchState(store, {
+                      abilities: response.abilities as any, // On met à jour les scores
+                      skills: response.skills, // On met à jour les compétences recalculées
+                      savingThrows: response.savingThrows,
+                      isLoading: false,
+                      error: null,
+                    });
+                  },
+                  error: (err) => {
+                    console.error('Failed to update abilities:', err);
+                    patchState(store, {
+                      error: 'Failed to update ability scores',
+                      isLoading: false,
+                    });
+                  },
+                }),
+                catchError(() => of(null)),
+              );
+            }),
+          ),
+        ),
 
         updateHp: rxMethod<HitPointsData>(
           _updateEntity(
@@ -178,8 +192,8 @@ export const CharacterStore = signalStore(
           _updateEntity(
             (id, data) => skillsService.update(id, data),
             'skills',
-            'Failed to update skills'
-          )
+            'Failed to update skills',
+          ),
         ),
 
         /**
