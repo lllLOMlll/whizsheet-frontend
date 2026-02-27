@@ -133,13 +133,38 @@ export const CharacterStore = signalStore(
         ),
 
         // Mises à jour utilisant la méthode générique
-        updateAbilities: rxMethod<AbilityScores>(
-          _updateEntity(
-            (id, data) => abilityService.update(id, data),
-            'abilities',
-            'Failed to update ability scores',
-          ),
-        ),
+    updateAbilities: rxMethod<AbilityScores>(
+    pipe(
+      switchMap((newData) => {
+        const charId = store.character()?.id;
+        if (!charId) return of(null);
+
+        patchState(store, { isLoading: true });
+
+        return abilityService.update(charId, newData).pipe(
+          tap({
+            next: (response) => {
+              // ON MET À JOUR DEUX CLÉS D'UN COUP !
+              patchState(store, { 
+                abilities: response.abilities as any, // On met à jour les scores
+                skills: response.skills,              // On met à jour les compétences recalculées
+                isLoading: false,
+                error: null 
+              });
+            },
+            error: (err) => {
+              console.error('Failed to update abilities:', err);
+              patchState(store, { 
+                error: 'Failed to update ability scores', 
+                isLoading: false 
+              });
+            }
+          }),
+          catchError(() => of(null))
+        );
+      })
+    )
+  ),
 
         updateHp: rxMethod<HitPointsData>(
           _updateEntity(
