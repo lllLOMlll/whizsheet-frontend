@@ -32,6 +32,7 @@ export class RegisterComponent {
   private router = inject(Router);
 
   showPasswordHint = signal(false);
+  isSubmitting = signal(false);
 
   error = signal<string | null>(null);
 
@@ -58,6 +59,8 @@ export class RegisterComponent {
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
     this.error.set(null);
+    
+    if (this.isSubmitting()) return; // Avoid double click
 
     submit(this.registerForm, async () => {
       const { email, password, confirmPassword } = this.registerModel();
@@ -79,7 +82,10 @@ export class RegisterComponent {
           return;
         }
         this.error.set('Registration failed');
+        this.isSubmitting.set(false);
       }
+
+      this.isSubmitting.set(false);
     });
   }
 
