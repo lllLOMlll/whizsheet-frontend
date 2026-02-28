@@ -1,0 +1,34 @@
+<app-character-layout>
+    <h3 class="text-center section-title-whiz">Saving Throws</h3>
+    <div class="card-grid">
+  <app-value-display-card
+        label="Strength"
+        [value]="characterStore.savingThrows()?.strength || 0"
+    />
+
+     <app-value-display-card
+        label="Dexterity"
+        [value]="characterStore.savingThrows()?.dexterity || 0"
+    />
+
+     <app-value-display-card
+        label="Constitution"
+        [value]="characterStore.savingThrows()?.constitution || 0"
+    />
+
+     <app-value-display-card
+        label="Intelligence"
+        [value]="characterStore.savingThrows()?.intelligence || 0"
+    />
+
+     <app-value-display-card
+        label="Wisdom"
+        [value]="characterStore.savingThrows()?.wisdom || 0"
+    />
+
+     <app-value-display-card
+        label="Charisma"
+        [value]="characterStore.savingThrows()?.charisma || 0"
+    />
+    </div>
+</app-character-layout>

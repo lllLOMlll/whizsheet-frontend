@@ -193,8 +193,7 @@ export class CharacterCreateComponent {
         // 3. On lance toutes les autres requêtes en parallèle
         // On attend que TOUTES soient terminées avant de passer à la suite
         await Promise.all([
-          firstValueFrom(this.characterClassService.create(character.id, classesPayload)), // Cannot create an empty class. Therefore, create and not update
-
+          firstValueFrom(this.characterClassService.update(character.id, classesPayload)), 
           firstValueFrom(this.abilityScoresService.update(character.id, this.abilityScoresModel())),
           firstValueFrom(this.hitPointsService.update(character.id, this.hitPointsModelSignal())),
           //firstValueFrom(this.skillsService.update(character.id, this.skillsData)),

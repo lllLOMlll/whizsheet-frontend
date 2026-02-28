@@ -6,8 +6,9 @@ import {
   signal,
   computed,
 } from '@angular/core';
-import { CharacterStore } from '../core/stores/character-store';
 import { CommonModule } from '@angular/common';
+
+import { CharacterStore } from '../core/stores/character-store';
 import { CharacterService } from '../core/services/character';
 import { CharacterLayout } from '../layout/character-layout/character-layout';
 import { ValueDisplayCard } from '../shared/value-display-card/value-display-card';

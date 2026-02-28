@@ -1,7 +1,11 @@
 <nav class="side-nav" [class.open]="isOpen()">
   <div class="side-nav-header">
     @if (theme.current() === 'dark') {
-      <img src="/whizsheet-transparent-red-logo-compressed.png" alt="Whizsheet" class="side-nav-logo" />
+      <img
+        src="/whizsheet-transparent-red-logo-compressed.png"
+        alt="Whizsheet"
+        class="side-nav-logo"
+      />
     } @else {
       <img src="/whizsheet-transparent-black-logo.png" alt="Whizsheet" class="side-nav-logo" />
     }
@@ -55,6 +59,17 @@
         </a>
       </li>
 
+      <!-- HIT POINTS -->
+      <li class="nav-child">
+        <a
+          [routerLink]="['/characters', activeCharacterId(), 'hit-points']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Hit points
+        </a>
+      </li>
+
       <!-- ABILITY SCORES-->
       <li class="nav-child">
         <a
@@ -66,25 +81,25 @@
         </a>
       </li>
 
-      <!-- HIT POINTS -->
-      <li class="nav-child">
+      <!-- SAVING THROWS-->
+       <li class="nav-child">
         <a
-        [routerLink]="['/characters', activeCharacterId(), 'hit-points']"
+        [routerLink]="['/characters', activeCharacterId(), 'saving-throws']"
         routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact : true }"
-        > 
-        Hit points 
+        [routerLinkActiveOptions]="{exact: true}"
+        >
+        Saving Throws
       </a>
-      </li>
+       </li>
 
       <li class="nav-child">
         <a
-        [routerLink]="['/characters', activeCharacterId(), 'skills']"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
+          [routerLink]="['/characters', activeCharacterId(), 'skills']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
         >
-        Skills
-      </a>
+          Skills
+        </a>
       </li>
     }
   </ul>
