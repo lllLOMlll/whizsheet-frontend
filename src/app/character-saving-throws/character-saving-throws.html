@@ -3,32 +3,42 @@
     <div class="card-grid">
   <app-value-display-card
         label="Strength"
+        [isLabelUnderline]="characterStore.savingThrows()!.isStrengthProficient"
         [value]="characterStore.savingThrows()?.strength || 0"
     />
 
      <app-value-display-card
         label="Dexterity"
+        [isLabelUnderline]="characterStore.savingThrows()!.isDexterityProficient"
         [value]="characterStore.savingThrows()?.dexterity || 0"
     />
 
      <app-value-display-card
         label="Constitution"
+        [isLabelUnderline]="characterStore.savingThrows()!.isConstitutionProficient"
         [value]="characterStore.savingThrows()?.constitution || 0"
     />
 
      <app-value-display-card
         label="Intelligence"
+        [isLabelUnderline]="characterStore.savingThrows()!.isIntelligenceProficient"
         [value]="characterStore.savingThrows()?.intelligence || 0"
     />
 
      <app-value-display-card
         label="Wisdom"
+        [isLabelUnderline]="characterStore.savingThrows()!.isWisdomProficient"
         [value]="characterStore.savingThrows()?.wisdom || 0"
     />
 
      <app-value-display-card
         label="Charisma"
+        [isLabelUnderline]="characterStore.savingThrows()!.isCharismaProficient"
         [value]="characterStore.savingThrows()?.charisma || 0"
     />
     </div>
 </app-character-layout>
+
+<!-- <app-boolean-edit-modal
+
+/> -->
