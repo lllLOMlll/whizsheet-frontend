@@ -33,6 +33,7 @@ export class CharacterSkillsComponent {
       this.isModalOpen.set(true);
     }
   }
+
   onSaveSkill(isProficient: any) {
     const skill = this.selectedSkill();
     if (skill) {

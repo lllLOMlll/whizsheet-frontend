@@ -16,7 +16,7 @@
 
 <app-boolean-edit-modal
   [title]="selectedSkill() ? formatSkillName(selectedSkill()!.type) : 'Skill'"
-  [value]="selectedSkill()?.isProficient ? 1 : 0"
+  [value]="selectedSkill()?.isProficient ?? false" 
   [isOpen]="isModalOpen()"
   (close)="isModalOpen.set(false)"
   (save)="onSaveSkill($event)"

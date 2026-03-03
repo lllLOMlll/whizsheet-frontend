@@ -17,6 +17,7 @@ import {
 } from '../core/services/character-class';
 import { HitPointsService, CreateHitPointsData, HitPointsData } from '../core/services/hit-points';
 import { SkillsService, Skill } from '../core/services/skills';
+import { SavingThrowsService } from '../core/services/saving-throws';
 
 import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
 import { CharacterClassItemComponent } from '../shared/character-class-item/character-class-item';
@@ -39,6 +40,7 @@ export class CharacterCreateComponent {
   private characterClassService = inject(CharacterClassService);
   private hitPointsService = inject(HitPointsService);
   private skillsService = inject(SkillsService);
+  private savingThrowsService = inject(SavingThrowsService);
 
   /* ------------------ CHARACTER ------------------ */
 
@@ -117,28 +119,6 @@ export class CharacterCreateComponent {
     min(f.totalHitPoints, 1);
   });
 
-  /* ------------------      SKILLS         ------------------ */
-  // public skillsData: Skills = {
-  //   isAcrobaticsProficient: false,
-  //   isAnimalHandlingProficient: false,
-  //   isArcanaProficient: false,
-  //   isAthleticsProficient: false,
-  //   isDeceptionProficient: false,
-  //   isHistoryProficient: false,
-  //   isInsightProficient: false,
-  //   isIntimidationProficient: false,
-  //   isInvestigationProficient: false,
-  //   isMedecineProficient: false,
-  //   isNatureProficient: false,
-  //   isPerceptionProficient: false,
-  //   isPerformanceProficient: false,
-  //   isPersuasionProficient: false,
-  //   isReligionProficient: false,
-  //   isSleighOfHandProficient: false,
-  //   isStealthProficient: false,
-  //   isSurvivalProficient: false,
-  // };
-
   /* ------------------ VALIDATIONS ------------------ */
 
   totalClassLevel = computed(() => this.characterClasses().reduce((sum, c) => sum + c.level, 0));
@@ -190,13 +170,13 @@ export class CharacterCreateComponent {
 
         this.hitPointsModelSignal().currentHitPoints = this.hitPointsModelSignal().totalHitPoints;
 
-        // 3. On lance toutes les autres requêtes en parallèle
-        // On attend que TOUTES soient terminées avant de passer à la suite
+        await firstValueFrom(this.characterClassService.update(character.id, classesPayload));
+
+        await firstValueFrom(this.savingThrowsService.firstUpdate(character.id));
+
         await Promise.all([
-          firstValueFrom(this.characterClassService.update(character.id, classesPayload)), 
           firstValueFrom(this.abilityScoresService.update(character.id, this.abilityScoresModel())),
           firstValueFrom(this.hitPointsService.update(character.id, this.hitPointsModelSignal())),
-          //firstValueFrom(this.skillsService.update(character.id, this.skillsData)),
         ]);
 
         // 4. Une fois que tout est fini, on redirige

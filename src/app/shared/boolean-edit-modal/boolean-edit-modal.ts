@@ -9,14 +9,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class BooleanEditModal {
   title = input.required<string>();
-  value = input.required<number>();
+  value = input.required<boolean>();
   isOpen = input<boolean>(false);
 
-  save = output<number>();
+  save = output<boolean>();
   close = output<void>();
 
   dialog = viewChild<ElementRef<HTMLDialogElement>>('dialogElement');
-  tempValue = 0;
+  tempValue = false;
 
   constructor() {
     effect(() => {
@@ -44,6 +44,10 @@ export class BooleanEditModal {
   }
 
   handleSave() {
+    // let valueToEmit: number;
+    
+    // this.tempValue ? valueToEmit = 1 : valueToEmit = 0;
+
     this.save.emit(this.tempValue);
     this.dialog()?.nativeElement.close();
   }
