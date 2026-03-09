@@ -4,43 +4,43 @@
   <div class="card-grid">
     <app-value-display-card
       label="Strength"
-      [isLabelUnderline]="getST(SavingThrowsType.strength)?.isProficient ?? false"
-      [value]="getST(SavingThrowsType.strength)?.modifier ?? 0"
+      [isLabelUnderline]="characterStore.savingThrows()?.isStrengthProficient ?? false"
+      [value]="characterStore.savingThrows()?.strength ?? 0"
       (edit)="openModalByEnum(SavingThrowsType.strength)"
     />
 
     <app-value-display-card
       label="Dexterity"
-      [isLabelUnderline]="getST(SavingThrowsType.dexterity)?.isProficient ?? false"
-      [value]="getST(SavingThrowsType.dexterity)?.modifier ?? 0"
+      [isLabelUnderline]="characterStore.savingThrows()?.isDexterityProficient ?? false"
+      [value]="characterStore.savingThrows()?.dexterity ?? 0"
       (edit)="openModalByEnum(SavingThrowsType.dexterity)"
     />
 
     <app-value-display-card
       label="Constitution"
-      [isLabelUnderline]="getST(SavingThrowsType.constitution)?.isProficient ?? false"
-      [value]="getST(SavingThrowsType.constitution)?.modifier ?? 0"
+      [isLabelUnderline]="characterStore.savingThrows()?.isConstitutionProficient ?? false"
+      [value]="characterStore.savingThrows()?.constitution ?? 0"
       (edit)="openModalByEnum(SavingThrowsType.constitution)"
     />
 
     <app-value-display-card
       label="Intelligence"
-      [isLabelUnderline]="getST(SavingThrowsType.intelligence)?.isProficient ?? false"
-      [value]="getST(SavingThrowsType.intelligence)?.modifier ?? 0"
+      [isLabelUnderline]="characterStore.savingThrows()?.isIntelligenceProficient ?? false"
+      [value]="characterStore.savingThrows()?.intelligence ?? 0"
       (edit)="openModalByEnum(SavingThrowsType.intelligence)"
     />
 
     <app-value-display-card
       label="Wisdom"
-      [isLabelUnderline]="getST(SavingThrowsType.wisdom)?.isProficient ?? false"
-      [value]="getST(SavingThrowsType.wisdom)?.modifier ?? 0"
+      [isLabelUnderline]="characterStore.savingThrows()?.isWisdomProficient ?? false"
+      [value]="characterStore.savingThrows()?.wisdom ?? 0"
       (edit)="openModalByEnum(SavingThrowsType.wisdom)"
     />
 
     <app-value-display-card
       label="Charisma"
-      [isLabelUnderline]="getST(SavingThrowsType.charisma)?.isProficient ?? false"
-      [value]="getST(SavingThrowsType.charisma)?.modifier ?? 0"
+      [isLabelUnderline]="characterStore.savingThrows()?.isCharismaProficient ?? false"
+      [value]="characterStore.savingThrows()?.charisma ?? 0"
       (edit)="openModalByEnum(SavingThrowsType.charisma)"
     />
   </div>

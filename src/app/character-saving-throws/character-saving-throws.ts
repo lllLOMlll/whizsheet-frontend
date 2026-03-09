@@ -27,14 +27,13 @@ export class CharacterSavingThrowsComponent {
   // Signal calculé pour la modale
   isSelectedSavingThrowProficient = signal<boolean>(false);
 
-  // Pour récupérer facilement un jet spécifique dans le template
-  getST(type: SavingThrowsType): SavingThrow | undefined {
-    return this.characterStore.savingThrows()?.find(s => s.SavingThrowType === type);
-  }
+ getSavingThrow(type: SavingThrowsType): SavingThrow | undefined {
+  return this.characterStore.savingThrow()?.find(s => s.SavingThrowType === type);
+ }
 
   // Ouvre la modale à partir d'un type précis
   openModalByEnum(type: SavingThrowsType) {
-    const st = this.getST(type);
+    const st = this.getSavingThrow(type);
     if (st) {
       this.selectedSavingThrow.set(st);
       this.label.set(st.SavingThrowType.charAt(0).toUpperCase() + st.SavingThrowType.slice(1)); // Capitalize
