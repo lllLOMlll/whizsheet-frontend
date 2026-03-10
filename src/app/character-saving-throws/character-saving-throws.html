@@ -2,47 +2,18 @@
   <h3 class="text-center section-title-whiz">Saving Throws</h3>
   
   <div class="card-grid">
-    <app-value-display-card
-      label="Strength"
-      [isLabelUnderline]="characterStore.savingThrows()?.isStrengthProficient ?? false"
-      [value]="characterStore.savingThrows()?.strength ?? 0"
-      (edit)="openModalByEnum(SavingThrowsType.strength)"
-    />
-
-    <app-value-display-card
-      label="Dexterity"
-      [isLabelUnderline]="characterStore.savingThrows()?.isDexterityProficient ?? false"
-      [value]="characterStore.savingThrows()?.dexterity ?? 0"
-      (edit)="openModalByEnum(SavingThrowsType.dexterity)"
-    />
-
-    <app-value-display-card
-      label="Constitution"
-      [isLabelUnderline]="characterStore.savingThrows()?.isConstitutionProficient ?? false"
-      [value]="characterStore.savingThrows()?.constitution ?? 0"
-      (edit)="openModalByEnum(SavingThrowsType.constitution)"
-    />
-
-    <app-value-display-card
-      label="Intelligence"
-      [isLabelUnderline]="characterStore.savingThrows()?.isIntelligenceProficient ?? false"
-      [value]="characterStore.savingThrows()?.intelligence ?? 0"
-      (edit)="openModalByEnum(SavingThrowsType.intelligence)"
-    />
-
-    <app-value-display-card
-      label="Wisdom"
-      [isLabelUnderline]="characterStore.savingThrows()?.isWisdomProficient ?? false"
-      [value]="characterStore.savingThrows()?.wisdom ?? 0"
-      (edit)="openModalByEnum(SavingThrowsType.wisdom)"
-    />
-
-    <app-value-display-card
-      label="Charisma"
-      [isLabelUnderline]="characterStore.savingThrows()?.isCharismaProficient ?? false"
-      [value]="characterStore.savingThrows()?.charisma ?? 0"
-      (edit)="openModalByEnum(SavingThrowsType.charisma)"
-    />
+    @for (st of characterStore.savingThrows(); track st.savingThrowType) {
+      <app-value-display-card
+        [label]="st.savingThrowType"
+        [isLabelUnderline]="st.isProficient"
+        [value]="st.modifier"
+        (edit)="openModal(st)"
+      />
+    } @empty {
+      @if (characterStore.isLoading()) {
+        <p class="text-center">Loading saving throws...</p>
+      }
+    }
   </div>
 </app-character-layout>
 

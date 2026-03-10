@@ -12,18 +12,15 @@ import {
   SavingThrow,
   SavingThrowsService,
   SavingThrowsProficient,
-  SavingThrowsType,
-  SavingThrows,
 } from '../services/saving-throws';
 
 export interface CharacterState {
   character: Character | null;
   abilities: AbilityScores | null;
-  savingThrows: SavingThrows | null;
-  savingThrow: SavingThrow[] | null;
+  savingThrows: SavingThrow[]; // Initialisé en tableau vide pour éviter les null checks constants
   classes: CharacterClassData[];
   hitPoints: HitPointsData | null;
-  skills: Skill[] | null;
+  skills: Skill[];
   isLoading: boolean;
   error: string | null;
 }
@@ -31,8 +28,7 @@ export interface CharacterState {
 const initialState: CharacterState = {
   character: null,
   abilities: null,
-  savingThrows: null,
-  savingThrow: [],
+  savingThrows: [],
   classes: [],
   hitPoints: null,
   skills: [],
@@ -40,49 +36,11 @@ const initialState: CharacterState = {
   error: null,
 };
 
-/**
- * Transforme l'objet plat (DTO Backend) en tableau SavingThrow[] pour le store
- */
-function mapSavingThrowsToTable(st: SavingThrows): SavingThrow[] {
-  return [
-    {
-      SavingThrowType: SavingThrowsType.strength,
-      isProficient: st.isStrengthProficient,
-      modifier: st.strength,
-    },
-    {
-      SavingThrowType: SavingThrowsType.dexterity,
-      isProficient: st.isDexterityProficient,
-      modifier: st.dexterity,
-    },
-    {
-      SavingThrowType: SavingThrowsType.constitution,
-      isProficient: st.isConstitutionProficient,
-      modifier: st.constitution,
-    },
-    {
-      SavingThrowType: SavingThrowsType.intelligence,
-      isProficient: st.isIntelligenceProficient,
-      modifier: st.intelligence,
-    },
-    {
-      SavingThrowType: SavingThrowsType.wisdom,
-      isProficient: st.isWisdomProficient,
-      modifier: st.wisdom,
-    },
-    {
-      SavingThrowType: SavingThrowsType.charisma,
-      isProficient: st.isCharismaProficient,
-      modifier: st.charisma,
-    },
-  ];
-}
-
 export const CharacterStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
 
-  withComputed(({ classes, skills }) => ({
+  withComputed(({ classes, skills, savingThrows }) => ({
     sortedClasses: computed(() => {
       const data = classes();
       return [...data].sort((a, b) => {
@@ -96,7 +54,7 @@ export const CharacterStore = signalStore(
       const data = skills();
       if (!data || !Array.isArray(data)) return [];
       return [...data].sort((a, b) => a.type.localeCompare(b.type));
-    }),
+    })
   })),
 
   withMethods(
@@ -109,10 +67,7 @@ export const CharacterStore = signalStore(
       skillsService = inject(SkillsService),
       savingThrowsService = inject(SavingThrowsService),
     ) => ({
-      /**
-       * Charge toutes les données.
-       * Note: On utilise abilityResponse.savingThrows car c'est lui qui contient les modificateurs calculés.
-       */
+      
       loadCharacterData: rxMethod<number>(
         pipe(
           filter((id) => id > 0),
@@ -123,8 +78,8 @@ export const CharacterStore = signalStore(
               abilityResponse: abilityService.get(id),
               classes: classService.get(id),
               hitPoints: hitPointsService.get(id),
-              savingThrows: savingThrowsService.get(id),
-              // On ignore le get de savingThrowsService ici car le abilityService renvoie déjà tout proprement
+              // Renvoie SavingThrow[] grâce au .pipe(map) dans le service
+              savingThrowsList: savingThrowsService.get(id), 
             }).pipe(
               tap({
                 next: (data) =>
@@ -134,10 +89,7 @@ export const CharacterStore = signalStore(
                     hitPoints: data.hitPoints,
                     abilities: data.abilityResponse.abilities,
                     skills: data.abilityResponse.skills,
-                    savingThrows: data.abilityResponse.savingThrows,
-                    // Utilisation de l'objet calculé du Ability Controller
-                    savingThrow: mapSavingThrowsToTable(data.abilityResponse.savingThrows),
-                    //savingThrows: data.savingThrows,
+                    savingThrows: data.savingThrowsList, 
                     isLoading: false,
                   }),
                 error: (err) => {
@@ -145,10 +97,10 @@ export const CharacterStore = signalStore(
                   patchState(store, { isLoading: false, error: 'Load failed' });
                 },
               }),
-              catchError(() => of(null)),
-            ),
-          ),
-        ),
+              catchError(() => of(null))
+            )
+          )
+        )
       ),
 
       updateAbilities: rxMethod<AbilityScores>(
@@ -158,21 +110,24 @@ export const CharacterStore = signalStore(
             const id = store.character()?.id;
             if (!id) return of(null);
             return abilityService.update(id, newData).pipe(
-              tap((response) => {
-                patchState(store, {
-                  abilities: response.abilities,
-                  skills: response.skills,
-                  savingThrows: response.savingThrows,
-                  isLoading: false,
-                });
-              }),
+              // On recharge les saving throws car les modificateurs dépendent des scores d'habilités
+              switchMap((res) => 
+                savingThrowsService.get(id).pipe(
+                  tap(stList => patchState(store, { 
+                    abilities: res.abilities, 
+                    skills: res.skills,
+                    savingThrows: stList,
+                    isLoading: false 
+                  }))
+                )
+              ),
               catchError(() => {
                 patchState(store, { isLoading: false, error: 'Update failed' });
                 return of(null);
-              }),
+              })
             );
-          }),
-        ),
+          })
+        )
       ),
 
       updateSkills: rxMethod<Skill[]>(
@@ -186,10 +141,10 @@ export const CharacterStore = signalStore(
               catchError(() => {
                 patchState(store, { isLoading: false });
                 return of(null);
-              }),
+              })
             );
-          }),
-        ),
+          })
+        )
       ),
 
       updateSavingThrow: rxMethod<SavingThrowsProficient[]>(
@@ -199,17 +154,11 @@ export const CharacterStore = signalStore(
             const id = store.character()?.id;
             if (!id) return of(null);
 
-            // 1. On fait la sauvegarde
             return savingThrowsService.put(id, newData).pipe(
-              // 2. AU LIEU de prendre la réponse de 'put', on va chercher les scores calculés
-              switchMap(() => abilityService.get(id)),
-              tap((response) => {
-                // 'response' est maintenant un AbilityResponse complet (avec les calculs faits !)
+              tap((updatedList) => {
+                // updatedList est un SavingThrow[] (grâce au map dans le service)
                 patchState(store, {
-                  abilities: response.abilities,
-                  skills: response.skills,
-                  savingThrows: response.savingThrows,
-                  savingThrow: mapSavingThrowsToTable(response.savingThrows),
+                  savingThrows: updatedList,
                   isLoading: false,
                 });
               }),
@@ -217,10 +166,10 @@ export const CharacterStore = signalStore(
                 console.error(err);
                 patchState(store, { isLoading: false, error: 'Update failed' });
                 return of(null);
-              }),
+              })
             );
-          }),
-        ),
+          })
+        )
       ),
 
       updateHp: rxMethod<HitPointsData>(
@@ -231,13 +180,13 @@ export const CharacterStore = signalStore(
             if (!id) return of(null);
             return hitPointsService.update(id, data).pipe(
               tap((res) => patchState(store, { hitPoints: res, isLoading: false })),
-              catchError(() => of(null)),
+              catchError(() => of(null))
             );
-          }),
-        ),
+          })
+        )
       ),
 
       clear: () => patchState(store, initialState),
-    }),
-  ),
+    })
+  )
 );

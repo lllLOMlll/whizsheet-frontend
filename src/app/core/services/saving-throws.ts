@@ -28,7 +28,7 @@ export enum SavingThrowsType {
 }
 
 export interface SavingThrow {
-  SavingThrowType: SavingThrowsType;
+  savingThrowType: SavingThrowsType;
   isProficient: boolean;
   modifier: number;
 }
@@ -54,22 +54,20 @@ export class SavingThrowsService {
 
   private readonly baseURL = `${environment.apiBaseUrl}/characters`;
 
-  get(characterId: number) {
+ get(characterId: number) {
     return this.http
       .get<SavingThrowsList>(`${this.baseURL}/${characterId}/saving-throws`)
-      .pipe(map((res) => res.savingThrowsListDto));
-  }
+      .pipe(map((res) => res.savingThrowsListDto)); // Retourne directement SavingThrow[]
+  } 
 
   firstUpdate(characterId: number) {
     return this.http.put<void>(`${this.baseURL}/${characterId}/saving-throws/first-update`, characterId);
   }
 
-  put(characterId: number, data: SavingThrowsProficient[]) {
-    // Ton controller attend SavingTrowsProficientListDto
-    // Note: Vérifie si dans ton DTO C# la propriété s'appelle "SavingThrows"
-    const payload = { savingThrows: data };
-
+put(characterId: number, data: SavingThrowsProficient[]) {
+    const payload = { savingThrows: data }; // Doit matcher SavingTrowsProficientListDto en C#
     return this.http
-      .put<SavingThrows>(`${this.baseURL}/${characterId}/saving-throws`, payload);
+      .put<SavingThrowsList>(`${this.baseURL}/${characterId}/saving-throws`, payload)
+      .pipe(map((res) => res.savingThrowsListDto)); // Retourne aussi la liste mise à jour
   }
 }
