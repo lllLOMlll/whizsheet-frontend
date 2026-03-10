@@ -33,6 +33,15 @@
   border: 1px solid lightgray;
 }
 
+
+.serverless-warning {
+  background: #000000;
+  color: #e8b92a;
+  padding: 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
 /* =========================
    DARK MODE — LOGIN CARD
    ========================= */
