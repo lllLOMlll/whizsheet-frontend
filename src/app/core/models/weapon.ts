@@ -7,7 +7,6 @@ export interface Weapon extends Item {
   damageType?: DamageType;
   rangeType?: RangeType;
 
-  // Propriétés booléennes (on utilise le camelCase)
   isLight: boolean;
   isFinesse: boolean;
   isThrown: boolean;
@@ -18,6 +17,15 @@ export interface Weapon extends Item {
   isTwoHanded: boolean;
   isLoading: boolean;
   isSpecial: boolean;
+}
+
+export interface CharacterWeapon {
+  characterItemId: number;
+  weapon?: Weapon;
+  quantity: number;
+  isEquipped: boolean;
+  isAttuned: boolean;
+  chargesRemaining: number;
 }
 
 export enum AttackType {
@@ -35,12 +43,12 @@ export enum BonusAttackRollType {
 }
 
 export const BonusAttackRollLabel: Record<BonusAttackRollType, string> = {
-    [BonusAttackRollType.None]: "+0",
-    [BonusAttackRollType.B1]: "+1",
-    [BonusAttackRollType.B2]: "+2",
-    [BonusAttackRollType.B3]: "+3",
-    [BonusAttackRollType.B4]: "+4",
-    [BonusAttackRollType.B5]: "+5",
+  [BonusAttackRollType.None]: '+0',
+  [BonusAttackRollType.B1]: '+1',
+  [BonusAttackRollType.B2]: '+2',
+  [BonusAttackRollType.B3]: '+3',
+  [BonusAttackRollType.B4]: '+4',
+  [BonusAttackRollType.B5]: '+5',
 };
 
 export enum DamageDiceType {
@@ -57,16 +65,16 @@ export enum DamageDiceType {
 }
 
 export const DamageDiceLabel: Record<DamageDiceType, string> = {
-    [DamageDiceType.D4_1]: "1d4",
-    [DamageDiceType.D6_1]: "1d6",
-    [DamageDiceType.D8_1]: "1d8",
-    [DamageDiceType.D10_1]: "1d10",
-    [DamageDiceType.D12_1]: "1d12",
-    [DamageDiceType.D4_2]: "2d4",
-    [DamageDiceType.D6_2]: "2d6",
-    [DamageDiceType.D8_2]: "2d8",
-    [DamageDiceType.D10_2]: "2d10",
-    [DamageDiceType.D12_2]: "2d12"
+  [DamageDiceType.D4_1]: '1d4',
+  [DamageDiceType.D6_1]: '1d6',
+  [DamageDiceType.D8_1]: '1d8',
+  [DamageDiceType.D10_1]: '1d10',
+  [DamageDiceType.D12_1]: '1d12',
+  [DamageDiceType.D4_2]: '2d4',
+  [DamageDiceType.D6_2]: '2d6',
+  [DamageDiceType.D8_2]: '2d8',
+  [DamageDiceType.D10_2]: '2d10',
+  [DamageDiceType.D12_2]: '2d12',
 };
 
 export enum DamageType {
@@ -78,21 +86,21 @@ export enum DamageType {
 }
 
 export enum RangeType {
-    R0 = 0,
-    R1 = 1,
-    R2 = 2,
-    R3 = 3,
-    R4 = 4,
-    R5 = 5,
-    R6 = 6
+  R0 = 0,
+  R1 = 1,
+  R2 = 2,
+  R3 = 3,
+  R4 = 4,
+  R5 = 5,
+  R6 = 6,
 }
 
 export const RangeLabel: Record<RangeType, string> = {
-    [RangeType.R0]: "Not a range weapon",
-    [RangeType.R1]: "5/15",
-    [RangeType.R2]: "20/60",
-    [RangeType.R3]: "30/120",
-    [RangeType.R4]: "80/320",
-    [RangeType.R5]: "100/400",
-    [RangeType.R6]: "150/600"
+  [RangeType.R0]: 'Not a range weapon',
+  [RangeType.R1]: '5/15',
+  [RangeType.R2]: '20/60',
+  [RangeType.R3]: '30/120',
+  [RangeType.R4]: '80/320',
+  [RangeType.R5]: '100/400',
+  [RangeType.R6]: '150/600',
 };
