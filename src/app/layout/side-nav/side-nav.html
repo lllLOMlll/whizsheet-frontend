@@ -82,16 +82,17 @@
       </li>
 
       <!-- SAVING THROWS-->
-       <li class="nav-child">
+      <li class="nav-child">
         <a
-        [routerLink]="['/characters', activeCharacterId(), 'saving-throws']"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}"
+          [routerLink]="['/characters', activeCharacterId(), 'saving-throws']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
         >
-        Saving Throws
-      </a>
-       </li>
+          Saving Throws
+        </a>
+      </li>
 
+      <!-- SKILLS -->
       <li class="nav-child">
         <a
           [routerLink]="['/characters', activeCharacterId(), 'skills']"
@@ -99,6 +100,17 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           Skills
+        </a>
+      </li>
+
+      <!-- WEAPONS -->
+      <li class="nav-child">
+        <a
+          [routerLink]="['/characters', activeCharacterId(), 'weapons']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Weapons
         </a>
       </li>
     }

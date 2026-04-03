@@ -17,6 +17,7 @@ import { CharacterAbilityScores } from './character-ability-scores/character-abi
 import { CharacterHitPointsComponent } from './character-hit-points/character-hit-points';
 import { CharacterSkillsComponent } from './character-skills/character-skills';
 import { CharacterSavingThrowsComponent } from './character-saving-throws/character-saving-throws';
+import { CharacterWeaponsComponent } from './character-weapons/character-weapons';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -70,6 +71,10 @@ export const routes: Routes = [
             path: 'saving-throws',
             component: CharacterSavingThrowsComponent,
           },
+          {
+            path: 'weapons',
+            component: CharacterWeaponsComponent,
+          }
         ],
       },
     ],
