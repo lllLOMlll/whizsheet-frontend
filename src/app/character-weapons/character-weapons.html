@@ -1,1 +1,21 @@
-<p>character-weapons works!</p>
+<app-character-layout>
+  <h3>Equiped Weapons</h3>
+  <ul>
+    @for (item of characterStore.weapons(); track item.id) {
+      @if (item.isEquipped) {
+        <li>{{ item.name }} (EquipedWeapon: {{ item.isEquipped }})</li>
+      }
+    }
+  </ul>
+
+  <hr />
+
+  <h3>Weapon in the inventory</h3>
+  <ul>
+    @for (item of characterStore.weapons(); track item.id) {
+      @if (!item.isEquipped) {
+        <li>{{ item.name }}</li>
+      }
+    }
+  </ul>
+</app-character-layout>

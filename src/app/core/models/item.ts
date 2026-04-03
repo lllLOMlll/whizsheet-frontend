@@ -1,16 +1,16 @@
 import { MagicItem } from './magic-item';
 
 export interface Item {
- Id: number; 
- Name : string; 
- Description: string; 
- ItemRarity: ItemRarityType; 
- Value: number; 
- Weight: number; 
- IsEquipped: boolean; 
- IsAttuned: boolean; 
- Quantity: number; 
- MagicItem: MagicItem; 
+ id: string; 
+ name : string; 
+ description: string; 
+ itemRarity: ItemRarityType; 
+ value: number; 
+ weight: number; 
+ isEquipped: boolean; 
+ isAttuned: boolean; 
+ quantity: number; 
+ magicItem: MagicItem; 
 }
 
 export enum ItemRarityType {

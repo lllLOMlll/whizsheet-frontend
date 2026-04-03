@@ -8,11 +8,9 @@ import { CharacterClassService, CharacterClassData } from '../services/character
 import { AbilityScoresService, AbilityScores } from '../services/ability-scores';
 import { HitPointsService, HitPointsData } from '../services/hit-points';
 import { SkillsService, Skill } from '../services/skills';
-import {
-  SavingThrow,
-  SavingThrowsService,
-  SavingThrowsProficient,
-} from '../services/saving-throws';
+import { SavingThrow, SavingThrowsService, SavingThrowsProficient } from '../services/saving-throws';
+import { CharacterWeapon, Weapon } from '../models/weapon';
+import { WeaponService } from '../services/weapon';
 
 export interface CharacterState {
   character: Character | null;
@@ -21,6 +19,7 @@ export interface CharacterState {
   classes: CharacterClassData[];
   hitPoints: HitPointsData | null;
   skills: Skill[];
+  weapons: Weapon[];
   isLoading: boolean;
   error: string | null;
 }
@@ -32,6 +31,7 @@ const initialState: CharacterState = {
   classes: [],
   hitPoints: null,
   skills: [],
+  weapons: [],
   isLoading: false,
   error: null,
 };
@@ -66,6 +66,7 @@ export const CharacterStore = signalStore(
       hitPointsService = inject(HitPointsService),
       skillsService = inject(SkillsService),
       savingThrowsService = inject(SavingThrowsService),
+      weaponService = inject(WeaponService)
     ) => ({
       
       loadCharacterData: rxMethod<number>(
@@ -79,7 +80,8 @@ export const CharacterStore = signalStore(
               classes: classService.get(id),
               hitPoints: hitPointsService.get(id),
               // Renvoie SavingThrow[] grâce au .pipe(map) dans le service
-              savingThrowsList: savingThrowsService.get(id), 
+              savingThrowsList: savingThrowsService.get(id),
+              weapons: weaponService.getCharacterWeapons(id), 
             }).pipe(
               tap({
                 next: (data) =>
@@ -90,6 +92,7 @@ export const CharacterStore = signalStore(
                     abilities: data.abilityResponse.abilities,
                     skills: data.abilityResponse.skills,
                     savingThrows: data.savingThrowsList, 
+                    weapons: data.weapons,
                     isLoading: false,
                   }),
                 error: (err) => {

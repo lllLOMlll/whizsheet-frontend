@@ -10,11 +10,11 @@ import { environment } from '../../../environments/environment';
 export class WeaponService {
   private http = inject(HttpClient);
 
-  private baseUrl = `${environment.apiBaseUrl}/v1/characters`;
+  private baseUrl = `${environment.apiBaseUrl}/characters`;
 
-  getCharacterWeapons(characterId: number): Observable<CharacterWeapon[]> {
-    return this.http.get<CharacterWeapon[]>(
-      `${this.baseUrl}/${characterId}/item/weapons`
+  getCharacterWeapons(characterId: number): Observable<Weapon[]> {
+    return this.http.get<Weapon[]>(
+      `${this.baseUrl}/${characterId}/items/weapons`
     );  
   }
 
