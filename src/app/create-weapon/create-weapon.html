@@ -1,1 +1,19 @@
-<p>create-weapon works!</p>
+<app-character-layout>
+<h3>Create Weapon</h3>
+<br>
+
+<form (submit)="onSubmit($event)">
+<label>Name</label>
+<input type="text" [field]="weaponForm.name">
+
+<br><br>
+<button
+    type="submit"
+
+>Submit</button>
+</form>
+
+</app-character-layout>
+
+
+

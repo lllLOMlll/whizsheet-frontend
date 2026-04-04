@@ -183,7 +183,7 @@ export class CharacterCreateComponent {
         this.router.navigate(['/characters']);
       } catch (error) {
         // Il est important de gérer l'erreur si l'une des requêtes échoue
-        console.error('Erreur lors de la création du personnage :', error);
+        console.error('Error while creating a character :', error);
       }
     });
   }

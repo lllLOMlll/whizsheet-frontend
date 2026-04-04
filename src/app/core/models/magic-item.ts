@@ -3,14 +3,14 @@ import { SavingThrowType } from './saving-throw';
 import { SkillType } from './skill';
 
 export interface MagicItem {
-  Id: number;
-  RequiresAttunement: boolean;
-  MagicEffectDescription: string;
-  MagicEffectMechanics: string;
-  TotalCharges: number;
-  ChargesRemaining: number;
-  MagicRechargeRate: string;
-  Effects: MagicItemEffect[];
+  id: string;
+  requiresAttunement: boolean;
+  magicEffectDescription: string;
+  magicEffectMechanics: string;
+  totalCharges: number;
+  chargesRemaining: number;
+  magicRechargeRate: string;
+  effects: MagicItemEffect[];
 }
 
 export interface MagicItemEffect {

@@ -10,7 +10,7 @@ export interface Item {
  isEquipped: boolean; 
  isAttuned: boolean; 
  quantity: number; 
- magicItem: MagicItem; 
+ magicItem?: MagicItem; 
 }
 
 export enum ItemRarityType {
