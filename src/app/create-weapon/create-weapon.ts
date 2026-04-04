@@ -33,7 +33,7 @@ export class CreateWeaponComponent {
 
   readonly Number = Number;
 
-
+  // Je fais ceci car un enum n'est pas un tableauy. Dans le html, si je veux itérer avec le @for, je dois convertir mon enum en tableau
   readonly rarityOption = Object.values(ItemRarityType).filter(
     (value) => typeof value === 'number',
   ) as ItemRarityType[];

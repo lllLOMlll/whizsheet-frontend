@@ -12,7 +12,7 @@
 <label>Item rarity</label><br>
 <select 
   [field]="$any(weaponForm.itemRarity)" 
-  (change)="weaponModel().itemRarity = Number($any($event.target).value)">
+  >
     @for (rarity of rarityOption; track rarity) {
         <option [value]="rarity">{{ ItemRarityType[rarity] }}</option>
     }
