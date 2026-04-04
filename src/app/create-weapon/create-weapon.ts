@@ -15,10 +15,11 @@ import { event } from '@ngrx/signals/events';
 import { CharacterStore } from '../core/stores/character-store';
 import { Router } from '@angular/router';
 import { ToastService } from '../core/services/toast';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-weapon',
-  imports: [CharacterLayout, Field],
+  imports: [CharacterLayout, Field, FormsModule],
   templateUrl: './create-weapon.html',
   styleUrl: './create-weapon.css',
 })
@@ -27,12 +28,23 @@ export class CreateWeaponComponent {
   readonly characterStore = inject(CharacterStore);
   private router = inject(Router);
   private toastService = inject(ToastService);
+  
+  isMagic = signal(false);
+
+  readonly Number = Number;
+
+
+  readonly rarityOption = Object.values(ItemRarityType).filter(
+    (value) => typeof value === 'number',
+  ) as ItemRarityType[];
+
+  readonly ItemRarityType = ItemRarityType;
 
   readonly weaponModel = signal<Weapon>({
     id: '',
     name: '',
     description: '',
-    itemRarity: ItemRarityType.Common,
+    itemRarity: ItemRarityType.Common as ItemRarityType,
     value: 0,
     weight: 0,
     isEquipped: false,
@@ -67,11 +79,12 @@ export class CreateWeaponComponent {
 
   weaponForm = form(this.weaponModel);
 
+  getRarityLabel(value: any): string {
+    return String(ItemRarityType[value as keyof typeof ItemRarityType]);
+  }
+
   navigateToCharacterDetail(): void {
-    this.router.navigate([
-      '/characters',
-      this.characterStore.character()?.id,
-    ])
+    this.router.navigate(['/characters', this.characterStore.character()?.id]);
   }
 
   onSubmit(event: Event) {
@@ -80,16 +93,16 @@ export class CreateWeaponComponent {
     submit(this.weaponForm, async () => {
       const characterId = this.characterStore.character()?.id ?? 0;
       // utilisation de { ...this.weaponModel() }. Cela crée une copie superficielle. C'est important pour ne pas modifier directement l'état de votre signal weaponModel pendant que vous préparez l'envoi HTTP.
-      const weaponData = {...this.weaponModel()};
+      const weaponData = { ...this.weaponModel() };
 
-      const weaponName = weaponData.name
-
-      if (weaponName === "") {
-        this.toastService.show("Error, no weapon name", "error");
+      if (weaponData.name === '') {
+        this.toastService.show('Error, weapon name is required', 'error');
         return;
       }
 
-      if (weaponData.itemRarity === ItemRarityType.Common) {
+      console.log(`IsMagic = ${this.isMagic}`);
+      if (!this.isMagic()) {
+        console.log("Deleting magicItem");
         delete weaponData.magicItem;
       }
 
@@ -97,12 +110,12 @@ export class CreateWeaponComponent {
         next: (response) => {
           // Succès : exécuté quand le serveur répond 200/201
           // Ici, vous pourriez rediriger l'utilisateur ou afficher un message de succès
-          this.toastService.show(`Weapon "${weaponData.name}" was created successfully.`)
+          this.toastService.show(`Weapon "${weaponData.name}" was created successfully.`);
           this.navigateToCharacterDetail();
         },
         error: (err) => {
           console.error('Error while creating a weapon', err);
-          this.toastService.show(`Error while creating ${weaponData.name}`);
+          this.toastService.show(`Error while creating ${weaponData.name}`, "error");
         },
         complete: () => {
           // Optionnel : exécuté quand tout est fini, quoi qu'il arrive
