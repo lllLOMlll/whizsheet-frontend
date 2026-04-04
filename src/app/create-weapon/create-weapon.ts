@@ -28,12 +28,12 @@ export class CreateWeaponComponent {
   readonly characterStore = inject(CharacterStore);
   private router = inject(Router);
   private toastService = inject(ToastService);
-  
+
   isMagic = signal(false);
 
   readonly Number = Number;
 
-  // Je fais ceci car un enum n'est pas un tableauy. Dans le html, si je veux itérer avec le @for, je dois convertir mon enum en tableau
+  // Je fais ceci car un enum n'est pas un tableau. Dans le html, si je veux itérer avec le @for, je dois convertir mon enum en tableau
   readonly rarityOption = Object.values(ItemRarityType).filter(
     (value) => typeof value === 'number',
   ) as ItemRarityType[];
@@ -100,10 +100,20 @@ export class CreateWeaponComponent {
         return;
       }
 
-      console.log(`IsMagic = ${this.isMagic}`);
       if (!this.isMagic()) {
-        console.log("Deleting magicItem");
         delete weaponData.magicItem;
+      }
+  
+      if ((weaponData.isEquipped as any) === 'YES') {
+        weaponData.isEquipped = true;
+      } else {
+        weaponData.isEquipped = false;
+      }
+
+      if ((weaponData.isAttuned as any) === 'YES') {
+        weaponData.isAttuned = true;
+      } else {
+        weaponData.isAttuned = false;
       }
 
       this.weaponService.createWeapon(characterId, weaponData).subscribe({
@@ -115,7 +125,7 @@ export class CreateWeaponComponent {
         },
         error: (err) => {
           console.error('Error while creating a weapon', err);
-          this.toastService.show(`Error while creating ${weaponData.name}`, "error");
+          this.toastService.show(`Error while creating ${weaponData.name}`, 'error');
         },
         complete: () => {
           // Optionnel : exécuté quand tout est fini, quoi qu'il arrive
