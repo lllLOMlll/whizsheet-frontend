@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CharacterLayout } from '../layout/character-layout/character-layout';
 import { CharacterStore } from '../core/stores/character-store';
 import { WeaponService } from '../core/services/weapon';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-character-weapons',
@@ -12,4 +13,16 @@ import { WeaponService } from '../core/services/weapon';
 export class CharacterWeaponsComponent {
   readonly characterStore = inject(CharacterStore);
   readonly weaponService = inject(WeaponService);
+  private router = inject(Router);
+
+
+  navigateToCreateWeapon(): void {
+    console.log(this.characterStore.character()?.id);
+    
+    this.router.navigate([
+      '/characters',
+      this.characterStore.character()?.id,
+      'create-weapon'
+    ]);
+  }
 }

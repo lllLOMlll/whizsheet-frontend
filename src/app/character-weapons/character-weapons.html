@@ -1,9 +1,13 @@
 <app-character-layout>
+
+    <button (click)="navigateToCreateWeapon()">Create Weapon</button>
   <h3>Equiped Weapons</h3>
+  Pour chaque arme, il faudra un bouton : Edit, Delete, Equip/Unequip, Sell
+  <br><br>
   <ul>
     @for (item of characterStore.weapons(); track item.id) {
       @if (item.isEquipped) {
-        <li>{{ item.name }} (EquipedWeapon: {{ item.isEquipped }})</li>
+        <li>{{ item.name }}</li>
       }
     }
   </ul>
