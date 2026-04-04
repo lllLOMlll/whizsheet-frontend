@@ -17,8 +17,6 @@ export class CharacterWeaponsComponent {
 
 
   navigateToCreateWeapon(): void {
-    console.log(this.characterStore.character()?.id);
-    
     this.router.navigate([
       '/characters',
       this.characterStore.character()?.id,

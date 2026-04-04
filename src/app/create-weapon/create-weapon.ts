@@ -13,6 +13,8 @@ import { form, Field, submit } from '@angular/forms/signals';
 import { ItemRarityType } from '../core/models/item';
 import { event } from '@ngrx/signals/events';
 import { CharacterStore } from '../core/stores/character-store';
+import { Router } from '@angular/router';
+import { ToastService } from '../core/services/toast';
 
 @Component({
   selector: 'app-create-weapon',
@@ -23,6 +25,8 @@ import { CharacterStore } from '../core/stores/character-store';
 export class CreateWeaponComponent {
   readonly weaponService = inject(WeaponService);
   readonly characterStore = inject(CharacterStore);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
 
   readonly weaponModel = signal<Weapon>({
     id: '',
@@ -63,6 +67,13 @@ export class CreateWeaponComponent {
 
   weaponForm = form(this.weaponModel);
 
+  navigateToCharacterDetail(): void {
+    this.router.navigate([
+      '/characters',
+      this.characterStore.character()?.id,
+    ])
+  }
+
   onSubmit(event: Event) {
     event.preventDefault();
 
@@ -71,6 +82,13 @@ export class CreateWeaponComponent {
       // utilisation de { ...this.weaponModel() }. Cela crée une copie superficielle. C'est important pour ne pas modifier directement l'état de votre signal weaponModel pendant que vous préparez l'envoi HTTP.
       const weaponData = {...this.weaponModel()};
 
+      const weaponName = weaponData.name
+
+      if (weaponName === "") {
+        this.toastService.show("Error, no weapon name", "error");
+        return;
+      }
+
       if (weaponData.itemRarity === ItemRarityType.Common) {
         delete weaponData.magicItem;
       }
@@ -78,11 +96,13 @@ export class CreateWeaponComponent {
       this.weaponService.createWeapon(characterId, weaponData).subscribe({
         next: (response) => {
           // Succès : exécuté quand le serveur répond 200/201
-          console.log('Arme créée !', response);
           // Ici, vous pourriez rediriger l'utilisateur ou afficher un message de succès
+          this.toastService.show(`Weapon "${weaponData.name}" was created successfully.`)
+          this.navigateToCharacterDetail();
         },
         error: (err) => {
           console.error('Error while creating a weapon', err);
+          this.toastService.show(`Error while creating ${weaponData.name}`);
         },
         complete: () => {
           // Optionnel : exécuté quand tout est fini, quoi qu'il arrive

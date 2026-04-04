@@ -11,10 +11,11 @@ import { LayoutComponent } from './layout/layout';
 import { AuthService } from './auth/auth';
 import { FooterComponent } from './shared/footer/footer';
 import { LoadingService } from './core/services/loading';
+import { ToastComponent } from './shared/toast/toast';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LayoutComponent],
+  imports: [RouterOutlet, LayoutComponent, ToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
