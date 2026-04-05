@@ -2,6 +2,8 @@
   <h3>Create Weapon</h3>
 
   <form (submit)="onSubmit($event)">
+    <h4>General info</h4>
+    <!-- ITEM -->
     <label>Name</label><br />
     <input type="text" [field]="weaponForm.name" /><br /><br />
 
@@ -27,12 +29,51 @@
     <label>Is this item equiped?</label>
     <input type="checkbox" [field]="weaponForm.isEquipped" class="ms-2" /><br /><br />
 
+    <!-- WEAPON -->
+    <h4>Weapon info</h4>
 
+    <label>Attack Type</label><br>
+    <select [field]="$any(weaponForm.attackType)">
+        @for (attackType of attackTypeOption; track attackType) {
+            <option [value]="attackType">{{ AttackType[attackType] }}</option>
+        }
+    </select><br><br>
+
+    @if (isRange()) {
+        <label>Range Type</label><br>
+    <select [field]="$any(weaponForm.rangeType)">
+        @for (rangeType of rangeTypeOption; track rangeType) {
+            <option [value]="rangeType">{{ RangeLabel[rangeType] }}</option>
+        }
+    </select><br><br>
+    }
+
+    <label>Damage Type</label><br />
+    <select [field]="$any(weaponForm.damageType)">
+      @for (damageType of damageTypeOption; track damageType) {
+        <option [value]="damageType">{{ DamageType[damageType] }}</option>
+      }</select
+    ><br /><br />
+
+    <label>Bonus Attack Roll Type</label><br />
+    <select [field]="$any(weaponForm.bonusAttackRollType)">
+      @for (bonusAttack of bonusAttackRollTypeOption; track bonusAttack) {
+        <option [value]="bonusAttack">{{ BonusAttackRollLabel[bonusAttack] }}</option>
+      }</select
+    ><br /><br />
+
+    <label>Damage Dice Type</label><br />
+    <select [field]="$any(weaponForm.damageDiceType)">
+      @for (damageDice of damageDiceTypeOption; track damageDice) {
+        <option [value]="damageDice">{{ DamageDiceLabel[damageDice] }}</option>
+      }</select
+    ><br /><br />
+    <!-- MAGIC ITEM -->
     <div>
-      <h2>Magic Item</h2>
+      <h4>Magic weapon info</h4>
 
       <label>Is it item atuned to you?</label>
-      <input type="checkbox" [field]="weaponForm.isAttuned" class="ms-2">
+      <input type="checkbox" [field]="weaponForm.isAttuned" class="ms-2" />
       <br /><br />
     </div>
 

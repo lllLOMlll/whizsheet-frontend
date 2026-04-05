@@ -1,12 +1,15 @@
-import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CharacterLayout } from '../layout/character-layout/character-layout';
 import { WeaponService } from '../core/services/weapon';
 import {
   AttackType,
-  BonusAttackRollType,
-  DamageDiceType,
-  DamageType,
   RangeType,
+  RangeLabel,
+  BonusAttackRollType,
+  BonusAttackRollLabel,
+  DamageDiceType,
+  DamageDiceLabel,
+  DamageType,
   Weapon,
 } from '../core/models/weapon';
 import { form, Field, submit } from '@angular/forms/signals';
@@ -34,11 +37,38 @@ export class CreateWeaponComponent {
   readonly Number = Number;
 
   // Je fais ceci car un enum n'est pas un tableau. Dans le html, si je veux itérer avec le @for, je dois convertir mon enum en tableau
+  readonly attackTypeOption = Object.values(AttackType).filter(
+    (value) => typeof value === 'number',
+  ) as AttackType[];
+  readonly AttackType = AttackType;
+
+  readonly rangeTypeOption = Object.values(RangeType).filter(
+    (value) => typeof value === 'number',
+  ) as RangeType[];
+  readonly RangeLabel = RangeLabel;
+
   readonly rarityOption = Object.values(ItemRarityType).filter(
     (value) => typeof value === 'number',
   ) as ItemRarityType[];
-
   readonly ItemRarityType = ItemRarityType;
+
+  readonly damageTypeOption = Object.values(DamageType).filter(
+    (value) => typeof value === 'number', 
+  ) as DamageType[];
+  readonly DamageType = DamageType;
+
+
+
+  readonly bonusAttackRollTypeOption = Object.values(BonusAttackRollType).filter(
+    (value) => typeof value === 'number',
+  ) as BonusAttackRollType[];
+  readonly BonusAttackRollLabel = BonusAttackRollLabel;
+  
+  readonly damageDiceTypeOption = Object.values(DamageDiceType).filter(
+    (value) => typeof value === 'number',
+  ) as DamageDiceType[];
+  readonly DamageDiceLabel = DamageDiceLabel;
+
 
   readonly weaponModel = signal<Weapon>({
     id: '',
@@ -79,10 +109,10 @@ export class CreateWeaponComponent {
 
   weaponForm = form(this.weaponModel);
 
+  readonly isRange = computed(() => {
+    return this.Number(this.weaponModel().attackType) === AttackType.Range;
+  });
 
-  getRarityLabel(value: any): string {
-    return String(ItemRarityType[value as keyof typeof ItemRarityType]);
-  }
 
   navigateToCharacterDetail(): void {
     this.router.navigate(['/characters', this.characterStore.character()?.id]);
@@ -106,8 +136,7 @@ export class CreateWeaponComponent {
       }
   
       
-      
-
+    
       this.weaponService.createWeapon(characterId, weaponData).subscribe({
         next: (response) => {
           // Succès : exécuté quand le serveur répond 200/201
