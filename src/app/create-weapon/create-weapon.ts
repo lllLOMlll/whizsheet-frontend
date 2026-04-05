@@ -33,6 +33,8 @@ export class CreateWeaponComponent {
   private toastService = inject(ToastService);
 
   isMagic = signal(false);
+  // isMagicCheckbox = document.getElementById("is-magic-item") as HTMLInputElement;
+  // isMagic = this.isMagicCheckbox;
 
   readonly Number = Number;
 
@@ -56,7 +58,6 @@ export class CreateWeaponComponent {
     (value) => typeof value === 'number', 
   ) as DamageType[];
   readonly DamageType = DamageType;
-
 
 
   readonly bonusAttackRollTypeOption = Object.values(BonusAttackRollType).filter(
