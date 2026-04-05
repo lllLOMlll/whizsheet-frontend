@@ -49,7 +49,7 @@ export class CreateWeaponComponent {
     weight: 0,
     isEquipped: false,
     isAttuned: false,
-    quantity: 0,
+    quantity: 1,
     magicItem: {
       id: '',
       requiresAttunement: false,
@@ -79,6 +79,7 @@ export class CreateWeaponComponent {
 
   weaponForm = form(this.weaponModel);
 
+
   getRarityLabel(value: any): string {
     return String(ItemRarityType[value as keyof typeof ItemRarityType]);
   }
@@ -104,17 +105,8 @@ export class CreateWeaponComponent {
         delete weaponData.magicItem;
       }
   
-      if ((weaponData.isEquipped as any) === 'YES') {
-        weaponData.isEquipped = true;
-      } else {
-        weaponData.isEquipped = false;
-      }
-
-      if ((weaponData.isAttuned as any) === 'YES') {
-        weaponData.isAttuned = true;
-      } else {
-        weaponData.isAttuned = false;
-      }
+      
+      
 
       this.weaponService.createWeapon(characterId, weaponData).subscribe({
         next: (response) => {

@@ -8,9 +8,9 @@
     <label>Description</label><br />
     <textarea [field]="weaponForm.description"></textarea><br /><br />
 
-    <label>Quantity</label><br>
-    <input type="number" [field]="weaponForm.quantity"><br><br>
-    
+    <label>Quantity</label><br />
+    <input type="number" [field]="weaponForm.quantity" /><br /><br />
+
     <label>Item rarity</label><br />
     <select [field]="$any(weaponForm.itemRarity)">
       @for (rarity of rarityOption; track rarity) {
@@ -21,31 +21,22 @@
     <label>Value in gold</label><br />
     <input type="number" [field]="weaponForm.value" /><br /><br />
 
-    <label>Weight in lb.</label><br>
-    <input type="number" [field]="weaponForm.weight"><br><br>
+    <label>Weight in lb.</label><br />
+    <input type="number" [field]="weaponForm.weight" /><br /><br />
 
-    <label>Is this item equiped?</label><br>
-    <select [field]="$any(weaponForm.isEquipped)">
-        <option [ngValue]="false">NO</option>    
-        <option [ngValue]="true">YES</option>
-    </select><br><br>
+    <label>Is this item equiped?</label>
+    <input type="checkbox" [field]="weaponForm.isEquipped" class="ms-2" /><br /><br />
 
 
     <div>
-        <h2>Magic Item</h2>
-    
-        <label>Is it item atuned to you?</label><br>
-        <select [field]="$any(weaponForm.isAttuned)">
-            <option [ngValue]="false">NO</option>
-            <option [ngValue]="true">YES</option>
-        </select><br><br>
+      <h2>Magic Item</h2>
 
-        
+      <label>Is it item atuned to you?</label>
+      <input type="checkbox" [field]="weaponForm.isAttuned" class="ms-2">
+      <br /><br />
     </div>
 
-
-
-    <br>
+    <br />
     <button type="submit">Submit</button>
   </form>
 </app-character-layout>
