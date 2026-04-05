@@ -3,7 +3,7 @@ import { SavingThrowType } from './saving-throw';
 import { SkillType } from './skill';
 
 export interface MagicItem {
-  id: string;
+  id?: string;
   requiresAttunement: boolean;
   magicEffectDescription: string;
   magicEffectMechanics: string;
@@ -14,15 +14,15 @@ export interface MagicItem {
 }
 
 export interface MagicItemEffect {
-  id: number;
-  effectType: ItemEffecType;
+  id?: number;
+  effectType: ItemEffectType;
   abilityScore: AbilityScoreType;
   savingThrow: SavingThrowType;
   skill: SkillType;
   modifier: number;
 }
 
-export enum ItemEffecType {
+export enum ItemEffectType {
   AbilityScore,
   SavingThrow,
   Skill,

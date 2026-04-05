@@ -1,7 +1,7 @@
 import { MagicItem } from './magic-item';
 
 export interface Item {
- id: string; 
+ id?: string; 
  name : string; 
  description: string; 
  itemRarity: ItemRarityType; 
