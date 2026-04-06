@@ -13,12 +13,17 @@ export class WeaponService {
   private baseUrl = `${environment.apiBaseUrl}/characters`;
 
   getCharacterWeapons(characterId: number): Observable<Weapon[]> {
-    return this.http.get<Weapon[]>(
-      `${this.baseUrl}/${characterId}/items/weapons`
-    );  
+    return this.http.get<Weapon[]>(`${this.baseUrl}/${characterId}/items/weapons`);
   }
 
   createWeapon(characterId: number, weaponData: any): Observable<{ id: string }> {
-    return this.http.post<{ id: string }>(`${this.baseUrl}/${characterId}/items/weapons`, weaponData);
+    return this.http.post<{ id: string }>(
+      `${this.baseUrl}/${characterId}/items/weapons`,
+      weaponData,
+    );
+  }
+
+  deleteWeapon(characterId: number, weaponId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${characterId}/items/weapons/${weaponId}`);
   }
 }

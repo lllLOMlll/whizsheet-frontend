@@ -189,6 +189,12 @@ export const CharacterStore = signalStore(
         )
       ),
 
+      removeWeaponFromStore(weaponId: string): void {
+        patchState(store, {
+          weapons: store.weapons().filter((w) => w.id !== weaponId),
+        });
+      },
+
       clear: () => patchState(store, initialState),
     })
   )

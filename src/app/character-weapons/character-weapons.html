@@ -1,10 +1,11 @@
 <app-character-layout>
-<h3 class="text-center section-title-whiz">Weapons</h3>
+  <h3 class="text-center section-title-whiz">Weapons</h3>
 
-    <button (click)="navigateToCreateWeapon()">Create Weapon</button>
+  <button (click)="navigateToCreateWeapon()">Create Weapon</button>
   <h3>Equiped Weapons</h3>
   Pour chaque arme, il faudra un bouton : Edit, Delete, Equip/Unequip, Sell
-  <br><br>
+  <br /><br />
+
   <ul>
     @for (item of characterStore.weapons(); track item.id) {
       @if (item.isEquipped) {
@@ -16,11 +17,25 @@
   <hr />
 
   <h3>Weapon in the inventory</h3>
-  <ul>
+  <table>
+    <tr>
+      <th>Weapon</th>
+      <th>Equip/Unequip</th>
+      <th>Delete</th>
+      <th>Sell</th>
+    </tr>
+
     @for (item of characterStore.weapons(); track item.id) {
       @if (!item.isEquipped) {
-        <li>{{ item.name }}</li>
+        <tr>
+          <td>{{ item.name }}</td>
+          <td><button>Equip</button></td>
+          @if (item.id) {
+            <td><button (click)="deleteWeapon(item.id, item.name)">Delete</button></td>
+          }          
+          <td><button>Sell</button></td>
+        </tr>
       }
     }
-  </ul>
+  </table>
 </app-character-layout>
