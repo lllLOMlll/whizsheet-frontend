@@ -8,7 +8,11 @@ import { CharacterClassService, CharacterClassData } from '../services/character
 import { AbilityScoresService, AbilityScores } from '../services/ability-scores';
 import { HitPointsService, HitPointsData } from '../services/hit-points';
 import { SkillsService, Skill } from '../services/skills';
-import { SavingThrow, SavingThrowsService, SavingThrowsProficient } from '../services/saving-throws';
+import {
+  SavingThrow,
+  SavingThrowsService,
+  SavingThrowsProficient,
+} from '../services/saving-throws';
 import { CharacterWeapon, Weapon } from '../models/weapon';
 import { WeaponService } from '../services/weapon';
 
@@ -54,7 +58,7 @@ export const CharacterStore = signalStore(
       const data = skills();
       if (!data || !Array.isArray(data)) return [];
       return [...data].sort((a, b) => a.type.localeCompare(b.type));
-    })
+    }),
   })),
 
   withMethods(
@@ -66,9 +70,8 @@ export const CharacterStore = signalStore(
       hitPointsService = inject(HitPointsService),
       skillsService = inject(SkillsService),
       savingThrowsService = inject(SavingThrowsService),
-      weaponService = inject(WeaponService)
+      weaponService = inject(WeaponService),
     ) => ({
-      
       loadCharacterData: rxMethod<number>(
         pipe(
           filter((id) => id > 0),
@@ -81,7 +84,7 @@ export const CharacterStore = signalStore(
               hitPoints: hitPointsService.get(id),
               // Renvoie SavingThrow[] grâce au .pipe(map) dans le service
               savingThrowsList: savingThrowsService.get(id),
-              weapons: weaponService.getCharacterWeapons(id), 
+              weapons: weaponService.getCharacterWeapons(id),
             }).pipe(
               tap({
                 next: (data) =>
@@ -91,7 +94,7 @@ export const CharacterStore = signalStore(
                     hitPoints: data.hitPoints,
                     abilities: data.abilityResponse.abilities,
                     skills: data.abilityResponse.skills,
-                    savingThrows: data.savingThrowsList, 
+                    savingThrows: data.savingThrowsList,
                     weapons: data.weapons,
                     isLoading: false,
                   }),
@@ -100,10 +103,10 @@ export const CharacterStore = signalStore(
                   patchState(store, { isLoading: false, error: 'Load failed' });
                 },
               }),
-              catchError(() => of(null))
-            )
-          )
-        )
+              catchError(() => of(null)),
+            ),
+          ),
+        ),
       ),
 
       updateAbilities: rxMethod<AbilityScores>(
@@ -114,23 +117,25 @@ export const CharacterStore = signalStore(
             if (!id) return of(null);
             return abilityService.update(id, newData).pipe(
               // On recharge les saving throws car les modificateurs dépendent des scores d'habilités
-              switchMap((res) => 
+              switchMap((res) =>
                 savingThrowsService.get(id).pipe(
-                  tap(stList => patchState(store, { 
-                    abilities: res.abilities, 
-                    skills: res.skills,
-                    savingThrows: stList,
-                    isLoading: false 
-                  }))
-                )
+                  tap((stList) =>
+                    patchState(store, {
+                      abilities: res.abilities,
+                      skills: res.skills,
+                      savingThrows: stList,
+                      isLoading: false,
+                    }),
+                  ),
+                ),
               ),
               catchError(() => {
                 patchState(store, { isLoading: false, error: 'Update failed' });
                 return of(null);
-              })
+              }),
             );
-          })
-        )
+          }),
+        ),
       ),
 
       updateSkills: rxMethod<Skill[]>(
@@ -144,10 +149,10 @@ export const CharacterStore = signalStore(
               catchError(() => {
                 patchState(store, { isLoading: false });
                 return of(null);
-              })
+              }),
             );
-          })
-        )
+          }),
+        ),
       ),
 
       updateSavingThrow: rxMethod<SavingThrowsProficient[]>(
@@ -169,10 +174,10 @@ export const CharacterStore = signalStore(
                 console.error(err);
                 patchState(store, { isLoading: false, error: 'Update failed' });
                 return of(null);
-              })
+              }),
             );
-          })
-        )
+          }),
+        ),
       ),
 
       updateHp: rxMethod<HitPointsData>(
@@ -183,10 +188,10 @@ export const CharacterStore = signalStore(
             if (!id) return of(null);
             return hitPointsService.update(id, data).pipe(
               tap((res) => patchState(store, { hitPoints: res, isLoading: false })),
-              catchError(() => of(null))
+              catchError(() => of(null)),
             );
-          })
-        )
+          }),
+        ),
       ),
 
       removeWeaponFromStore(weaponId: string): void {
@@ -195,7 +200,15 @@ export const CharacterStore = signalStore(
         });
       },
 
+      toggleEquipWeapon(weaponId: string): void {
+        patchState(store, {
+          weapons: store
+            .weapons()
+            .map((w) => (w.id === weaponId ? { ...w, isEquipped: !w.isEquipped } : w)),
+        });
+      },
+
       clear: () => patchState(store, initialState),
-    })
-  )
+    }),
+  ),
 );

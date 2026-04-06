@@ -6,13 +6,26 @@
   Pour chaque arme, il faudra un bouton : Edit, Delete, Equip/Unequip, Sell
   <br /><br />
 
-  <ul>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Atk bonus</th>
+      <th>Damage/Type</th>
+      <th>Unequip</th>
+    </tr>
     @for (item of characterStore.weapons(); track item.id) {
       @if (item.isEquipped) {
-        <li>{{ item.name }}</li>
+        <tr>
+          <td>{{ item.name }}</td>
+          <td></td>
+          <td></td>
+          @if (item.id) {
+            <td><button (click)="toggleEquip(item.id)">Unequip</button></td>
+          }
+        </tr>
       }
     }
-  </ul>
+  </table>
 
   <hr />
 
@@ -20,8 +33,9 @@
   <table>
     <tr>
       <th>Weapon</th>
-      <th>Equip/Unequip</th>
+      <th>Equip</th>
       <th>Delete</th>
+      <th>Value</th>
       <th>Sell</th>
     </tr>
 
@@ -29,10 +43,14 @@
       @if (!item.isEquipped) {
         <tr>
           <td>{{ item.name }}</td>
-          <td><button>Equip</button></td>
           @if (item.id) {
-            <td><button (click)="deleteWeapon(item.id, item.name)">Delete</button></td>
-          }          
+            <td><button (click)="toggleEquip(item.id)">Equip</button></td>
+          }
+
+          @if (item.id) {
+            <td><button (click)="deleteWeapon(item.id)">Delete</button></td>
+          }
+          <td>{{ item.value }}</td>
           <td><button>Sell</button></td>
         </tr>
       }

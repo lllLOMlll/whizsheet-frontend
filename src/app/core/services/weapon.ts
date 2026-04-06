@@ -26,4 +26,14 @@ export class WeaponService {
   deleteWeapon(characterId: number, weaponId: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${characterId}/items/weapons/${weaponId}`);
   }
+
+  toggleEquip(
+    characterId: number,
+    weaponId: string,
+  ): Observable<{ id: string; isEquipped: boolean }> {
+    return this.http.patch<{ id: string; isEquipped: boolean }>(
+      `${this.baseUrl}/${characterId}/items/weapons/${weaponId}/equip`,
+      {},
+    );
+  }
 }

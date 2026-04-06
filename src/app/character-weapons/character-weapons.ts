@@ -21,31 +21,57 @@ export class CharacterWeaponsComponent {
     this.router.navigate(['/characters', this.characterStore.character()?.id, 'create-weapon']);
   }
 
-  deleteWeapon(weaponId: string, weaponName: string): void {
+  deleteWeapon(weaponId: string): void {
     const character = this.characterStore.character();
+    const weapon = this.characterStore.weapons().find((w) => w.id === weaponId);
 
     if (!character) {
       console.error('Character not loaded');
       return;
     }
-    
-    if (confirm(`Are you sure you want to delete ${weaponName}?`)) {
-      this.weaponService.deleteWeapon(character.id, weaponId).subscribe({
-        next: (response) => {
-          if (confirm(`Are you sure you want to delete ${weaponName}?`)) {
-            this.toastService.show(`${weaponName} was successfully deleted`);
-            this.characterStore.removeWeaponFromStore(weaponId);
-          } else {
-            return;
-          }
-        },
-        error: (err) => {
-          this.toastService.show(`Error while deleting ${weaponName}`, 'error');
-        },
-        complete: () => {},
-      });
-    } else {
+
+    if (weapon) {
+      if (confirm(`Are you sure you want to delete ${weapon?.name}?`)) {
+        this.weaponService.deleteWeapon(character.id, weaponId).subscribe({
+          next: (response) => {
+            if (confirm(`Are you sure you want to delete ${weapon.name}?`)) {
+              this.toastService.show(`${weapon?.name} was successfully deleted`);
+              this.characterStore.removeWeaponFromStore(weaponId);
+            } else {
+              return;
+            }
+          },
+          error: (err) => {
+            this.toastService.show(`Error while deleting ${weapon.name}`, 'error');
+          },
+          complete: () => {},
+        });
+      } else {
+        return;
+      }
+    }
+  }
+
+  toggleEquip(weaponId: string) {
+    const character = this.characterStore.character();
+    const weapon = this.characterStore.weapons().find((w) => w.id === weaponId);
+    const equipOrUnequippedToString = weapon?.isEquipped ? 'unequipped' : 'equiped';
+
+    if (!character) {
+      console.log('Character not loaded');
       return;
     }
+
+    this.weaponService.toggleEquip(character.id, weaponId).subscribe({
+      next: (response) => {
+        this.characterStore.toggleEquipWeapon(weaponId);
+        this.toastService.show(`${weapon?.name} is now ${equipOrUnequippedToString}!`);
+      },
+      error: (err) => {
+        console.error('Error while toogleEquip() the weapon', err);
+        this.toastService.show(`Faile to operate toggleEquip on ${weapon?.name}`, 'error');
+      },
+      complete: () => {},
+    });
   }
 }
