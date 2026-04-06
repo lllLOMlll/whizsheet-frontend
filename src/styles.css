@@ -683,3 +683,44 @@ app-root {
   color: white;
   box-shadow: 0 0 8px rgba(220, 38, 38, 0.4);
 }
+
+/* =========================
+   ERRORS
+========================= */
+
+.whiz-error {
+  margin-top: 0.4rem;
+  color: var(--danger);
+  font-size: 0.85rem;
+}
+
+/* =========================
+   ALERTS
+========================= */
+
+.whiz-alert {
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* =========================
+   HR (override global if needed)
+========================= */
+
+.whiz-card hr {
+  margin: 1rem 0;
+}
+
+/* =========================
+   LABEL SPACING
+========================= */
+
+.whiz-field label {
+  display: block;
+  margin-bottom: 0.35rem;
+}

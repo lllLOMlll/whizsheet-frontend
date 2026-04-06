@@ -22,11 +22,12 @@ import { SavingThrowsService } from '../core/services/saving-throws';
 import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
 import { CharacterClassItemComponent } from '../shared/character-class-item/character-class-item';
 import { CharacterStore } from '../core/stores/character-store';
+import { CharacterLayout } from '../layout/character-layout/character-layout';
 
 @Component({
   selector: 'app-character-create',
   standalone: true,
-  imports: [Field, AbilityScoresFormComponent, CharacterClassItemComponent],
+  imports: [Field, AbilityScoresFormComponent, CharacterClassItemComponent,CharacterLayout],
   templateUrl: './character-create.html',
   styleUrl: './character-create.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -183,7 +184,7 @@ export class CharacterCreateComponent {
         this.router.navigate(['/characters']);
       } catch (error) {
         // Il est important de gérer l'erreur si l'une des requêtes échoue
-        console.error('Error while creating a character :', error);
+        console.error('Erreur lors de la création du personnage :', error);
       }
     });
   }
