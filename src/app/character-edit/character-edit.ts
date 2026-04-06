@@ -15,11 +15,12 @@ import { HitPointsService, HitPointsData } from '../core/services/hit-points';
 
 import { AbilityScoresFormComponent } from '../shared/ability-scores-form/ability-scores-form';
 import { CharacterClassItemComponent } from '../shared/character-class-item/character-class-item';
+import { CharacterLayout } from '../layout/character-layout/character-layout';
 
 @Component({
   selector: 'app-character-edit',
   standalone: true,
-  imports: [Field, AbilityScoresFormComponent, CharacterClassItemComponent],
+  imports: [Field, AbilityScoresFormComponent, CharacterClassItemComponent, CharacterLayout],
   templateUrl: './character-edit.html',
   styleUrl: './character-edit.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

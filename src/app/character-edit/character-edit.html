@@ -1,112 +1,121 @@
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
-      <div class="card">
-        <div class="card-body">
-          <h2 class="mb-4 text-center">Edit character</h2>
+<app-character-layout class="whiz-page">
 
-          <form (submit)="onSubmit($event)">
-            <!-- NAME -->
-            <div class="mb-3">
-              <label class="form-label">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                [field]="characterForm.name"
-              />
+  <div class="whiz-container">
 
-              @if (characterForm.name().invalid() && characterForm.name().touched()) {
-                <div class="invalid-feedback d-block">
-                  @for (e of characterForm.name().errors(); track e.kind) {
-                    <div>{{ e.message }}</div>
-                  }
-                </div>
-              }
-            </div>
+    <h2 class="whiz-title">Edit Character</h2>
 
-            <!-- HP -->
-            <div class="mb-4">
-              <label class="form-label">HP</label>
-              <input
-                type="number"
-                class="form-control"
-                [field]="hitPointsForm.totalHitPoints"
-              />
+    <form (submit)="onSubmit($event)">
 
-              @if (hitPointsForm.totalHitPoints().invalid() && hitPointsForm.totalHitPoints().touched()) {
-                <div class="invalid-feedback d-block">
-                  @for (e of hitPointsForm.totalHitPoints().errors(); track e.kind) {
-                    <div>{{ e.message }}</div>
-                  }
-                </div>
-              }
-            </div>
+      <!-- GENERAL -->
+      <div class="whiz-card">
 
-            <!-- CLASSES -->
-            <div class="mb-4">
-              <h4 class="mb-3">Classes</h4>
+        <div class="whiz-grid">
 
-              @for (cls of characterClasses(); track cls.id ?? $index) {
-                <app-character-class-item
-                  [model]="cls"
-                  (updated)="updateClass($index, $event)"
-                  (removed)="removeClass($index)"
-                />
-                <hr class="my-3" />
-              }
+          <!-- NAME -->
+          <div class="whiz-field full">
+            <label>Name</label>
+            <input
+              type="text"
+              class="whiz-input"
+              [field]="characterForm.name"
+            />
 
-              <button
-                type="button"
-                class="btn btn-success"
-                (click)="addClass()"
-                [disabled]="characterClasses().length >= 3"
-              >
-                Add class
-              </button>
-            </div>
-
-            <!-- CLASSES VALIDATION -->
-            @if (!isTotalLevelValid()) {
-              <div class="alert alert-danger">
-                Total class levels cannot exceed 100.
+            @if (characterForm.name().invalid() && characterForm.name().touched()) {
+              <div class="whiz-error">
+                @for (e of characterForm.name().errors(); track e.kind) {
+                  <div>{{ e.message }}</div>
+                }
               </div>
             }
+          </div>
 
-            @if (isDuplicateClass()) {
-              <div class="alert alert-danger">
-                Duplicated classes are not allowed.
+          <!-- HP -->
+          <div class="whiz-field full">
+            <label>HP</label>
+            <input
+              type="number"
+              class="whiz-input"
+              [field]="hitPointsForm.totalHitPoints"
+            />
+
+            @if (hitPointsForm.totalHitPoints().invalid() && hitPointsForm.totalHitPoints().touched()) {
+              <div class="whiz-error">
+                @for (e of hitPointsForm.totalHitPoints().errors(); track e.kind) {
+                  <div>{{ e.message }}</div>
+                }
               </div>
             }
+          </div>
 
-            @if (isDuplicatedCustomClass()) {
-              <div class="alert alert-danger">
-                Duplicated custom classes are not allowed.
-              </div>
-            }
-
-            <!-- ABILITY SCORES -->
-            <div class="mb-4">
-              <app-ability-scores-form [form]="abilityScoresForm" />
-            </div>
-
-            <!-- SUBMIT -->
-            <div class="d-grid mt-5">
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="
-                  characterForm().invalid() ||
-                  !isTotalLevelValid() ||
-                  isDuplicateClass() ||
-                  isDuplicatedCustomClass()
-                "
-              >
-                Update character
-              </button>
-            </div>
-          </form>
         </div>
+
       </div>
-    </div>
+
+      <!-- CLASSES -->
+      <div class="whiz-card">
+        <h4 class="whiz-subtitle">Classes</h4>
+
+        @for (cls of characterClasses(); track cls.id ?? $index) {
+          <app-character-class-item
+            [model]="cls"
+            (updated)="updateClass($index, $event)"
+            (removed)="removeClass($index)"
+          />
+          <hr />
+        }
+
+        <button
+          type="button"
+          class="whiz-btn-add"
+          (click)="addClass()"
+          [disabled]="characterClasses().length >= 3"
+        >
+          Add class
+        </button>
+      </div>
+
+      <!-- VALIDATION -->
+      @if (!isTotalLevelValid()) {
+        <div class="whiz-alert">
+          Total class levels cannot exceed 100.
+        </div>
+      }
+
+      @if (isDuplicateClass()) {
+        <div class="whiz-alert">
+          Duplicated classes are not allowed.
+        </div>
+      }
+
+      @if (isDuplicatedCustomClass()) {
+        <div class="whiz-alert">
+          Duplicated custom classes are not allowed.
+        </div>
+      }
+
+      <!-- ABILITY SCORES -->
+      <div class="whiz-card">
+        <app-ability-scores-form [form]="abilityScoresForm" />
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="whiz-submit">
+        <button
+          type="submit"
+          class="whiz-btn-primary"
+          [disabled]="
+            characterForm().invalid() ||
+            !isTotalLevelValid() ||
+            isDuplicateClass() ||
+            isDuplicatedCustomClass()
+          "
+        >
+          Update character
+        </button>
+      </div>
+
+    </form>
+
   </div>
-</div>
+
+</app-character-layout>
