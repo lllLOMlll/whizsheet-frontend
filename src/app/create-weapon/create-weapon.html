@@ -4,7 +4,7 @@
 
     <form (submit)="onSubmit($event)" class="whiz-form">
       <!-- GENERAL -->
-      <div class="whiz-card">
+      <!-- <div class="whiz-card">
         <h4 class="whiz-section-title">General Info</h4>
 
         <div class="whiz-grid">
@@ -47,7 +47,12 @@
             <span>Is this item equiped?</span>
           </label>
         </div>
-      </div>
+      </div> -->
+      <app-item-section
+        [form]="weaponForm"
+        [rarityOptions]="rangeTypeOptions"
+        [itemRarityType]="ItemRarityType"
+      />
 
       <!-- WEAPON -->
       <div class="whiz-card">
@@ -176,7 +181,7 @@
               <span>Requires Attunement</span>
             </label>
 
-            <label class="whiz-checkbox-card whiz-checkbox-reverse">
+            <label class="whiz-checkbox-card whiz-checkbox-reverse mt-3">
               <input type="checkbox" [field]="weaponForm.isAttuned" />
               <span>Attuned</span>
             </label>

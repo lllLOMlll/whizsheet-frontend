@@ -22,10 +22,11 @@ import { CharacterStore } from '../core/stores/character-store';
 import { Router } from '@angular/router';
 import { ToastService } from '../core/services/toast';
 import { FormsModule } from '@angular/forms';
+import { ItemSectionComponent } from '../character-weapons/components/item-section/item-section';
 
 @Component({
   selector: 'app-create-weapon',
-  imports: [CharacterLayout, Field, FormsModule],
+  imports: [CharacterLayout, Field, FormsModule, ItemSectionComponent],
   templateUrl: './create-weapon.html',
   styleUrl: './create-weapon.css',
 })
