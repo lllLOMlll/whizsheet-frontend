@@ -1,171 +1,260 @@
-<app-character-layout>
-  <h3>Create Weapon</h3>
+<app-character-layout class="whiz-page">
+  <div class="whiz-container">
+    <h2 class="whiz-title">Create Weapon</h2>
 
-  <form (submit)="onSubmit($event)">
-    <h4>General info</h4>
-    <!-- ITEM -->
-    <label>Name</label><br />
-    <input type="text" [field]="weaponForm.name" /><br /><br />
+    <form (submit)="onSubmit($event)" class="whiz-form">
+      <!-- GENERAL -->
+      <div class="whiz-card">
+        <h4 class="whiz-section-title">General Info</h4>
 
-    <label>Description</label><br />
-    <textarea [field]="weaponForm.description"></textarea><br /><br />
+        <div class="whiz-grid">
+          <div class="whiz-field">
+            <label>Name</label>
+            <input type="text" [field]="weaponForm.name" class="whiz-input" />
+          </div>
 
-    <label>Quantity</label><br />
-    <input type="number" [field]="weaponForm.quantity" /><br /><br />
+          <div class="whiz-field full">
+            <label>Description</label>
+            <textarea [field]="weaponForm.description" class="whiz-input"></textarea>
+          </div>
 
-    <label>Item rarity</label><br />
-    <select [field]="$any(weaponForm.itemRarity)">
-      @for (rarity of rarityOptions; track rarity) {
-        <option [value]="rarity">{{ ItemRarityType[rarity] }}</option>
-      }</select
-    ><br /><br />
+          <div class="whiz-field">
+            <label>Quantity</label>
+            <input type="number" [field]="weaponForm.quantity" class="whiz-input" />
+          </div>
 
-    <label>Value in gold</label><br />
-    <input type="number" [field]="weaponForm.value" /><br /><br />
+          <div class="whiz-field">
+            <label>Item rarity</label>
+            <select [field]="$any(weaponForm.itemRarity)" class="whiz-input">
+              @for (rarity of rarityOptions; track rarity) {
+                <option [value]="rarity">{{ ItemRarityType[rarity] }}</option>
+              }
+            </select>
+          </div>
 
-    <label>Weight in lb.</label><br />
-    <input type="number" [field]="weaponForm.weight" /><br /><br />
+          <div class="whiz-field">
+            <label>Value in gold</label>
+            <input type="number" [field]="weaponForm.value" class="whiz-input" />
+          </div>
 
-    <label>Is this item equiped?</label>
-    <input type="checkbox" [field]="weaponForm.isEquipped" class="ms-2" /><br /><br />
+          <div class="whiz-field">
+            <label>Weight in lb.</label>
+            <input type="number" [field]="weaponForm.weight" class="whiz-input" />
+          </div>
 
-    <!-- WEAPON -->
-    <h4>Weapon info</h4>
+          <label class="whiz-checkbox-card whiz-checkbox-reverse">
+            <input type="checkbox" [field]="weaponForm.isEquipped" />
+            <span>Is this item equiped?</span>
+          </label>
+        </div>
+      </div>
 
-    <label>Attack Type</label><br />
-    <select [field]="$any(weaponForm.attackType)">
-      @for (attackType of attackTypeOptions; track attackType) {
-        <option [value]="attackType">{{ AttackType[attackType] }}</option>
-      }</select
-    ><br /><br />
+      <!-- WEAPON -->
+      <div class="whiz-card">
+        <h4 class="whiz-section-title">Weapon Info</h4>
 
-    @if (isRange()) {
-      <label>Range Type</label><br />
-      <select [field]="$any(weaponForm.rangeType)">
-        @for (rangeType of rangeTypeOptions; track rangeType) {
-          <option [value]="rangeType">{{ RangeLabel[rangeType] }}</option>
-        }</select
-      ><br /><br />
-    }
+        <div class="whiz-grid">
+          <div class="whiz-field">
+            <label>Attack Type</label>
+            <select [field]="$any(weaponForm.attackType)" class="whiz-input">
+              @for (attackType of attackTypeOptions; track attackType) {
+                <option [value]="attackType">{{ AttackType[attackType] }}</option>
+              }
+            </select>
+          </div>
 
-    <label>Damage Type</label><br />
-    <select [field]="$any(weaponForm.damageType)">
-      @for (damageType of damageTypeOptions; track damageType) {
-        <option [value]="damageType">{{ DamageType[damageType] }}</option>
-      }</select
-    ><br /><br />
+          @if (isRange()) {
+            <div class="whiz-field">
+              <label>Range Type</label>
+              <select [field]="$any(weaponForm.rangeType)" class="whiz-input">
+                @for (rangeType of rangeTypeOptions; track rangeType) {
+                  <option [value]="rangeType">{{ RangeLabel[rangeType] }}</option>
+                }
+              </select>
+            </div>
+          }
 
-    <label>Bonus Attack Roll Type</label><br />
-    <select [field]="$any(weaponForm.bonusAttackRollType)">
-      @for (bonusAttack of bonusAttackRollTypeOptions; track bonusAttack) {
-        <option [value]="bonusAttack">{{ BonusAttackRollLabel[bonusAttack] }}</option>
-      }</select
-    ><br /><br />
+          <div class="whiz-field">
+            <label>Damage Type</label>
+            <select [field]="$any(weaponForm.damageType)" class="whiz-input">
+              @for (damageType of damageTypeOptions; track damageType) {
+                <option [value]="damageType">{{ DamageType[damageType] }}</option>
+              }
+            </select>
+          </div>
 
-    <label>Damage Dice Type</label><br />
-    <select [field]="$any(weaponForm.damageDiceType)">
-      @for (damageDice of damageDiceTypeOptions; track damageDice) {
-        <option [value]="damageDice">{{ DamageDiceLabel[damageDice] }}</option>
-      }</select
-    ><br /><br />
+          <div class="whiz-field">
+            <label>Bonus Attack Roll Type</label>
+            <select [field]="$any(weaponForm.bonusAttackRollType)" class="whiz-input">
+              @for (bonusAttack of bonusAttackRollTypeOptions; track bonusAttack) {
+                <option [value]="bonusAttack">{{ BonusAttackRollLabel[bonusAttack] }}</option>
+              }
+            </select>
+          </div>
 
-    <label>Light Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isLight" class="ms-2" /><br /><br />
+          <div class="whiz-field">
+            <label>Damage Dice Type</label>
+            <select [field]="$any(weaponForm.damageDiceType)" class="whiz-input">
+              @for (damageDice of damageDiceTypeOptions; track damageDice) {
+                <option [value]="damageDice">{{ DamageDiceLabel[damageDice] }}</option>
+              }
+            </select>
+          </div>
+        </div>
 
-    <label>Finesse Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isFinesse" class="ms-2" /><br /><br />
+        <!-- CHECKBOXES (REFONTES) -->
+        <div class="whiz-checkbox-grid">
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isLight" />
+            <span>Light</span>
+          </label>
 
-    <label>Thrown Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isThrown" class="ms-2" /><br /><br />
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isFinesse" />
+            <span>Finesse</span>
+          </label>
 
-    <label>Versatile Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isVersatile" class="ms-2" /><br /><br />
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isThrown" />
+            <span>Thrown</span>
+          </label>
 
-    <label>Ammunition Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isAmmunition" class="ms-2" /><br /><br />
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isVersatile" />
+            <span>Versatile</span>
+          </label>
 
-    <label>Heavy Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isHeavy" class="ms-2" /><br /><br />
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isAmmunition" />
+            <span>Ammunition</span>
+          </label>
 
-    <label>Reach Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isReach" class="ms-2" /><br /><br />
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isHeavy" />
+            <span>Heavy</span>
+          </label>
 
-    <label>Two Handed Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isTwoHanded" class="ms-2" /><br /><br />
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isReach" />
+            <span>Reach</span>
+          </label>
 
-    <label>Loading Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isLoading" class="ms-2" /><br /><br />
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isTwoHanded" />
+            <span>Two Handed</span>
+          </label>
 
-    <label>Special Weapon?</label>
-    <input type="checkbox" [field]="weaponForm.isSpecial" class="ms-2" /><br /><br />
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isLoading" />
+            <span>Loading</span>
+          </label>
 
-    <!-- MAGIC ITEM -->
-    <h4>Magic weapon info</h4>
-    <label>Is this a magic item?</label>
-    <input
-      type="checkbox"
-      [checked]="isMagic()"
-      (change)="isMagic.set($any($event.target).checked)"
-      class="ms-2"
-    /><br /><br />
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="weaponForm.isSpecial" />
+            <span>Special</span>
+          </label>
+        </div>
+      </div>
 
-    @if (isMagic()) {
-      <div>
-        <label>Does this item require attunement?</label>
-        <input
-          type="checkbox"
-          [field]="weaponForm.magicItem!.requiresAttunement"
-          class="ms-2"
-        /><br /><br />
+      <div class="whiz-card">
+        <h4 class="whiz-section-title">Magic Weapon</h4>
 
-        <label>Is this item attuned to you?</label>
-        <input type="checkbox" [field]="weaponForm.isAttuned" class="ms-2" />
-        <br /><br />
+        <!-- TOGGLE MAGIC -->
+        <label class="whiz-checkbox-card whiz-checkbox-reverse">
+          <input
+            type="checkbox"
+            [checked]="isMagic()"
+            (change)="isMagic.set($any($event.target).checked)"
+          />
+          <span>Is this a magic item?</span>
+        </label>
 
-        <label>Magig Effect Description</label><br />
-        <textarea [field]="weaponForm.magicItem!.magicEffectDescription"></textarea><br /><br />
+        @if (isMagic()) {
+          <div class="whiz-grid">
+            <label class="whiz-checkbox-card whiz-checkbox-reverse mt-3">
+              <input type="checkbox" [field]="weaponForm.magicItem!.requiresAttunement" />
+              <span>Requires Attunement</span>
+            </label>
 
-        <label>Magic Effect Mechanics</label><br />
-        <textarea [field]="weaponForm.magicItem!.magicEffectMechanics"></textarea><br /><br />
+            <label class="whiz-checkbox-card whiz-checkbox-reverse">
+              <input type="checkbox" [field]="weaponForm.isAttuned" />
+              <span>Attuned</span>
+            </label>
 
-        <label>Total Charges</label><br />
-        <input type="number" [field]="weaponForm.magicItem!.totalCharges" /><br /><br />
-
-        <label>Charges Remaining</label><br />
-        <input type="number" [field]="weaponForm.magicItem!.chargesRemaining" /><br /><br />
-
-        <hr />
-        <h5>Effects</h5>
-        <button type="button" (click)="addMagicEffect()">+ Add Effect</button>
-
-        @for (effect of weaponForm.magicItem!.effects; track effect; let i = $index) {
-          <div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px">
-            <div style="display: flex; justify-content: space-between">
-              <strong>Effect #{{ i + 1 }}</strong>
-              <button type="button" (click)="removeMagicEffect(i)" style="color: red">
-                Remove
-              </button>
+            <div class="whiz-field full">
+              <label>Effect Description</label>
+              <textarea
+                [field]="weaponForm.magicItem!.magicEffectDescription"
+                class="whiz-input"
+              ></textarea>
             </div>
 
-            <label>Effect Type</label><br />
-            <select [field]="$any(effect.effectType)">
-              @for (type of effectTypeOptions; track type) {
-                <option [value]="type">{{ ItemEffectType[type] }}</option>
-              }</select
-            ><br /><br />
+            <div class="whiz-field full">
+              <label>Effect Mechanics</label>
+              <textarea
+                [field]="weaponForm.magicItem!.magicEffectMechanics"
+                class="whiz-input"
+              ></textarea>
+            </div>
 
-            <label>Modifier Value</label><br />
-            <input type="number" [field]="effect.modifier" /><br /><br />
+            <div class="whiz-field">
+              <label>Total Charges</label>
+              <input
+                type="number"
+                [field]="weaponForm.magicItem!.totalCharges"
+                class="whiz-input"
+              />
+            </div>
 
-            @if (effect.effectType().value() === ItemEffectType.AbilityScore) {
-              <label>Ability Score</label><br />
-            }
+            <div class="whiz-field">
+              <label>Charges Remaining</label>
+              <input
+                type="number"
+                [field]="weaponForm.magicItem!.chargesRemaining"
+                class="whiz-input"
+              />
+            </div>
           </div>
+
+          <hr />
+
+          <!-- EFFECTS -->
+          <h5 class="whiz-subtitle">Effects</h5>
+
+          <button type="button" class="whiz-btn-add" (click)="addMagicEffect()">Add Effect</button>
+
+          @for (effect of weaponForm.magicItem!.effects; track effect; let i = $index) {
+            <div class="whiz-effect-card">
+              <div class="whiz-effect-header mt-4">
+                <strong>Effect #{{ i + 1 }}</strong>
+              </div>
+
+              <button type="button" class="whiz-btn-remove" (click)="removeMagicEffect(i)">
+                Remove
+              </button>
+              <div class="whiz-grid">
+                <div class="whiz-field mt-2">
+                  <label>Effect Type</label>
+                  <select [field]="$any(effect.effectType)" class="whiz-input">
+                    @for (type of effectTypeOptions; track type) {
+                      <option [value]="type">{{ ItemEffectType[type] }}</option>
+                    }
+                  </select>
+                </div>
+
+                <div class="whiz-field">
+                  <label>Modifier Value</label>
+                  <input type="number" [field]="effect.modifier" class="whiz-input" />
+                </div>
+              </div> 
+            </div>
+          }
         }
       </div>
-    }
 
-    <br />
-    <button type="submit">Submit</button>
-  </form>
+      <div class="whiz-submit">
+        <button type="submit" class="whiz-btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
 </app-character-layout>

@@ -403,3 +403,283 @@ app-root {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+/* ==============================================================================================================================
+   WHIZSHEET (GLOBAL)
+   ============================================================================================================================== */
+   /* =========================
+   WHIZ FORM LAYOUT
+========================= */
+
+/* =========================
+   CONTAINER
+========================= */
+
+.whiz-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.whiz-title {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* =========================
+   CARD (NO GLOW)
+========================= */
+
+.whiz-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1.8rem;
+  margin-bottom: 1.8rem;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* =========================
+   GRID
+========================= */
+
+.whiz-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.whiz-field.full {
+  grid-column: span 2;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.whiz-input {
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #0d0d0d;
+  color: white;
+  transition: 0.2s;
+}
+
+.whiz-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* =========================
+   CHECKBOX LINE
+========================= */
+
+.whiz-checkbox-line {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+/* =========================
+   CHECKBOX GRID (NEW STYLE)
+========================= */
+
+.whiz-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+/* =========================
+   CHECKBOX CARD (🔥 important)
+========================= */
+
+.whiz-checkbox-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.9rem;
+  background: #0a0a0a;
+  border-radius: 8px;
+  border: 1px solid #222;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.whiz-checkbox-card:hover {
+  border-color: var(--primary);
+}
+
+.whiz-checkbox-card input {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #555;
+  border-radius: 6px;
+  background: #0a0a0a;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* CHECKED STATE */
+.whiz-checkbox-card input::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  transform: scale(0);
+  transition: 0.2s ease;
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.whiz-checkbox-card input:checked::before {
+  transform: scale(1);
+}
+
+/* HOVER */
+.whiz-checkbox-card:hover input {
+  border-color: var(--primary);
+}
+
+/* LABEL CHECKBOX */
+.whiz-checkbox-card span {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* FIX LIGHT MODE */
+:root .whiz-checkbox-card span {
+  color: #ffffff;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.whiz-btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 0.7rem 2.5rem;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.whiz-btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* =========================
+   SUBMIT
+========================= */
+
+.whiz-submit {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .whiz-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .whiz-field.full {
+    grid-column: span 1;
+  }
+}
+
+
+.whiz-checkbox-reverse span {
+  order: 1;
+}
+
+.whiz-checkbox-reverse input {
+  order: 2;
+}
+
+.whiz-checkbox-reverse span {
+  flex: 1;
+}
+
+
+/* Subtitle */
+.whiz-subtitle {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* HR clean dark */
+.whiz-card hr {
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 1.5rem 0;
+}
+
+
+
+.whiz-btn-add {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 0.6rem 1.4rem;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.whiz-btn-add:hover {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+}
+
+.whiz-btn-remove {
+  margin-top: 0.5rem;
+
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+
+  padding: 0.35rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.whiz-btn-remove:hover {
+  background: var(--danger);
+  color: white;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.4);
+}
