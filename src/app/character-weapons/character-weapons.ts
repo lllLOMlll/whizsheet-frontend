@@ -4,6 +4,7 @@ import { CharacterStore } from '../core/stores/character-store';
 import { WeaponService } from '../core/services/weapon';
 import { Router } from '@angular/router';
 import { ToastService } from '../core/services/toast';
+import { DamageDiceType, DamageDiceLabel } from '../core/models/weapon';
 
 @Component({
   selector: 'app-character-weapons',
@@ -16,6 +17,22 @@ export class CharacterWeaponsComponent {
   readonly weaponService = inject(WeaponService);
   readonly toastService = inject(ToastService);
   private router = inject(Router);
+
+  getDamageLabel(type: DamageDiceType | string | null | undefined): string {
+    if (type === null || type === undefined || type === '') {
+      return '';
+    }
+
+    const numericValue = typeof type === 'string'
+      ? DamageDiceType[type as keyof typeof DamageDiceType]
+      : type;
+
+      if (numericValue !== undefined && numericValue in DamageDiceLabel) {
+        return DamageDiceLabel[numericValue as DamageDiceType];
+      }
+
+      return '';
+  }
 
   navigateToCreateWeapon(): void {
     this.router.navigate(['/characters', this.characterStore.character()?.id, 'create-weapon']);
