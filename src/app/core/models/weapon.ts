@@ -3,6 +3,7 @@ import { Item } from './item';
 export interface Weapon extends Item {
   attackType?: AttackType;
   bonusAttackRollType?: BonusAttackRollType;
+  attackBonus?: number;
   damageDiceType?: DamageDiceType;
   damageModifier?: number;
   damageType?: DamageType;
