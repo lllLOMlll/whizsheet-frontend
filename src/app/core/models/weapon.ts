@@ -4,6 +4,7 @@ export interface Weapon extends Item {
   attackType?: AttackType;
   bonusAttackRollType?: BonusAttackRollType;
   damageDiceType?: DamageDiceType;
+  damageModifier?: number;
   damageType?: DamageType;
   rangeType?: RangeType;
 

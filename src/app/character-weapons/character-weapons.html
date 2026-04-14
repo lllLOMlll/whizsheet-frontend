@@ -18,7 +18,7 @@
         <tr>
           <td>{{ item.name }}</td>
           <td></td>
-          <td> {{ getDamageLabel(item.damageDiceType) }} </td>
+          <td> {{ getDamageLabel(item.damageDiceType) }} + {{ item.damageModifier }} </td>
           @if (item.id) {
             <td><button (click)="toggleEquip(item.id)">Unequip</button></td>
           }
