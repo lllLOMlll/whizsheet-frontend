@@ -33,7 +33,7 @@
 
               <div class="item-actions">
                 @if (item.id) {
-                  <button class="btn btn-secondary" (click)="toggleEquip(item.id)">
+                  <button class="btn btn-dark" (click)="toggleEquip(item.id)">
                     Unequip
                   </button>
                 }
@@ -69,18 +69,18 @@
 
               <div class="item-actions">
                 @if (item.id) {
-                  <button class="btn btn-success" (click)="toggleEquip(item.id)">
+                  <button class="btn btn-dark" (click)="toggleEquip(item.id)">
                     Equip
                   </button>
                 }
 
                 @if (item.id) {
-                  <button class="btn btn-danger" (click)="deleteWeapon(item.id)">
+                  <button class="btn btn-dark" (click)="deleteWeapon(item.id)">
                     Delete
                   </button>
                 }
 
-                <button class="btn btn-warning">
+                <button class="btn btn-dark">
                   Sell
                 </button>
               </div>
