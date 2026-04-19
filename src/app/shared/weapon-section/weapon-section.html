@@ -1,0 +1,106 @@
+<!-- WEAPON -->
+      <div class="whiz-card">
+        <h4 class="whiz-section-title">Weapon Info</h4>
+
+        <div class="whiz-grid">
+          <div class="whiz-field">
+            <label>Attack Type</label>
+            <select [field]="$any(form().attackType)" class="whiz-input">
+              @for (attackType of attackTypeOptions; track attackType) {
+                <option [value]="attackType">{{ itemAttackType[attackType] }}</option>
+              }
+            </select>
+          </div>
+
+          @if (isRange()) {
+            <div class="whiz-field">
+              <label>Range Type</label>
+              <select [field]="$any(form().rangeType)" class="whiz-input">
+                @for (rangeType of rangeTypeOptions; track rangeType) {
+                  <option [value]="rangeType">{{ rangeLabel[rangeType] }}</option>
+                }
+              </select>
+            </div>
+          }
+
+          <div class="whiz-field">
+            <label>Damage Type</label>
+            <select [field]="$any(form().damageType)" class="whiz-input">
+              @for (damageType of damageTypeOptions; track damageType) {
+                <option [value]="damageType">{{ itemDamageType[damageType] }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="whiz-field">
+            <label>Bonus Attack Roll Type</label>
+            <select [field]="$any(form().bonusAttackRollType)" class="whiz-input">
+              @for (bonusAttack of bonusAttackRollTypeOptions; track bonusAttack) {
+                <option [value]="bonusAttack">{{ bonusAttackRollLabel[bonusAttack] }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="whiz-field">
+            <label>Damage Dice Type</label>
+            <select [field]="$any(form().damageDiceType)" class="whiz-input">
+              @for (damageDice of damageDiceTypeOptions; track damageDice) {
+                <option [value]="damageDice">{{ damageDiceLabel[damageDice] }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <!-- CHECKBOXES (REFONTES) -->
+        <div class="whiz-checkbox-grid">
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isLight" />
+            <span>Light</span>
+          </label>
+
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isFinesse" />
+            <span>Finesse</span>
+          </label>
+
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isThrown" />
+            <span>Thrown</span>
+          </label>
+
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isVersatile" />
+            <span>Versatile</span>
+          </label>
+
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isAmmunition" />
+            <span>Ammunition</span>
+          </label>
+
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isHeavy" />
+            <span>Heavy</span>
+          </label>
+
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isReach" />
+            <span>Reach</span>
+          </label>
+
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isTwoHanded" />
+            <span>Two Handed</span>
+          </label>
+
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isLoading" />
+            <span>Loading</span>
+          </label>
+
+          <label class="whiz-checkbox-card">
+            <input type="checkbox" [field]="form().isSpecial" />
+            <span>Special</span>
+          </label>
+        </div>
+      </div>

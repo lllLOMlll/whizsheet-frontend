@@ -20,8 +20,8 @@
     <div class="whiz-field">
       <label>Item rarity</label>
       <select [field]="$any(form().itemRarity)" class="whiz-input">
-        @for (rarity of rarityOptions(); track rarity) {
-          <option [value]="rarity">{{ itemRarityType()[rarity] }}</option>
+        @for (rarity of rarityOptions; track rarity) {
+          <option [value]="rarity">{{ itemRarityType[rarity] }}</option>
         }
       </select>
     </div>

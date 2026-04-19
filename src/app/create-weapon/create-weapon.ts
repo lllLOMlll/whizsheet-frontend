@@ -22,11 +22,13 @@ import { CharacterStore } from '../core/stores/character-store';
 import { Router } from '@angular/router';
 import { ToastService } from '../core/services/toast';
 import { FormsModule } from '@angular/forms';
-import { ItemSectionComponent } from '../character-weapons/components/item-section/item-section';
+import { ItemSectionComponent } from '../shared/item-section/item-section';
+import { WeaponSectionComponent } from '../shared/weapon-section/weapon-section';
+import { getEnumOptions } from '../core/utils/enum-util';
 
 @Component({
   selector: 'app-create-weapon',
-  imports: [CharacterLayout, Field, FormsModule, ItemSectionComponent],
+  imports: [CharacterLayout, Field, FormsModule, ItemSectionComponent, WeaponSectionComponent],
   templateUrl: './create-weapon.html',
   styleUrl: './create-weapon.css',
 })
@@ -40,41 +42,27 @@ export class CreateWeaponComponent {
 
   readonly Number = Number;
 
-  // Je fais ceci car un enum n'est pas un tableau. Dans le html, si je veux itérer avec le @for, je dois convertir mon enum en tableau
-  readonly attackTypeOptions = Object.values(AttackType).filter(
-    (value) => typeof value === 'number',
-  ) as AttackType[];
-  readonly AttackType = AttackType;
-
-  readonly rangeTypeOptions = Object.values(RangeType).filter(
-    (value) => typeof value === 'number',
-  ) as RangeType[];
-  readonly RangeLabel = RangeLabel;
-
-  readonly rarityOptions = Object.values(ItemRarityType).filter(
-    (value) => typeof value === 'number',
-  ) as ItemRarityType[];
+  readonly rarityOptions = getEnumOptions<ItemRarityType>(ItemRarityType);
   readonly ItemRarityType = ItemRarityType;
 
-  readonly damageTypeOptions = Object.values(DamageType).filter(
-    (value) => typeof value === 'number',
-  ) as DamageType[];
+  readonly attackTypeOptions = getEnumOptions<AttackType>(AttackType);
+  readonly AttackType = AttackType;
+
+  readonly rangeTypeOptions = getEnumOptions<RangeType>(RangeType);
+  readonly RangeLabel = RangeLabel;
+
+  readonly damageTypeOptions = getEnumOptions<DamageType>(DamageType);
   readonly DamageType = DamageType;
 
-  readonly bonusAttackRollTypeOptions = Object.values(BonusAttackRollType).filter(
-    (value) => typeof value === 'number',
-  ) as BonusAttackRollType[];
+  readonly bonusAttackRollTypeOptions = getEnumOptions<BonusAttackRollType>(BonusAttackRollType);
   readonly BonusAttackRollLabel = BonusAttackRollLabel;
 
-  readonly damageDiceTypeOptions = Object.values(DamageDiceType).filter(
-    (value) => typeof value === 'number',
-  ) as DamageDiceType[];
+  readonly damageDiceTypeOptions = getEnumOptions<DamageDiceType>(DamageDiceType);
   readonly DamageDiceLabel = DamageDiceLabel;
 
+  readonly effectTypeOptions = getEnumOptions<ItemEffectType>(ItemEffectType);
   readonly ItemEffectType = ItemEffectType;
-  readonly effectTypeOptions = Object.values(ItemEffectType).filter(
-    (value) => typeof value === 'number',
-  );
+ 
 
   readonly weaponModel = signal<Weapon>({
     id: undefined,

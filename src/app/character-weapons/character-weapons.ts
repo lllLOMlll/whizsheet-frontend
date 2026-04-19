@@ -50,13 +50,9 @@ export class CharacterWeaponsComponent {
     if (weapon) {
       if (confirm(`Are you sure you want to delete ${weapon?.name}?`)) {
         this.weaponService.deleteWeapon(character.id, weaponId).subscribe({
-          next: (response) => {
-            if (confirm(`Are you sure you want to delete ${weapon.name}?`)) {
+          next: (response) => {   
               this.toastService.show(`${weapon?.name} was successfully deleted`);
-              this.characterStore.removeWeaponFromStore(weaponId);
-            } else {
-              return;
-            }
+              this.characterStore.removeWeaponFromStore(weaponId); 
           },
           error: (err) => {
             this.toastService.show(`Error while deleting ${weapon.name}`, 'error');
