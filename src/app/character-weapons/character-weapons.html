@@ -1,59 +1,97 @@
 <app-character-layout>
-  <h3 class="text-center section-title-whiz">Weapons</h3>
+  <div class="page-center">
 
-  <button (click)="navigateToCreateWeapon()">Create Weapon</button>
-  <h3>Equiped Weapons</h3>
-  Pour chaque arme, il faudra un bouton : Edit, Delete, Equip/Unequip, Sell
-  <br /><br />
+    <h3 class="section-title-whiz">Weapons</h3>
 
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Atk bonus</th>
-      <th>Damage</th>
-      <th>Unequip</th>
-    </tr>
-    @for (item of characterStore.weapons(); track item.id) {
-      @if (item.isEquipped) {
-        <tr>
-          <td>{{ item.name }}</td>
-          <td>+{{ item.attackBonus }}</td>
-          <td> {{ getDamageLabel(item.damageDiceType) }} + {{ item.damageModifier }} </td>
-          @if (item.id) {
-            <td><button (click)="toggleEquip(item.id)">Unequip</button></td>
+    <div class="create-btn d-flex justify-content-center mb-5">
+      <button class="btn btn-dark p-2 px-5 fs-5" (click)="navigateToCreateWeapon()">
+        Create Weapon
+      </button>
+    </div>
+
+    <!-- =========================
+         EQUIPPED
+    ========================= -->
+    <div class="whiz-card">
+      <h3 class="whiz-subtitle mb-3">Equiped Weapons</h3>
+
+      <div class="item-list">
+
+        @for (item of characterStore.weapons(); track item.id) {
+          @if (item.isEquipped) {
+
+            <div class="item-card">
+
+              <div class="item-content">
+                <div class="little-title-whiz">{{ item.name }}</div>
+                <div><strong>Atk bonus:</strong> +{{ item.attackBonus }}</div>
+                <div>
+                  <strong>Damage:</strong>
+                  {{ getDamageLabel(item.damageDiceType) }} + {{ item.damageModifier }}
+                </div>
+              </div>
+
+              <div class="item-actions">
+                @if (item.id) {
+                  <button class="btn btn-secondary" (click)="toggleEquip(item.id)">
+                    Unequip
+                  </button>
+                }
+              </div>
+
+            </div>
+
           }
-        </tr>
-      }
-    }
-  </table>
+        }
 
-  <hr />
+      </div>
+    </div>
 
-  <h3>Weapon in the inventory</h3>
-  <table>
-    <tr>
-      <th>Weapon</th>
-      <th>Equip</th>
-      <th>Delete</th>
-      <th>Value</th>
-      <th>Sell</th>
-    </tr>
+    <hr />
 
-    @for (item of characterStore.weapons(); track item.id) {
-      @if (!item.isEquipped) {
-        <tr>
-          <td>{{ item.name }}</td>
-          @if (item.id) {
-            <td><button (click)="toggleEquip(item.id)">Equip</button></td>
+    <!-- =========================
+         INVENTORY
+    ========================= -->
+    <div class="whiz-card">
+      <h3 class="whiz-subtitle mb-3">Weapon in the inventory</h3>
+
+      <div class="item-list">
+
+        @for (item of characterStore.weapons(); track item.id) {
+          @if (!item.isEquipped) {
+
+            <div class="item-card">
+
+              <div class="item-content">
+                <div class="little-title-whiz"> {{ item.name }}</div>
+                <div><strong>Value:</strong> {{ item.value }}</div>
+              </div>
+
+              <div class="item-actions">
+                @if (item.id) {
+                  <button class="btn btn-success" (click)="toggleEquip(item.id)">
+                    Equip
+                  </button>
+                }
+
+                @if (item.id) {
+                  <button class="btn btn-danger" (click)="deleteWeapon(item.id)">
+                    Delete
+                  </button>
+                }
+
+                <button class="btn btn-warning">
+                  Sell
+                </button>
+              </div>
+
+            </div>
+
           }
+        }
 
-          @if (item.id) {
-            <td><button (click)="deleteWeapon(item.id)">Delete</button></td>
-          }
-          <td>{{ item.value }}</td>
-          <td><button>Sell</button></td>
-        </tr>
-      }
-    }
-  </table>
+      </div>
+    </div>
+
+  </div>
 </app-character-layout>
