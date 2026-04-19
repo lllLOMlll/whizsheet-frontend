@@ -24,11 +24,11 @@ import { ToastService } from '../core/services/toast';
 import { FormsModule } from '@angular/forms';
 import { ItemSectionComponent } from '../shared/item-section/item-section';
 import { WeaponSectionComponent } from '../shared/weapon-section/weapon-section';
-import { getEnumOptions } from '../core/utils/enum-util';
+import { MagicItemSectionComponent } from '../shared/magic-item-section/magic-item-section';
 
 @Component({
   selector: 'app-create-weapon',
-  imports: [CharacterLayout, Field, FormsModule, ItemSectionComponent, WeaponSectionComponent],
+  imports: [CharacterLayout, FormsModule, ItemSectionComponent, WeaponSectionComponent, MagicItemSectionComponent],
   templateUrl: './create-weapon.html',
   styleUrl: './create-weapon.css',
 })
@@ -40,30 +40,7 @@ export class CreateWeaponComponent {
 
   isMagic = signal(false);
 
-  readonly Number = Number;
-
-  readonly rarityOptions = getEnumOptions<ItemRarityType>(ItemRarityType);
-  readonly ItemRarityType = ItemRarityType;
-
-  readonly attackTypeOptions = getEnumOptions<AttackType>(AttackType);
-  readonly AttackType = AttackType;
-
-  readonly rangeTypeOptions = getEnumOptions<RangeType>(RangeType);
-  readonly RangeLabel = RangeLabel;
-
-  readonly damageTypeOptions = getEnumOptions<DamageType>(DamageType);
-  readonly DamageType = DamageType;
-
-  readonly bonusAttackRollTypeOptions = getEnumOptions<BonusAttackRollType>(BonusAttackRollType);
-  readonly BonusAttackRollLabel = BonusAttackRollLabel;
-
-  readonly damageDiceTypeOptions = getEnumOptions<DamageDiceType>(DamageDiceType);
-  readonly DamageDiceLabel = DamageDiceLabel;
-
-  readonly effectTypeOptions = getEnumOptions<ItemEffectType>(ItemEffectType);
-  readonly ItemEffectType = ItemEffectType;
  
-
   readonly weaponModel = signal<Weapon>({
     id: undefined,
     name: '',
@@ -102,10 +79,6 @@ export class CreateWeaponComponent {
   });
 
   weaponForm = form(this.weaponModel);
-
-  readonly isRange = computed(() => {
-    return this.Number(this.weaponModel().attackType) === AttackType.Range;
-  });
 
   addMagicEffect() {
     const currentWeapon = this.weaponModel();
