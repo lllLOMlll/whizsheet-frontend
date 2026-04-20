@@ -17,8 +17,9 @@ import { CharacterAbilityScores } from './character-ability-scores/character-abi
 import { CharacterHitPointsComponent } from './character-hit-points/character-hit-points';
 import { CharacterSkillsComponent } from './character-skills/character-skills';
 import { CharacterSavingThrowsComponent } from './character-saving-throws/character-saving-throws';
-import { CharacterWeaponsComponent } from './character-weapons/character-weapons';
-import { CreateWeaponComponent } from './create-weapon/create-weapon';
+import { CharacterWeaponsComponent } from './weapons/character-weapons/character-weapons';
+import { CreateWeaponComponent } from './weapons/create-weapon/create-weapon';
+import { EditWeaponComponent } from './weapons/edit-weapon/edit-weapon';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -80,7 +81,12 @@ export const routes: Routes = [
           {
             path: 'create-weapon',
             component: CreateWeaponComponent,
+          },
+          {
+            path: 'edit-weapon/:weaponId',
+            component: EditWeaponComponent,
           }
+
         ],
       },
     ],

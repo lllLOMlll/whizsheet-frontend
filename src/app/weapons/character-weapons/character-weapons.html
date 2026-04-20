@@ -1,6 +1,5 @@
 <app-character-layout>
   <div class="page-center">
-
     <h3 class="section-title-whiz">Weapons</h3>
 
     <div class="create-btn d-flex justify-content-center mb-5">
@@ -16,12 +15,9 @@
       <h3 class="whiz-subtitle mb-3">Equiped Weapons</h3>
 
       <div class="item-list">
-
         @for (item of characterStore.weapons(); track item.id) {
           @if (item.isEquipped) {
-
             <div class="item-card">
-
               <div class="item-content">
                 <div class="little-title-whiz">{{ item.name }}</div>
                 <div><strong>Atk bonus:</strong> +{{ item.attackBonus }}</div>
@@ -33,17 +29,13 @@
 
               <div class="item-actions">
                 @if (item.id) {
-                  <button class="btn btn-dark" (click)="toggleEquip(item.id)">
-                    Unequip
-                  </button>
+                  <button class="btn btn-dark" (click)="navigateToEditWeapon(item.id)">Edit</button>
+                  <button class="btn btn-dark" (click)="toggleEquip(item.id)">Unequip</button>
                 }
               </div>
-
             </div>
-
           }
         }
-
       </div>
     </div>
 
@@ -56,42 +48,26 @@
       <h3 class="whiz-subtitle mb-3">Weapon in the inventory</h3>
 
       <div class="item-list">
-
         @for (item of characterStore.weapons(); track item.id) {
           @if (!item.isEquipped) {
-
             <div class="item-card">
-
               <div class="item-content">
-                <div class="little-title-whiz"> {{ item.name }}</div>
+                <div class="little-title-whiz">{{ item.name }}</div>
                 <div><strong>Value:</strong> {{ item.value }}</div>
               </div>
 
               <div class="item-actions">
                 @if (item.id) {
-                  <button class="btn btn-dark" (click)="toggleEquip(item.id)">
-                    Equip
-                  </button>
+               <button class="btn btn-dark" (click)="navigateToEditWeapon(item.id)">Edit</button>
+                  <button class="btn btn-dark" (click)="toggleEquip(item.id)">Equip</button>
+                  <button class="btn btn-dark" (click)="deleteWeapon(item.id)">Delete</button>
+                  <button class="btn btn-dark">Sell</button>
                 }
-
-                @if (item.id) {
-                  <button class="btn btn-dark" (click)="deleteWeapon(item.id)">
-                    Delete
-                  </button>
-                }
-
-                <button class="btn btn-dark">
-                  Sell
-                </button>
               </div>
-
             </div>
-
           }
         }
-
       </div>
     </div>
-
   </div>
 </app-character-layout>

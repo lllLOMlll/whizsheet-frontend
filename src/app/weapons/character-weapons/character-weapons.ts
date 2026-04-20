@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { CharacterLayout } from '../layout/character-layout/character-layout';
-import { CharacterStore } from '../core/stores/character-store';
-import { WeaponService } from '../core/services/weapon';
+import { CharacterLayout } from '../../layout/character-layout/character-layout';
+import { CharacterStore } from '../../core/stores/character-store';
+import { WeaponService } from '../../core/services/weapon';
 import { Router } from '@angular/router';
-import { ToastService } from '../core/services/toast';
-import { DamageDiceType, DamageDiceLabel } from '../core/models/weapon';
+import { ToastService } from '../../core/services/toast';
+import { DamageDiceType, DamageDiceLabel } from '../../core/models/weapon';
 
 @Component({
   selector: 'app-character-weapons',
@@ -36,6 +36,14 @@ export class CharacterWeaponsComponent {
 
   navigateToCreateWeapon(): void {
     this.router.navigate(['/characters', this.characterStore.character()?.id, 'create-weapon']);
+  }
+
+  navigateToEditWeapon(weaponId: string): void {
+    console.log("Weapon id = " + weaponId);
+    const characterId = this.characterStore.character()?.id;
+    if (characterId && weaponId) {
+      this.router.navigate(['/characters',characterId, 'edit-weapon', weaponId]);
+    }
   }
 
   deleteWeapon(weaponId: string): void {

@@ -23,8 +23,6 @@ export class SideNav {
 
   isOpen = isSideNavOpen;
 
-  // activeCharacterId = this.characterService.activeCharacterId;
-  // activeCharacter = this.characterService.activeCharacter;
   activeCharacter = this.store.character;
   activeCharacterId = computed(() => this.store.character()?.id);
   

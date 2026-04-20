@@ -1,6 +1,6 @@
 import { Component, inject, signal, computed } from '@angular/core';
-import { CharacterLayout } from '../layout/character-layout/character-layout';
-import { WeaponService } from '../core/services/weapon';
+import { CharacterLayout } from '../../layout/character-layout/character-layout';
+import { WeaponService } from '../../core/services/weapon';
 import {
   AttackType,
   RangeType,
@@ -11,20 +11,20 @@ import {
   DamageDiceLabel,
   DamageType,
   Weapon,
-} from '../core/models/weapon';
-import { MagicItemEffect, ItemEffectType } from '../core/models/magic-item';
-import { ItemRarityType } from '../core/models/item';
-import { AbilityScoreType } from '../core/models/ability-score';
-import { SavingThrowType } from '../core/models/saving-throw';
-import { SkillType } from '../core/models/skill';
+} from '../../core/models/weapon';
+import { MagicItemEffect, ItemEffectType } from '../../core/models/magic-item';
+import { ItemRarityType } from '../../core/models/item';
+import { AbilityScoreType } from '../../core/models/ability-score';
+import { SavingThrowType } from '../../core/models/saving-throw';
+import { SkillType } from '../../core/models/skill';
 import { form, Field, submit } from '@angular/forms/signals';
-import { CharacterStore } from '../core/stores/character-store';
+import { CharacterStore } from '../../core/stores/character-store';
 import { Router } from '@angular/router';
-import { ToastService } from '../core/services/toast';
+import { ToastService } from '../../core/services/toast';
 import { FormsModule } from '@angular/forms';
-import { ItemSectionComponent } from '../shared/item-section/item-section';
-import { WeaponSectionComponent } from '../shared/weapon-section/weapon-section';
-import { MagicItemSectionComponent } from '../shared/magic-item-section/magic-item-section';
+import { ItemSectionComponent } from '../../shared/item-section/item-section';
+import { WeaponSectionComponent } from '../../shared/weapon-section/weapon-section';
+import { MagicItemSectionComponent } from '../../shared/magic-item-section/magic-item-section';
 
 @Component({
   selector: 'app-create-weapon',
