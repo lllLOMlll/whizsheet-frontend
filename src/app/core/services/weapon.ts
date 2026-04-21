@@ -16,6 +16,10 @@ export class WeaponService {
     return this.http.get<Weapon[]>(`${this.baseUrl}/${characterId}/items/weapons`);
   }
 
+  getWeaponById(characterId: number, weaponId: string): Observable<Weapon> {
+    return this.http.get<Weapon>(`${this.baseUrl}/${characterId}/items/weapons/${weaponId}`)
+  }
+
   createWeapon(characterId: number, weaponData: any): Observable<{ id: string }> {
     return this.http.post<{ id: string }>(
       `${this.baseUrl}/${characterId}/items/weapons`,

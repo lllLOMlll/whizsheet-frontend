@@ -1,2 +1,26 @@
 <p>edit-weapon works!</p>
-<p>Weapon id : <strong>{{ weaponId }}</strong></p>
+<p>
+  Weapon id : <strong>{{ weaponId }}</strong>
+</p>
+
+<app-character-layout class="whiz-page">
+  <div class="whiz-container">
+    <h2 class="whiz-title">Create Weapon</h2>
+
+    <p>Weapon name: {{ weaponModel()?.name }}</p>
+
+    <form (submit)="onSubmit($event)" class="whiz-form">
+      <app-item-section [form]="weaponForm" />
+      <app-weapon-section [form]="weaponForm"/>
+      <app-magic-item-section 
+        [form]="weaponForm"
+        [model]="weaponModel"
+        [(isMagic)]="isMagic"
+        />
+
+    <div class="whiz-submit">
+      <button type="submit" class="whiz-btn-primary">Submit</button>
+    </div>
+    <!-- </form> -->
+  </div>
+</app-character-layout>
