@@ -42,43 +42,7 @@ export class CreateWeaponComponent {
   isMagic = signal(false);
 
   readonly weaponModel = signal<Weapon>(getInitialWeapon());
-  // readonly weaponModel = signal<Weapon>({
-  //   id: undefined,
-  //   name: '',
-  //   description: '',
-  //   itemRarity: ItemRarityType.Common as ItemRarityType,
-  //   value: 0,
-  //   weight: 0,
-  //   isEquipped: false,
-  //   isAttuned: false,
-  //   quantity: 1,
-  //   magicItem: {
-  //     id: undefined,
-  //     requiresAttunement: false,
-  //     magicEffectDescription: '',
-  //     magicEffectMechanics: '',
-  //     totalCharges: 0,
-  //     chargesRemaining: 0,
-  //     magicRechargeRate: '',
-  //     effects: [],
-  //   },
-  //   attackType: AttackType.Melee,
-  //   bonusAttackRollType: BonusAttackRollType.None,
-  //   damageDiceType: DamageDiceType.D4_1,
-  //   damageType: DamageType.Slashing,
-  //   rangeType: RangeType.R0,
-  //   isLight: false,
-  //   isFinesse: false,
-  //   isThrown: false,
-  //   isVersatile: false,
-  //   isAmmunition: false,
-  //   isHeavy: false,
-  //   isReach: false,
-  //   isTwoHanded: false,
-  //   isLoading: false,
-  //   isSpecial: false,
-  // });
-
+ 
   weaponForm = form(this.weaponModel);
 
   addMagicEffect() {
