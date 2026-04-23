@@ -1,13 +1,8 @@
-<p>edit-weapon works!</p>
-<p>
-  Weapon id : <strong>{{ weaponId }}</strong>
-</p>
-
 <app-character-layout class="whiz-page">
   <div class="whiz-container">
     <h2 class="whiz-title">Edit Weapon</h2>
 
-    <p>Weapon name: {{ weaponModel()?.name }}</p>
+    <p class="section-title-whiz" style="font-size: 1.2rem;">{{ weaponModel()?.name }}</p>
 
     <form (submit)="onSubmit($event)" class="whiz-form">
       <app-item-section [form]="weaponForm" />

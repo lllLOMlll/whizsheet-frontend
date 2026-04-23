@@ -20,6 +20,7 @@ import { mapStringToEnum } from '../../core/utils/enum-util';
 import { ItemRarityType } from '../../core/models/item';
 import { map } from 'rxjs';
 import { ItemEffectType } from '../../core/models/magic-item';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-weapon',
@@ -38,6 +39,7 @@ export class EditWeaponComponent {
   weaponService = inject(WeaponService);
   characterStore = inject(CharacterStore);
   toastService = inject(ToastService);
+  router = inject(Router);
 
   readonly weaponModel = signal<Weapon>(getInitialWeapon());
   isMagic = signal(false);
@@ -86,6 +88,10 @@ export class EditWeaponComponent {
     }
   }
 
+  navigateToCharacterDetail(): void {
+    this.router.navigate(['/characters', this.characterStore.character()?.id]);
+  }
+
   onSubmit(event: Event) {
     event.preventDefault();
 
@@ -105,10 +111,8 @@ export class EditWeaponComponent {
 
       this.weaponService.updateWeapon(characterId, weaponData).subscribe({
         next: (response) => {
-          // Succès : exécuté quand le serveur répond 200/201
-          // Ici, vous pourriez rediriger l'utilisateur ou afficher un message de succès
           this.toastService.show(`Weapon "${weaponData.name}" was updated successfully.`);
-          //this.navigateToCharacterDetail();
+          this.navigateToCharacterDetail();
         },
         error: (err) => {
           console.error('Error while creating a weapon', err);
