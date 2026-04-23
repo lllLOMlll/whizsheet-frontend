@@ -5,11 +5,21 @@ import { WeaponSectionComponent } from '../../shared/weapon-section/weapon-secti
 import { MagicItemSectionComponent } from '../../shared/magic-item-section/magic-item-section';
 import { WeaponService } from '../../core/services/weapon';
 import { CharacterStore } from '../../core/stores/character-store';
-import { Weapon } from '../../core/models/weapon';
+import {
+  AttackType,
+  BonusAttackRollType,
+  DamageDiceType,
+  DamageType,
+  Weapon,
+} from '../../core/models/weapon';
 import { getInitialWeapon } from '../../core/models/weapon';
 import { form } from '@angular/forms/signals';
 import { submit } from '@angular/forms/signals';
 import { ToastService } from '../../core/services/toast';
+import { mapStringToEnum } from '../../core/utils/enum-util';
+import { ItemRarityType } from '../../core/models/item';
+import { map } from 'rxjs';
+import { ItemEffectType } from '../../core/models/magic-item';
 
 @Component({
   selector: 'app-edit-weapon',
@@ -39,8 +49,33 @@ export class EditWeaponComponent {
 
     if (characterId && this.weaponId) {
       this.weaponService.getWeaponById(characterId, this.weaponId).subscribe((weapon) => {
-        this.weaponModel.set(weapon);
-        console.log("Checking if it's a magic item!!!");
+        const mappedEffects =
+          weapon.magicItem?.effects.map((effect) => ({
+            ...effect,
+            effectType: mapStringToEnum<ItemEffectType>(ItemEffectType, effect.effectType),
+          })) || [];
+
+        const mappedWeapon: Weapon = {
+          ...weapon,
+          id: this.weaponId,
+          itemRarity: mapStringToEnum<ItemRarityType>(ItemRarityType, weapon.itemRarity),
+          attackType: mapStringToEnum<AttackType>(AttackType, weapon.attackType),
+          damageType: mapStringToEnum<DamageType>(DamageType, weapon.damageType),
+          bonusAttackRollType: mapStringToEnum<BonusAttackRollType>(
+            BonusAttackRollType,
+            weapon.bonusAttackRollType,
+          ),
+          damageDiceType: mapStringToEnum<DamageDiceType>(DamageDiceType, weapon.damageDiceType),
+
+          magicItem: weapon.magicItem
+            ? {
+                ...weapon.magicItem,
+                effects: mappedEffects,
+              }
+            : undefined,
+        };
+        this.weaponModel.set(mappedWeapon);
+
         if (weapon.magicItem) {
           console.log('This is a magic item!!!');
           this.isMagic.set(true);
@@ -68,11 +103,11 @@ export class EditWeaponComponent {
         delete weaponData.magicItem;
       }
 
-      this.weaponService.createWeapon(characterId, weaponData).subscribe({
+      this.weaponService.updateWeapon(characterId, weaponData).subscribe({
         next: (response) => {
           // Succès : exécuté quand le serveur répond 200/201
           // Ici, vous pourriez rediriger l'utilisateur ou afficher un message de succès
-          this.toastService.show(`Weapon "${weaponData.name}" was created successfully.`);
+          this.toastService.show(`Weapon "${weaponData.name}" was updated successfully.`);
           //this.navigateToCharacterDetail();
         },
         error: (err) => {
