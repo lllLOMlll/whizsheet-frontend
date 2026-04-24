@@ -131,15 +131,15 @@ export class CharacterEditComponent {
   /* ------------------ INIT ------------------ */
 
   async ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const characterId = Number(this.route.snapshot.paramMap.get('characterId'));
 
-    const character = await firstValueFrom(this.characterService.getById(id));
+    const character = await firstValueFrom(this.characterService.getById(characterId));
 
     this.characterModel.set({
       name: character.name,
     });
 
-    const abilityScoresResponse = await firstValueFrom(this.abilityScoresService.get(id));
+    const abilityScoresResponse = await firstValueFrom(this.abilityScoresService.get(characterId));
 
     this.abilityScoresModel.set({
       strength: abilityScoresResponse.abilities.strength,
@@ -150,7 +150,7 @@ export class CharacterEditComponent {
       charisma: abilityScoresResponse.abilities.charisma,
     });
 
-    const hitPoints = await firstValueFrom(this.hitPointsService.get(id));
+    const hitPoints = await firstValueFrom(this.hitPointsService.get(characterId));
 
     this.hitPointsModelSignal.set({
       totalHitPoints: hitPoints.totalHitPoints,
@@ -159,7 +159,7 @@ export class CharacterEditComponent {
     });
 
     // ... dans ngOnInit()
-    const classes = await firstValueFrom(this.characterClassService.get(id));
+    const classes = await firstValueFrom(this.characterClassService.get(characterId));
 
     this.characterClasses.set(
       classes.map((c) => ({
@@ -178,7 +178,7 @@ export class CharacterEditComponent {
     event.preventDefault();
 
     submit(this.characterForm, async () => {
-      const id = Number(this.route.snapshot.paramMap.get('id'));
+      const id = Number(this.route.snapshot.paramMap.get('characterId'));
 
       await firstValueFrom(this.characterService.update(id, this.characterModel()));
 

@@ -9,13 +9,10 @@ import { loadingInterceptor } from './core/interceptors/loading-interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    // On regroupe tout ici : l'ordre importe peu ici, mais Loading est souvent mis en premier
     provideHttpClient(
       withInterceptors([loadingInterceptor, authInterceptor])
     ),
-
-    provideRouter(routes),
-
+    // Fusionnez en une seule ligne avec les options nécessaires
     provideRouter(routes, withComponentInputBinding())
   ]
 };

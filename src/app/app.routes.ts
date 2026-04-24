@@ -47,7 +47,7 @@ export const routes: Routes = [
         component: CharacterCreateComponent,
       },
       {
-        path: ':id',
+        path: ':characterId',
         children: [
           {
             path: '',

@@ -37,7 +37,7 @@ export class CharacterDetailComponent implements OnInit {
   });
 
   ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = Number(this.route.snapshot.paramMap.get('characterId'));
 
     if (!isNaN(id)) {
       this.characterStore.loadCharacterData(id);

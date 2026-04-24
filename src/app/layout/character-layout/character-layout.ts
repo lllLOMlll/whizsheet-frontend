@@ -16,9 +16,9 @@ export class CharacterLayout {
   // I dont need to put route and loadCharacterData in each and every component
   constructor(){
     this.route.paramMap.subscribe(params => {
-      const id = Number(params.get('id'));
-      if (!isNaN(id)) {
-        this.characterStore.loadCharacterData(id);
+      const characterId = Number(params.get('characterId'));
+      if (!isNaN(characterId)) {
+        this.characterStore.loadCharacterData(characterId);
       }
     })
   }

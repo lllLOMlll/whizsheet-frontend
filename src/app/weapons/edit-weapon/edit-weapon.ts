@@ -35,6 +35,7 @@ import { Router } from '@angular/router';
 })
 export class EditWeaponComponent {
   @Input() weaponId?: string;
+  @Input() characterId?: string;
 
   weaponService = inject(WeaponService);
   characterStore = inject(CharacterStore);
@@ -47,10 +48,10 @@ export class EditWeaponComponent {
   weaponForm = form(this.weaponModel);
 
   ngOnInit() {
-    const characterId = this.characterStore.character()?.id;
+    //const characterId = this.characterStore.character()?.id;
 
-    if (characterId && this.weaponId) {
-      this.weaponService.getWeaponById(characterId, this.weaponId).subscribe((weapon) => {
+    if (this.characterId && this.weaponId) {
+      this.weaponService.getWeaponById(Number(this.characterId), this.weaponId).subscribe((weapon) => {
         const mappedEffects =
           weapon.magicItem?.effects.map((effect) => ({
             ...effect,
