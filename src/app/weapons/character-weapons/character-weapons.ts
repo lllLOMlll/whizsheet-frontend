@@ -23,15 +23,14 @@ export class CharacterWeaponsComponent {
       return '';
     }
 
-    const numericValue = typeof type === 'string'
-      ? DamageDiceType[type as keyof typeof DamageDiceType]
-      : type;
+    const numericValue =
+      typeof type === 'string' ? DamageDiceType[type as keyof typeof DamageDiceType] : type;
 
-      if (numericValue !== undefined && numericValue in DamageDiceLabel) {
-        return DamageDiceLabel[numericValue as DamageDiceType];
-      }
+    if (numericValue !== undefined && numericValue in DamageDiceLabel) {
+      return DamageDiceLabel[numericValue as DamageDiceType];
+    }
 
-      return '';
+    return '';
   }
 
   navigateToCreateWeapon(): void {
@@ -39,10 +38,10 @@ export class CharacterWeaponsComponent {
   }
 
   navigateToEditWeapon(weaponId: string): void {
-    console.log("Weapon id = " + weaponId);
+    console.log('Weapon id = ' + weaponId);
     const characterId = this.characterStore.character()?.id;
     if (characterId && weaponId) {
-      this.router.navigate(['/characters',characterId, 'edit-weapon', weaponId]);
+      this.router.navigate(['/characters', characterId, 'edit-weapon', weaponId]);
     }
   }
 
@@ -58,9 +57,9 @@ export class CharacterWeaponsComponent {
     if (weapon) {
       if (confirm(`Are you sure you want to delete ${weapon?.name}?`)) {
         this.weaponService.deleteWeapon(character.id, weaponId).subscribe({
-          next: (response) => {   
-              this.toastService.show(`${weapon?.name} was successfully deleted`);
-              this.characterStore.removeWeaponFromStore(weaponId); 
+          next: (response) => {
+            this.toastService.show(`${weapon?.name} was successfully deleted`);
+            this.characterStore.removeWeaponFromStore(weaponId);
           },
           error: (err) => {
             this.toastService.show(`Error while deleting ${weapon.name}`, 'error');
