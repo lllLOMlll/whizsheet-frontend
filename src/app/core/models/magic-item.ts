@@ -16,9 +16,9 @@ export interface MagicItem {
 export interface MagicItemEffect {
   id?: number;
   effectType: ItemEffectType;
-  abilityScore: AbilityScoreType;
-  savingThrow: SavingThrowType;
-  skill: SkillType;
+  abilityScore: AbilityScoreType | null;
+  savingThrow: SavingThrowType | null;
+  skill: SkillType | null;
   modifier: number;
 }
 

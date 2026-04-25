@@ -11,7 +11,7 @@ import {
   DamageDiceLabel,
   DamageType,
   Weapon,
-  getInitialWeapon
+  getInitialWeapon,
 } from '../../core/models/weapon';
 import { MagicItemEffect, ItemEffectType } from '../../core/models/magic-item';
 import { ItemRarityType } from '../../core/models/item';
@@ -29,7 +29,13 @@ import { MagicItemSectionComponent } from '../../shared/magic-item-section/magic
 
 @Component({
   selector: 'app-create-weapon',
-  imports: [CharacterLayout, FormsModule, ItemSectionComponent, WeaponSectionComponent, MagicItemSectionComponent],
+  imports: [
+    CharacterLayout,
+    FormsModule,
+    ItemSectionComponent,
+    WeaponSectionComponent,
+    MagicItemSectionComponent,
+  ],
   templateUrl: './create-weapon.html',
   styleUrl: './create-weapon.css',
 })
@@ -42,7 +48,7 @@ export class CreateWeaponComponent {
   isMagic = signal(false);
 
   readonly weaponModel = signal<Weapon>(getInitialWeapon());
- 
+
   weaponForm = form(this.weaponModel);
 
   addMagicEffect() {
@@ -50,9 +56,9 @@ export class CreateWeaponComponent {
     const newEffect: MagicItemEffect = {
       id: undefined,
       effectType: ItemEffectType.AbilityScore,
-      abilityScore: AbilityScoreType.Strength,
-      savingThrow: SavingThrowType.Strength,
-      skill: SkillType.Acrobatics,
+      abilityScore: null,
+      savingThrow: null,
+      skill: null,
       modifier: 0,
     };
 
@@ -92,7 +98,22 @@ export class CreateWeaponComponent {
     submit(this.weaponForm, async () => {
       const characterId = this.characterStore.character()?.id ?? 0;
       // utilisation de { ...this.weaponModel() }. Cela crée une copie superficielle. C'est important pour ne pas modifier directement l'état de votre signal weaponModel pendant que vous préparez l'envoi HTTP.
-      const weaponData = { ...this.weaponModel() };
+      const model = this.weaponModel();
+
+      const weaponData: Weapon = {
+        ...model,
+        magicItem: model.magicItem
+          ? {
+              ...model.magicItem,
+              effects: model.magicItem.effects.map((e) => ({
+                ...e,
+                abilityScore: null,
+                savingThrow: null,
+                skill: null,
+              })),
+            }
+          : undefined,
+      };
 
       if (weaponData.name === '') {
         this.toastService.show('Error, weapon name is required', 'error');
