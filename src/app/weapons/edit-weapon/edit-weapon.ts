@@ -51,39 +51,41 @@ export class EditWeaponComponent {
     //const characterId = this.characterStore.character()?.id;
 
     if (this.characterId && this.weaponId) {
-      this.weaponService.getWeaponById(Number(this.characterId), this.weaponId).subscribe((weapon) => {
-        const mappedEffects =
-          weapon.magicItem?.effects.map((effect) => ({
-            ...effect,
-            effectType: mapStringToEnum<ItemEffectType>(ItemEffectType, effect.effectType),
-          })) || [];
+      this.weaponService
+        .getWeaponById(Number(this.characterId), this.weaponId)
+        .subscribe((weapon) => {
+          const mappedEffects =
+            weapon.magicItem?.effects.map((effect) => ({
+              ...effect,
+              effectType: mapStringToEnum<ItemEffectType>(ItemEffectType, effect.effectType),
+            })) || [];
 
-        const mappedWeapon: Weapon = {
-          ...weapon,
-          id: this.weaponId,
-          itemRarity: mapStringToEnum<ItemRarityType>(ItemRarityType, weapon.itemRarity),
-          attackType: mapStringToEnum<AttackType>(AttackType, weapon.attackType),
-          damageType: mapStringToEnum<DamageType>(DamageType, weapon.damageType),
-          bonusAttackRollType: mapStringToEnum<BonusAttackRollType>(
-            BonusAttackRollType,
-            weapon.bonusAttackRollType,
-          ),
-          damageDiceType: mapStringToEnum<DamageDiceType>(DamageDiceType, weapon.damageDiceType),
+          const mappedWeapon: Weapon = {
+            ...weapon,
+            id: this.weaponId,
+            itemRarity: mapStringToEnum<ItemRarityType>(ItemRarityType, weapon.itemRarity),
+            attackType: mapStringToEnum<AttackType>(AttackType, weapon.attackType),
+            damageType: mapStringToEnum<DamageType>(DamageType, weapon.damageType),
+            bonusAttackRollType: mapStringToEnum<BonusAttackRollType>(
+              BonusAttackRollType,
+              weapon.bonusAttackRollType,
+            ),
+            damageDiceType: mapStringToEnum<DamageDiceType>(DamageDiceType, weapon.damageDiceType),
 
-          magicItem: weapon.magicItem
-            ? {
-                ...weapon.magicItem,
-                effects: mappedEffects,
-              }
-            : undefined,
-        };
-        this.weaponModel.set(mappedWeapon);
+            magicItem: weapon.magicItem
+              ? {
+                  ...weapon.magicItem,
+                  effects: mappedEffects,
+                }
+              : undefined,
+          };
+          this.weaponModel.set(mappedWeapon);
 
-        if (weapon.magicItem) {
-          console.log('This is a magic item!!!');
-          this.isMagic.set(true);
-        }
-      });
+          if (weapon.magicItem) {
+            console.log('This is a magic item!!!');
+            this.isMagic.set(true);
+          }
+        });
     } else {
       console.error(`Problem loading weapon with id ${this.weaponId}`);
     }
@@ -99,7 +101,23 @@ export class EditWeaponComponent {
     submit(this.weaponForm, async () => {
       const characterId = this.characterStore.character()?.id ?? 0;
       // utilisation de { ...this.weaponModel() }. Cela crée une copie superficielle. C'est important pour ne pas modifier directement l'état de votre signal weaponModel pendant que vous préparez l'envoi HTTP.
-      const weaponData = { ...this.weaponModel() };
+      const model = this.weaponModel();
+
+      const weaponData: Weapon = {
+        ...model,
+        magicItem: model.magicItem
+          ? {
+              ...model.magicItem,
+              effects: model.magicItem.effects.map((e) => ({
+                ...e,
+                effectType: Number(e.effectType),
+                abilityScore: null,
+                savingThrow: null,
+                skill: null,
+              })),
+            }
+          : undefined,
+      };
 
       if (weaponData.name === '') {
         this.toastService.show('Error, weapon name is required', 'error');
