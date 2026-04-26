@@ -21,6 +21,10 @@ import { ItemRarityType } from '../../core/models/item';
 import { map } from 'rxjs';
 import { ItemEffectType } from '../../core/models/magic-item';
 import { Router } from '@angular/router';
+import { MagicItemEffect } from '../../core/models/magic-item';
+import { AbilityScoreType } from '../../core/models/ability-score';
+import { SavingThrowType } from '../../core/models/saving-throw';
+import { SkillType } from '../../core/models/skill';
 
 @Component({
   selector: 'app-edit-weapon',
@@ -87,6 +91,43 @@ export class EditWeaponComponent {
     } else {
       console.error(`Problem loading weapon with id ${this.weaponId}`);
     }
+  }
+
+  addMagicEffect() {
+    const currentWeapon = this.weaponModel();
+    const newEffect: MagicItemEffect = {
+      id: undefined,
+      effectType: ItemEffectType.AbilityScore,
+      abilityScore: AbilityScoreType.Strength,
+      savingThrow: SavingThrowType.Strength,
+      skill: SkillType.Acrobatics,
+      modifier: 0,
+    };
+
+    this.weaponModel.set({
+      ...currentWeapon,
+      magicItem: {
+        ...currentWeapon.magicItem!,
+        effects: [...(currentWeapon.magicItem?.effects || []), newEffect],
+      },
+    });
+  }
+
+  removeMagicEffect(index: number) {
+    const currentWeapon = this.weaponModel();
+
+    if (!currentWeapon.magicItem) return;
+
+    const updatedEffects = [...currentWeapon.magicItem.effects];
+    updatedEffects.splice(index, 1);
+
+    this.weaponModel.set({
+      ...currentWeapon,
+      magicItem: {
+        ...currentWeapon.magicItem,
+        effects: updatedEffects,
+      },
+    });
   }
 
   navigateToCharacterDetail(): void {

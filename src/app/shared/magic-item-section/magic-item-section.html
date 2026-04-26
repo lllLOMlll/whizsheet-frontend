@@ -6,12 +6,12 @@
           <input
             type="checkbox"
             [checked]="isMagic()"
-            (change)="isMagic.set($any($event.target).checked)"
+            (change)="onMagicToggle($any($event.target).checked)"
           />
           <span>Is this a magic item?</span>
         </label>
 
-        @if (isMagic()) {
+        @if (isMagic() && form().magicItem) {
           <div class="whiz-grid">
             <label class="whiz-checkbox-card whiz-checkbox-reverse mt-3">
               <input type="checkbox" [field]="form().magicItem!.requiresAttunement" />

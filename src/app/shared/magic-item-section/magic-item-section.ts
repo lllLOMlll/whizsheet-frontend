@@ -20,6 +20,24 @@ export class MagicItemSectionComponent {
   protected readonly itemEffectTypeOptions = getEnumOptions<ItemEffectType>(ItemEffectType);
   protected readonly itemEffectType = ItemEffectType;
 
+onMagicToggle(checked: boolean) {
+    this.isMagic.set(checked);
+
+    if (checked && !this.model()().magicItem) {
+      this.model().update(data => ({
+        ...data,
+        magicItem: {
+          requiresAttunement: false,
+          magicEffectDescription: '',
+          magicEffectMechanics: '',
+          totalCharges: 0,
+          chargesRemaining: 0,
+          effects: []
+        }
+      }));
+    }
+  }
+
   addMagicEffect() {
     this.magicService.addEffectToModel(this.model());
   }
