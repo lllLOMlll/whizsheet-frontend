@@ -66,27 +66,47 @@
                 <option [value]="type">{{ itemEffectType[type] }}</option>
               }
             </select>
+          </div>
 
-            <p>{{ effect.effectType().value() }}</p>
-            <p>{{ itemEffectType.AbilityScore }}</p>
             @if (effect.effectType().value() == itemEffectType.AbilityScore) {
-              <p>Hello AbilityScore</p>
+              <div class="whiz-field mt-2">
               <label>Ability Score</label>
-            <select [field]="$any(effect.abilityScore)" class="whiz-input">
-              @for (type of abilityScoreOption; track type) {
-                <option [value]="type">{{ abilityScoreType[type] }}</option>
-              }
-            </select>
+              <select [field]="$any(effect.abilityScore)" class="whiz-input">
+                @for (type of abilityScoreOptions; track type) {
+                  <option [value]="type">{{ abilityScoreType[type] }}</option>
+                }
+              </select>
+              </div>
+            }
+
+            @if (effect.effectType().value() == itemEffectType.SavingThrow) {
+                 <div class="whiz-field mt-2">
+              <label>Saving Throw</label>
+              <select [field]="$any(effect.abilityScore)" class="whiz-input">
+                @for (type of savingThrowOptions; track type) {
+                  <option [value]="type">{{ savingThrowType[type] }}</option>
+                }
+              </select>
+              </div>
+            }
+
+            @if (effect.effectType().value() == itemEffectType.Skill) {
+              <div class="whiz-field">
+              <label>Skill</label>
+              <select [field]="$any(effect.skill)" class="whiz-input">
+                @for (type of skillTypeOptions; track type) {
+                  <option [value]="type">{{ skillType[type] }}</option>
+                }
+              </select>
+              </div>
             }
           </div>
 
-          <div class="whiz-field mt-2">
+          <div class="whiz-field mt-3">
             <label>Modifier Value</label>
             <input type="number" [field]="effect.modifier" class="whiz-input" />
-            <p>Effect modifer = {{ effect.modifier().value() }}</p>
           </div>
         </div>
-      </div>
     }
   }
 </div>

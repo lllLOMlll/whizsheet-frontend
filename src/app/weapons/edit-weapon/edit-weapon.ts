@@ -60,7 +60,9 @@ export class EditWeaponComponent {
           weapon.magicItem?.effects.map((effect) => ({
             ...effect,
             effectType: mapStringToEnum<ItemEffectType>(ItemEffectType, effect.effectType),
-            abilityScore: mapStringToEnum<AbilityScoreType>(AbilityScoreType, effect.abilityScore)
+            abilityScore: mapStringToEnum<AbilityScoreType>(AbilityScoreType, effect.abilityScore),
+            savingThrow: mapStringToEnum<SavingThrowType>(SavingThrowType, effect.savingThrow),
+            skill: mapStringToEnum<SkillType>(SkillType, effect.skill),
           })) || [];
 
         const mappedWeapon: Weapon = {
@@ -85,7 +87,6 @@ export class EditWeaponComponent {
         this.weaponModel.set(mappedWeapon);
 
         if (weapon.magicItem) {
-          console.log('This is a magic item!!!');
           this.isMagic.set(true);
         }
       });

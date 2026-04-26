@@ -4,6 +4,8 @@ import { ItemEffectType } from '../../core/models/magic-item';
 import { Field } from "@angular/forms/signals";
 import { MagicItemService } from '../../core/services/magic-item';
 import { AbilityScoreType } from '../../core/models/ability-score';
+import { SavingThrowType } from '../../core/models/saving-throw';
+import { SkillType } from '../../core/models/skill';
 
 @Component({
   selector: 'app-magic-item-section',
@@ -21,7 +23,11 @@ export class MagicItemSectionComponent {
   protected readonly itemEffectType = ItemEffectType;
   protected readonly itemEffectTypeOptions = getEnumOptions<ItemEffectType>(ItemEffectType);
   protected readonly abilityScoreType = AbilityScoreType;  
-  protected readonly abilityScoreOption = getEnumOptions<AbilityScoreType>(AbilityScoreType);
+  protected readonly abilityScoreOptions = getEnumOptions<AbilityScoreType>(AbilityScoreType);
+  protected readonly savingThrowType = SavingThrowType;
+  protected readonly savingThrowOptions = getEnumOptions<SavingThrowType>(SavingThrowType);
+  protected readonly skillType = SkillType;
+  protected readonly skillTypeOptions = getEnumOptions<SkillType>(SkillType);
 
 
 onMagicToggle(checked: boolean) {
