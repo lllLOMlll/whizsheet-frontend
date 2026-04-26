@@ -60,6 +60,7 @@ export class EditWeaponComponent {
           weapon.magicItem?.effects.map((effect) => ({
             ...effect,
             effectType: mapStringToEnum<ItemEffectType>(ItemEffectType, effect.effectType),
+            abilityScore: mapStringToEnum<AbilityScoreType>(AbilityScoreType, effect.abilityScore)
           })) || [];
 
         const mappedWeapon: Weapon = {

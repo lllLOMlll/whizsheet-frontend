@@ -1,95 +1,92 @@
 <div class="whiz-card">
-        <h4 class="whiz-section-title">Magic Weapon</h4>
+  <h4 class="whiz-section-title">Magic Weapon</h4>
 
-        <!-- TOGGLE MAGIC -->
-        <label class="whiz-checkbox-card whiz-checkbox-reverse">
-          <input
-            type="checkbox"
-            [checked]="isMagic()"
-            (change)="onMagicToggle($any($event.target).checked)"
-          />
-          <span>Is this a magic item?</span>
-        </label>
+  <!-- TOGGLE MAGIC -->
+  <label class="whiz-checkbox-card whiz-checkbox-reverse">
+    <input
+      type="checkbox"
+      [checked]="isMagic()"
+      (change)="onMagicToggle($any($event.target).checked)"
+    />
+    <span>Is this a magic item?</span>
+  </label>
 
-        @if (isMagic() && form().magicItem) {
-          <div class="whiz-grid">
-            <label class="whiz-checkbox-card whiz-checkbox-reverse mt-3">
-              <input type="checkbox" [field]="form().magicItem!.requiresAttunement" />
-              <span>Requires Attunement</span>
-            </label>
+  @if (isMagic() && form().magicItem) {
+    <div class="whiz-grid">
+      <label class="whiz-checkbox-card whiz-checkbox-reverse mt-3">
+        <input type="checkbox" [field]="form().magicItem!.requiresAttunement" />
+        <span>Requires Attunement</span>
+      </label>
 
-            <label class="whiz-checkbox-card whiz-checkbox-reverse mt-3">
-              <input type="checkbox" [field]="form().isAttuned" />
-              <span>Attuned</span>
-            </label>
+      <label class="whiz-checkbox-card whiz-checkbox-reverse mt-3">
+        <input type="checkbox" [field]="form().isAttuned" />
+        <span>Attuned</span>
+      </label>
 
-            <div class="whiz-field full">
-              <label>Effect Description</label>
-              <textarea
-                [field]="form().magicItem!.magicEffectDescription"
-                class="whiz-input"
-              ></textarea>
-            </div>
+      <div class="whiz-field full">
+        <label>Effect Description</label>
+        <textarea [field]="form().magicItem!.magicEffectDescription" class="whiz-input"></textarea>
+      </div>
 
-            <div class="whiz-field full">
-              <label>Effect Mechanics</label>
-              <textarea
-                [field]="form().magicItem!.magicEffectMechanics"
-                class="whiz-input"
-              ></textarea>
-            </div>
+      <div class="whiz-field full">
+        <label>Effect Mechanics</label>
+        <textarea [field]="form().magicItem!.magicEffectMechanics" class="whiz-input"></textarea>
+      </div>
 
-            <div class="whiz-field">
-              <label>Total Charges</label>
-              <input
-                type="number"
-                [field]="form().magicItem!.totalCharges"
-                class="whiz-input"
-              />
-            </div>
+      <div class="whiz-field">
+        <label>Total Charges</label>
+        <input type="number" [field]="form().magicItem!.totalCharges" class="whiz-input" />
+      </div>
 
-            <div class="whiz-field">
-              <label>Charges Remaining</label>
-              <input
-                type="number"
-                [field]="form().magicItem!.chargesRemaining"
-                class="whiz-input"
-              />
-            </div>
+      <div class="whiz-field">
+        <label>Charges Remaining</label>
+        <input type="number" [field]="form().magicItem!.chargesRemaining" class="whiz-input" />
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- EFFECTS -->
+    <h5 class="whiz-subtitle">Effects</h5>
+
+    <button type="button" class="whiz-btn-add" (click)="addMagicEffect()">Add Effect</button>
+
+    @for (effect of form().magicItem!.effects; track effect; let i = $index) {
+      <div class="whiz-effect-card">
+        <div class="whiz-effect-header mt-4">
+          <strong>Effect #{{ i + 1 }}</strong>
+        </div>
+
+        <button type="button" class="whiz-btn-remove" (click)="removeMagicEffect(i)">Remove</button>
+        <div class="whiz-grid">
+          <div class="whiz-field mt-2">
+            <label>Effect Type</label>
+            <select [field]="$any(effect.effectType)" class="whiz-input">
+              @for (type of itemEffectTypeOptions; track type) {
+                <option [value]="type">{{ itemEffectType[type] }}</option>
+              }
+            </select>
+
+            <p>{{ effect.effectType().value() }}</p>
+            <p>{{ itemEffectType.AbilityScore }}</p>
+            @if (effect.effectType().value() == itemEffectType.AbilityScore) {
+              <p>Hello AbilityScore</p>
+              <label>Ability Score</label>
+            <select [field]="$any(effect.abilityScore)" class="whiz-input">
+              @for (type of abilityScoreOption; track type) {
+                <option [value]="type">{{ abilityScoreType[type] }}</option>
+              }
+            </select>
+            }
           </div>
 
-          <hr />
-
-          <!-- EFFECTS -->
-          <h5 class="whiz-subtitle">Effects</h5>
-
-          <button type="button" class="whiz-btn-add" (click)="addMagicEffect()">Add Effect</button>
-
-          @for (effect of form().magicItem!.effects; track effect; let i = $index) {
-            <div class="whiz-effect-card">
-              <div class="whiz-effect-header mt-4">
-                <strong>Effect #{{ i + 1 }}</strong>
-              </div>
-
-              <button type="button" class="whiz-btn-remove" (click)="removeMagicEffect(i)">
-                Remove
-              </button>
-              <div class="whiz-grid">
-                <div class="whiz-field mt-2">
-                  <label>Effect Type</label>
-                  <select [field]="$any(effect.effectType)" class="whiz-input">
-                    @for (type of itemEffectTypeOptions; track type) {
-                      <option [value]="type">{{ itemEffectType[type] }}</option>
-                    }
-                  </select>
-                </div>
-
-                <div class="whiz-field mt-2">
-                  <label>Modifier Value</label>
-                  <input type="number" [field]="effect.modifier" class="whiz-input" />
-                </div>
-              </div> 
-            </div>
-          }
-        }
+          <div class="whiz-field mt-2">
+            <label>Modifier Value</label>
+            <input type="number" [field]="effect.modifier" class="whiz-input" />
+            <p>Effect modifer = {{ effect.modifier().value() }}</p>
+          </div>
+        </div>
       </div>
+    }
+  }
+</div>

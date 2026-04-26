@@ -3,6 +3,7 @@ import { getEnumOptions } from '../../core/utils/enum-util';
 import { ItemEffectType } from '../../core/models/magic-item';
 import { Field } from "@angular/forms/signals";
 import { MagicItemService } from '../../core/services/magic-item';
+import { AbilityScoreType } from '../../core/models/ability-score';
 
 @Component({
   selector: 'app-magic-item-section',
@@ -17,8 +18,11 @@ export class MagicItemSectionComponent {
 
   private magicService = inject(MagicItemService);
 
-  protected readonly itemEffectTypeOptions = getEnumOptions<ItemEffectType>(ItemEffectType);
   protected readonly itemEffectType = ItemEffectType;
+  protected readonly itemEffectTypeOptions = getEnumOptions<ItemEffectType>(ItemEffectType);
+  protected readonly abilityScoreType = AbilityScoreType;  
+  protected readonly abilityScoreOption = getEnumOptions<AbilityScoreType>(AbilityScoreType);
+
 
 onMagicToggle(checked: boolean) {
     this.isMagic.set(checked);
