@@ -82,7 +82,7 @@
             @if (effect.effectType().value() == itemEffectType.SavingThrow) {
                  <div class="whiz-field mt-2">
               <label>Saving Throw</label>
-              <select [field]="$any(effect.abilityScore)" class="whiz-input">
+              <select [field]="$any(effect.savingThrow)" class="whiz-input">
                 @for (type of savingThrowOptions; track type) {
                   <option [value]="type">{{ savingThrowType[type] }}</option>
                 }
