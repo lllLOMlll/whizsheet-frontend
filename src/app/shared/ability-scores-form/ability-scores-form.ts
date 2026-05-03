@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-ability-scores-form',
-  imports: [Field],
+  imports: [FormField],
   templateUrl: './ability-scores-form.html',
   styleUrl: './ability-scores-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

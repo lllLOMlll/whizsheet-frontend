@@ -17,7 +17,7 @@
             <input
               type="text"
               class="whiz-input"
-              [field]="characterForm.name"
+              [formField]="characterForm.name"
             />
 
             @if (characterForm.name().invalid() && characterForm.name().touched()) {
@@ -35,7 +35,7 @@
             <input
               type="number"
               class="whiz-input"
-              [field]="hitPointsForm.totalHitPoints"
+              [formField]="hitPointsForm.totalHitPoints"
             />
 
             @if (hitPointsForm.totalHitPoints().invalid() && hitPointsForm.totalHitPoints().touched()) {

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { CharacterClassType, DND_CLASSES } from '../../core/services/character-class';
 
 
@@ -7,7 +7,7 @@ import { CharacterClassType, DND_CLASSES } from '../../core/services/character-c
 @Component({
   selector: 'app-character-class-form',
   standalone: true,
-  imports: [Field],
+  imports: [FormField],
   templateUrl: './character-class-form.html',
   styleUrl: './character-class-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

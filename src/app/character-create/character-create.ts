@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Field, form, min, required, submit } from '@angular/forms/signals';
+import { form, FormField, min, required, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 
 import { CharacterService, CreateCharacterData } from '../core/services/character';
@@ -27,7 +27,7 @@ import { CharacterLayout } from '../layout/character-layout/character-layout';
 @Component({
   selector: 'app-character-create',
   standalone: true,
-  imports: [Field, AbilityScoresFormComponent, CharacterClassItemComponent,CharacterLayout],
+  imports: [FormField, AbilityScoresFormComponent, CharacterClassItemComponent, CharacterLayout],
   templateUrl: './character-create.html',
   styleUrl: './character-create.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

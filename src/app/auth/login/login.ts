@@ -6,7 +6,7 @@ import {
   inject,
 } from '@angular/core';
 
-import { form, Field, required, email, minLength, submit } from '@angular/forms/signals';
+import { form, required, email, minLength, submit, FormField } from '@angular/forms/signals';
 
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../auth';
@@ -19,7 +19,7 @@ interface LoginData {
 
 @Component({
   selector: 'app-login',
-  imports: [Field, RouterLink],
+  imports: [FormField, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
   encapsulation: ViewEncapsulation.None,

@@ -4,22 +4,22 @@
   <div class="whiz-grid">
     <div class="whiz-field">
       <label>Name</label>
-      <input type="text" [field]="form().name" class="whiz-input" />
+      <input type="text" [formField]="form().name" class="whiz-input" />
   </div>
 
     <div class="whiz-field full">
       <label>Description</label>
-      <textarea [field]="form().description" class="whiz-input"></textarea>
+      <textarea [formField]="form().description" class="whiz-input"></textarea>
     </div>
 
     <div class="whiz-field">
       <label>Quantity</label>
-      <input type="number" [field]="form().quantity" class="whiz-input" />
+      <input type="number" [formField]="form().quantity" class="whiz-input" />
     </div>
 
     <div class="whiz-field">
       <label>Item rarity</label>
-      <select [field]="$any(form().itemRarity)" class="whiz-input">
+      <select [formField]="$any(form().itemRarity)" class="whiz-input">
         @for (rarity of rarityOptions; track rarity) {
           <option [value]="rarity">{{ itemRarityType[rarity] }}</option>
         }
@@ -28,16 +28,16 @@
 
     <div class="whiz-field">
       <label>Value</label>
-      <input type="number" [field]="form().value" class="whiz-input" />
+      <input type="number" [formField]="form().value" class="whiz-input" />
     </div>
 
     <div class="whiz-field">
       <label>Weight</label>
-      <input type="number" [field]="form().weight" class="whiz-input" />
+      <input type="number" [formField]="form().weight" class="whiz-input" />
     </div>
 
     <label class="whiz-checkbox-card">
-      <input type="checkbox" [field]="form().isEquipped" />
+      <input type="checkbox" [formField]="form().isEquipped" />
       <span>Equipped</span>
     </label>
   </div>

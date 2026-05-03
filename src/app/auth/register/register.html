@@ -20,7 +20,7 @@
           <input
             type="email"
             class="form-control"
-            [field]="registerForm.email"
+            [formField]="registerForm.email"
           />
         </div>
 
@@ -29,7 +29,7 @@
           <input
             type="password"
             class="form-control"
-            [field]="registerForm.password"
+            [formField]="registerForm.password"
             (blur)="onConfirmPassowrdBlur()"
           />
 
@@ -45,8 +45,8 @@
           <input
             type="password"
             class="form-control"
-            [field]="registerForm.confirmPassword"
-          />     
+            [formField]="registerForm.confirmPassword"
+          />
         </div>
 
         <button

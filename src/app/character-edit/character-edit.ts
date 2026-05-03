@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Field, form, min, required, submit } from '@angular/forms/signals';
+import { form, FormField, min, required, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 
 import { CharacterService, UpdateCharacterData } from '../core/services/character';
@@ -20,7 +20,7 @@ import { CharacterLayout } from '../layout/character-layout/character-layout';
 @Component({
   selector: 'app-character-edit',
   standalone: true,
-  imports: [Field, AbilityScoresFormComponent, CharacterClassItemComponent, CharacterLayout],
+  imports: [FormField, AbilityScoresFormComponent, CharacterClassItemComponent, CharacterLayout],
   templateUrl: './character-edit.html',
   styleUrl: './character-edit.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,10 +50,10 @@ export class CharacterEditComponent {
     currentHitPoints: 1,
     temporaryHitPoints: 1
   });
-  
+
   hitPointsForm = form(this.hitPointsModelSignal, (f) => {
     required(f.totalHitPoints),
-    min(f.totalHitPoints, 1)
+      min(f.totalHitPoints, 1)
   });
 
   /* ------------------ ABILITY SCORES ------------------ */
@@ -183,7 +183,7 @@ export class CharacterEditComponent {
       await firstValueFrom(this.characterService.update(id, this.characterModel()));
 
       await firstValueFrom(this.abilityScoresService.update(id, this.abilityScoresModel()));
-      
+
       const payload: CreateCharacterClassData[] = this.characterClasses().map((c) => ({
         classType: c.classType,
         level: c.level,

@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 
-import { form, Field, required, email, minLength, submit } from '@angular/forms/signals';
+import { form, required, email, minLength, submit, FormField } from '@angular/forms/signals';
 
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -21,7 +21,7 @@ interface RegisterData {
 
 @Component({
   selector: 'app-register',
-  imports: [Field],
+  imports: [FormField],
   templateUrl: './register.html',
   styleUrl: './register.css',
   encapsulation: ViewEncapsulation.None,
@@ -59,7 +59,7 @@ export class RegisterComponent {
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
     this.error.set(null);
-    
+
     if (this.isSubmitting()) return; // Avoid double click
 
     submit(this.registerForm, async () => {

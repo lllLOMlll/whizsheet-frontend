@@ -5,7 +5,7 @@
 
   <div class="mb-3">
     <label class="form-label">Class</label>
-    <select class="form-select" [field]="form.classType">
+    <select class="form-select" [formField]="form.classType">
       <option value="">-- Choose a class --</option>
       @for (c of dndClasses; track c) {
         <option [value]="c">{{ c }}</option>
@@ -16,13 +16,13 @@
   @if (form.classType().value() === CharacterClassType.Other) {
     <div class="mb-3">
       <label class="form-label">Custom class</label>
-      <input class="form-control" [field]="form.customClassName" />
+      <input class="form-control" [formField]="form.customClassName" />
     </div>
   }
 
   <div class="mb-4">
     <label class="form-label">Level</label>
-    <input type="number" class="form-control" [field]="form.level" />
+    <input type="number" class="form-control" [formField]="form.level" />
   </div>
 }
 

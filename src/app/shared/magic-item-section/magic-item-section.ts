@@ -1,12 +1,12 @@
 import { Component, inject, input, model, WritableSignal } from '@angular/core';
 import { getEnumOptions } from '../../core/utils/enum-util';
 import { ItemEffectType } from '../../core/models/magic-item';
-import { Field } from "@angular/forms/signals";
+import { FormField } from "@angular/forms/signals";
 import { MagicItemService } from '../../core/services/magic-item';
 
 @Component({
   selector: 'app-magic-item-section',
-  imports: [Field],
+  imports: [FormField],
   templateUrl: './magic-item-section.html',
   styleUrl: './magic-item-section.css',
 })
@@ -24,15 +24,15 @@ export class MagicItemSectionComponent {
     this.magicService.addEffectToModel(this.model());
   }
 
-removeMagicEffect(index: number) {
-  const signal = this.model(); 
-  const data = signal(); 
-  const updatedEffects = [...data.magicItem.effects];
-  updatedEffects.splice(index, 1);
-  signal.set({
-    ...data,
-    magicItem: { ...data.magicItem, effects: updatedEffects }
-  });
-}
+  removeMagicEffect(index: number) {
+    const signal = this.model();
+    const data = signal();
+    const updatedEffects = [...data.magicItem.effects];
+    updatedEffects.splice(index, 1);
+    signal.set({
+      ...data,
+      magicItem: { ...data.magicItem, effects: updatedEffects }
+    });
+  }
 
 }

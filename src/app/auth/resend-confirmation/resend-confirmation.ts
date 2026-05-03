@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 
-import { form, Field, required, email, submit } from '@angular/forms/signals';
+import { form, required, email, submit, FormField } from '@angular/forms/signals';
 
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -18,7 +18,7 @@ interface ResendData {
 
 @Component({
   selector: 'app-resend-confirmation',
-  imports: [Field],
+  imports: [FormField],
   templateUrl: './resend-confirmation.html',
   styleUrl: './resend-confirmation.css',
   encapsulation: ViewEncapsulation.None,

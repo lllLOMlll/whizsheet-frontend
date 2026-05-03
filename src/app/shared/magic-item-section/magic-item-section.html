@@ -14,19 +14,19 @@
         @if (isMagic()) {
           <div class="whiz-grid">
             <label class="whiz-checkbox-card whiz-checkbox-reverse mt-3">
-              <input type="checkbox" [field]="form().magicItem!.requiresAttunement" />
+              <input type="checkbox" [formField]="form().magicItem!.requiresAttunement" />
               <span>Requires Attunement</span>
             </label>
 
             <label class="whiz-checkbox-card whiz-checkbox-reverse mt-3">
-              <input type="checkbox" [field]="form().isAttuned" />
+              <input type="checkbox" [formField]="form().isAttuned" />
               <span>Attuned</span>
             </label>
 
             <div class="whiz-field full">
               <label>Effect Description</label>
               <textarea
-                [field]="form().magicItem!.magicEffectDescription"
+                [formField]="form().magicItem!.magicEffectDescription"
                 class="whiz-input"
               ></textarea>
             </div>
@@ -34,7 +34,7 @@
             <div class="whiz-field full">
               <label>Effect Mechanics</label>
               <textarea
-                [field]="form().magicItem!.magicEffectMechanics"
+                [formField]="form().magicItem!.magicEffectMechanics"
                 class="whiz-input"
               ></textarea>
             </div>
@@ -43,7 +43,7 @@
               <label>Total Charges</label>
               <input
                 type="number"
-                [field]="form().magicItem!.totalCharges"
+                [formField]="form().magicItem!.totalCharges"
                 class="whiz-input"
               />
             </div>
@@ -52,7 +52,7 @@
               <label>Charges Remaining</label>
               <input
                 type="number"
-                [field]="form().magicItem!.chargesRemaining"
+                [formField]="form().magicItem!.chargesRemaining"
                 class="whiz-input"
               />
             </div>
@@ -77,7 +77,7 @@
               <div class="whiz-grid">
                 <div class="whiz-field mt-2">
                   <label>Effect Type</label>
-                  <select [field]="$any(effect.effectType)" class="whiz-input">
+                  <select [formField]="$any(effect.effectType)" class="whiz-input">
                     @for (type of itemEffectTypeOptions; track type) {
                       <option [value]="type">{{ itemEffectType[type] }}</option>
                     }
@@ -86,9 +86,9 @@
 
                 <div class="whiz-field mt-2">
                   <label>Modifier Value</label>
-                  <input type="number" [field]="effect.modifier" class="whiz-input" />
+                  <input type="number" [formField]="effect.modifier" class="whiz-input" />
                 </div>
-              </div> 
+              </div>
             </div>
           }
         }

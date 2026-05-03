@@ -1,5 +1,5 @@
 import { Component, input, computed } from '@angular/core';
-import { Field } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { FormsModule } from '@angular/forms';
 import {
   AttackType,
@@ -16,7 +16,7 @@ import { getEnumOptions } from '../../core/utils/enum-util';
 
 @Component({
   selector: 'app-weapon-section',
-  imports: [Field, FormsModule],
+  imports: [FormField, FormsModule],
   templateUrl: './weapon-section.html',
   styleUrl: './weapon-section.css',
 })
