@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
-import { FormField } from '@angular/forms/signals';
 import { FormsModule } from '@angular/forms';
+import { FormField } from '@angular/forms/signals';
 import { ItemRarityType } from '../../core/models/item';
 import { getEnumOptions } from '../../core/utils/enum-util';
 

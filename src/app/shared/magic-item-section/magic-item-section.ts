@@ -1,8 +1,8 @@
 import { Component, inject, input, model, WritableSignal } from '@angular/core';
 import { getEnumOptions } from '../../core/utils/enum-util';
 import { ItemEffectType } from '../../core/models/magic-item';
-import { FormField } from "@angular/forms/signals";
 import { MagicItemService } from '../../core/services/magic-item';
+import { FormField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-magic-item-section',
